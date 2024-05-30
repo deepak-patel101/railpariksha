@@ -1,16 +1,20 @@
 import React from "react";
 import home from "../img/home.png";
+import HomeTrending from "../components/HomeTrending";
+import Department from "../components/Department";
 import { FaPlay } from "react-icons/fa";
+
 const Home = () => {
   return (
     <>
-      <div
-        className="container text-center mt-4"
-        style={{
-          background: "linear-gradient(to bottom, white,#bfdaf5 ",
-        }}
-      >
-        <div className="row">
+      <div className="container text-center mt-4">
+        <div
+          className="row"
+          style={{
+            background: "linear-gradient(to bottom, white,#bfdaf5 ",
+            borderRadius: "15px",
+          }}
+        >
           <div className="col-12 col-md-6 ">
             <img
               src={home}
@@ -40,6 +44,16 @@ const Home = () => {
                 <FaPlay style={{ color: "lightGreen" }} /> Succeed
               </p>
             </div>
+          </div>
+        </div>
+        <div className="row mt-3">
+          <div className="col-12">
+            <HomeTrending />
+          </div>
+        </div>
+        <div className="row mt-3">
+          <div className="col-12">
+            <Department />
           </div>
         </div>
       </div>
