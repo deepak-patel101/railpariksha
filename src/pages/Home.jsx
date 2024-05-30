@@ -5,7 +5,7 @@ const Home = () => {
   return (
     <>
       <div
-        className="container text-center mt-2"
+        className="container text-center mt-4"
         style={{
           background: "linear-gradient(to bottom, white,#bfdaf5 ",
         }}
@@ -30,9 +30,8 @@ const Home = () => {
             style={{ minHeight: "150px" }}
           >
             <div>
-              <p>
-                <b>Rail Pariksha</b>
-              </p>
+              <h4>Rail Pariksha</h4>
+
               <h3>Excellence Through Practice</h3>
               <p>
                 Learn{"  "} <FaPlay style={{ color: "lightGreen" }} /> Practice

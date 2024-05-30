@@ -9,7 +9,7 @@ const Navbar = () => {
     setLanguage(value);
   };
   return (
-    <>
+    <div>
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
         <div className="container-fluid">
           <Link to="/" className="navbar-brand">
@@ -58,14 +58,22 @@ const Navbar = () => {
             <div>
               {language === "english" ? (
                 <img
-                  style={{ height: "45px", width: "45px", cursor: "pointer" }}
+                  style={{
+                    height: "45px",
+                    width: "45px",
+                    cursor: "pointer",
+                  }}
                   src={english}
                   alt="english"
                   onClick={() => handleClick("hindi")}
                 />
               ) : (
                 <img
-                  style={{ height: "45px", width: "45px", cursor: "pointer" }}
+                  style={{
+                    height: "45px",
+                    width: "45px",
+                    cursor: "pointer",
+                  }}
                   src={hindi}
                   alt="hindi"
                   onClick={() => handleClick("english")}
@@ -89,7 +97,7 @@ const Navbar = () => {
           </div>
         </div>
       </nav>
-    </>
+    </div>
   );
 };
 
