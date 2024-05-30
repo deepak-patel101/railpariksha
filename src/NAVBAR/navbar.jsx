@@ -49,6 +49,11 @@ const Navbar = () => {
                   Notification
                 </Link>
               </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="Trending">
+                  Trending
+                </Link>
+              </li>
             </ul>
             <div>
               {language === "english" ? (
