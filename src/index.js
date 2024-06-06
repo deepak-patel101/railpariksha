@@ -3,15 +3,17 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
-import globalReducer from "./globle_reducer";
+
+import { GlobalProvider } from "./Context/GlobalContextOne";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   // <React.StrictMode>
-  <globalReducer>
+  <GlobalProvider>
     <App />
-  </globalReducer>
+  </GlobalProvider>
   //  </React.StrictMode>
 );
 

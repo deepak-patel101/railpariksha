@@ -60,7 +60,7 @@ const Navbar = () => {
                 </Link>
               </li>
             </ul>
-            <div>
+            {/* <div>
               {language === "english" ? (
                 <img
                   style={{
@@ -84,7 +84,7 @@ const Navbar = () => {
                   onClick={() => handleClick("english")}
                 />
               )}
-            </div>
+            </div> */}
             <form className="d-flex" role="search">
               <input
                 className="form-control me-2"

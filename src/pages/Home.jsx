@@ -7,7 +7,7 @@ import { FaPlay } from "react-icons/fa";
 const Home = () => {
   return (
     <>
-      <div className="container text-center mt-4">
+      <div className="container text-center mt-12">
         <div
           className="row"
           style={{

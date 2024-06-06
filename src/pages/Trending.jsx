@@ -1,8 +1,10 @@
 import React from "react";
+import TrendingCom from "../components/Trendings/TrndingComp";
 const Trending = () => {
   return (
     <>
-      <h1>Trending</h1>
+      sdfsdfsd
+      <TrendingCom />
     </>
   );
 };

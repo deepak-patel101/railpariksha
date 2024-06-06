@@ -1,27 +1,26 @@
-const globalReducer = (state, action) => {
+const GlobalReducer = (state, action) => {
   switch (action.type) {
     case "GET_MAST_INFO_BEGIN":
       return {
         ...state,
-        masterData_loading: true,
-        masterData_error: false,
+
+        department_loading: true,
       };
     case "GET_MAST_INFO_SUCCESS":
       return {
         ...state,
-        masterData_loading: false,
-        masterData: action.payload,
-        masterData_error: false,
+        department_loading: false,
+        department: action.payload,
       };
     case "GET_MAST_INFO_ERROR":
       return {
         ...state,
-        masterData_loading: false,
-        masterData_error: true,
+        department_loading: false,
+        department_error: true,
       };
     default:
       throw new Error(`No Matching "${action.type}" - action type`);
   }
 };
 
-export default globalReducer;
+export default GlobalReducer;

@@ -1,8 +1,15 @@
 import React from "react";
+import { useGlobalContext } from "../Context/GlobalContextOne";
+import DepartmentCarousel from "./DepartmentCarousel";
+
 const Department = () => {
+  const { department_loading, department, department_error } =
+    useGlobalContext();
+  console.log(department_loading, department, department_error);
   return (
     <>
-      <h1>Department</h1>
+      <DepartmentCarousel departments={department} />
+      <h1>{department_error}</h1>
     </>
   );
 };
