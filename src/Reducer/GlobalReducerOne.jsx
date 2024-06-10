@@ -1,22 +1,37 @@
+import Department from "../components/Department";
+
 const GlobalReducer = (state, action) => {
   switch (action.type) {
-    case "GET_MAST_INFO_BEGIN":
+    case "GET_SUBJECT_MASTER_INFO_BEGIN":
       return {
         ...state,
 
         department_loading: true,
       };
-    case "GET_MAST_INFO_SUCCESS":
+    case "GET_SUBJECT_MASTER_INFO_SUCCESS":
       return {
         ...state,
         department_loading: false,
-        department: action.payload,
+        departments: action.payload,
       };
-    case "GET_MAST_INFO_ERROR":
+    case "GET_SUBJECT_MASTER_INFO_ERROR":
       return {
         ...state,
         department_loading: false,
         department_error: true,
+      };
+    case "SET_SUBJECT":
+      const subObj = action.payload;
+      console.log("from reduser");
+      return {
+        ...state,
+        subject: {
+          department: subObj.department,
+          departmentCode: subObj.departmentCode,
+          subject: subObj.subject,
+          subjectCode: subObj.subjectCode,
+          topics: subObj.topics,
+        },
       };
     default:
       throw new Error(`No Matching "${action.type}" - action type`);

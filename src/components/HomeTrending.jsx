@@ -1,5 +1,5 @@
 import React from "react";
-import { LuClipboardEdit } from "react-icons/lu";
+import { BiSolidVideos } from "react-icons/bi";
 import { GoChecklist } from "react-icons/go";
 import { FcIdea } from "react-icons/fc";
 import { PiRankingDuotone } from "react-icons/pi";
@@ -34,8 +34,8 @@ const HomeTrending = () => {
           onClick={() => handleClick("dns")}
         >
           {" "}
-          <LuClipboardEdit />
-          Department & Subjects
+          <BiSolidVideos />
+          Videos
         </div>
         <div
           onClick={() => handleClick("question")}

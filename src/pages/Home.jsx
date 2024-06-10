@@ -1,21 +1,17 @@
 import React from "react";
-import home from "../img/home.png";
 import HomeTrending from "../components/HomeTrending";
 import Department from "../components/Department";
-import { FaPlay } from "react-icons/fa";
+
+import Slider from "../components/Slider";
 
 const Home = () => {
   return (
     <>
       <div className="container text-center mt-12">
-        <div
-          className="row"
-          style={{
-            background: "linear-gradient(to bottom, white,#bfdaf5 ",
-            borderRadius: "15px",
-          }}
-        >
-          <div className="col-12 col-md-6 ">
+        {/*  image for home */}
+        <div>
+          <Slider />
+          {/* <div className="col-12 col-md-6 ">
             <img
               src={home}
               alt="study"
@@ -44,8 +40,9 @@ const Home = () => {
                 <FaPlay style={{ color: "lightGreen" }} /> Succeed
               </p>
             </div>
-          </div>
+          </div> */}
         </div>
+        {/* image ends here */}
         <div className="row mt-3">
           <div className="col-12">
             <HomeTrending />

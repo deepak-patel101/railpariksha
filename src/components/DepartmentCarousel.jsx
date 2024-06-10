@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from "react";
 import "./css/slid.css";
 import Subjects from "./Subjects";
+import { useGlobalContext } from "../Context/GlobalContextOne";
 import { MdLeaderboard } from "react-icons/md";
+import Loading from "./Loading";
 
 const DepartmentCarousel = ({ departments }) => {
   const [startIndex, setStartIndex] = useState(0);
   const [activeBtn, setActiveBtn] = useState("");
+  const [selectedDepartment, setSelectedDepartment] = useState("");
   const [screenSize, setScreenSize] = useState({
     width: window.innerWidth,
     height: window.innerHeight,
   });
-
+  const { department_loading, department_error } = useGlobalContext();
   useEffect(() => {
     const handleResize = () => {
       setScreenSize({
@@ -26,116 +29,42 @@ const DepartmentCarousel = ({ departments }) => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-  console.log(
-    "screenSize",
-    screenSize.width,
-    "startIndex",
-    startIndex,
-    "departments",
-    departments?.length
-  );
-  const handlePrev = () => {
-    if (screenSize.width >= 1182) {
-      setStartIndex((prevIndex) =>
-        prevIndex <= 0
-          ? departments?.length - 12
-          : startIndex <= 1
-          ? prevIndex - 1
-          : prevIndex - 2
-      );
-    } else if (screenSize.width <= 1182 && screenSize.width >= 998) {
-      setStartIndex((prevIndex) =>
-        prevIndex <= 0
-          ? departments?.length - 10
-          : startIndex <= 1
-          ? prevIndex - 1
-          : prevIndex - 2
-      );
-    } else if (screenSize.width <= 998 && screenSize.width >= 772) {
-      setStartIndex((prevIndex) =>
-        prevIndex <= 0
-          ? departments?.length
-          : startIndex <= 1
-          ? prevIndex - 1
-          : prevIndex - 2
-      );
-    } else if (screenSize.width <= 772 && screenSize.width >= 512) {
-      setStartIndex((prevIndex) =>
-        prevIndex <= 0
-          ? departments?.length + 8
-          : startIndex <= 1
-          ? prevIndex - 1
-          : prevIndex - 2
-      );
-    } else {
-      console.log("else");
 
-      setStartIndex((prevIndex) =>
-        prevIndex <= 0
-          ? departments?.length + 20
-          : startIndex <= 1
-          ? prevIndex - 1
-          : prevIndex - 2
-      );
+  const getItemsPerPage = () => {
+    if (screenSize.width >= 1182) {
+      return 8;
+    } else if (screenSize.width >= 998) {
+      return 7;
+    } else if (screenSize.width >= 772) {
+      return 5;
+    } else if (screenSize.width >= 680) {
+      return 6;
+    } else if (screenSize.width >= 5120) {
+      return 3;
+    } else {
+      return 2;
     }
   };
+
+  const handlePrev = () => {
+    const itemsPerPage = getItemsPerPage();
+    setStartIndex((prevIndex) => Math.max(0, prevIndex - itemsPerPage));
+  };
+
   const handleNext = () => {
-    if (screenSize.width >= 1182) {
-      setStartIndex((prevIndex) =>
-        prevIndex + 12 >= departments?.length
-          ? 0
-          : startIndex <= 1
-          ? prevIndex + 1
-          : prevIndex + 2
-      );
-    } else if (screenSize.width <= 1182 && screenSize.width >= 998) {
-      console.log("1182 to 998 next");
-      setStartIndex((prevIndex) =>
-        prevIndex + 10 >= departments?.length
-          ? 0
-          : startIndex <= 1
-          ? prevIndex + 1
-          : prevIndex + 2
-      );
-    } else if (screenSize.width <= 998 && screenSize.width >= 772) {
-      setStartIndex((prevIndex) =>
-        prevIndex >= departments?.length - 1
-          ? 0
-          : startIndex <= 1
-          ? prevIndex + 1
-          : prevIndex + 2
-      );
-    } else if (screenSize.width <= 772 && screenSize.width >= 512) {
-      setStartIndex((prevIndex) =>
-        prevIndex - 8 >= departments?.length - 1
-          ? 0
-          : startIndex <= 1
-          ? prevIndex + 1
-          : prevIndex + 2
-      );
-    } else {
-      setStartIndex((prevIndex) =>
-        prevIndex - 20 >= departments?.length - 1
-          ? 0
-          : startIndex <= 1
-          ? prevIndex + 1
-          : prevIndex + 2
-      );
-    }
+    const itemsPerPage = getItemsPerPage();
+    setStartIndex((prevIndex) =>
+      Math.min(departments?.length - itemsPerPage, prevIndex + itemsPerPage)
+    );
   };
 
   const handleClick = (btnname) => {
-    setActiveBtn(btnname);
+    const departmentname = btnname.deptt;
+    setActiveBtn(departmentname);
+    setSelectedDepartment(btnname);
   };
-  console.log(activeBtn);
   return (
-    <div
-      className="container "
-      style={{
-        margin: "0px",
-        padding: "0px",
-      }}
-    >
+    <div className="container" style={{ margin: "0px", padding: "0px" }}>
       <div
         className="row"
         style={{
@@ -146,6 +75,7 @@ const DepartmentCarousel = ({ departments }) => {
         <div className="text-start">
           <h5>
             <MdLeaderboard /> Departments{" "}
+            {department_loading ? <Loading style={{ width: "15px" }} /> : null}
           </h5>
           <p style={{ margin: "0px", padding: "0px" }}>
             An investment in knowledge pays the best interest.
@@ -153,37 +83,47 @@ const DepartmentCarousel = ({ departments }) => {
         </div>
         <div className="col-md-12">
           <div className="slider-container mt-4 mb-4">
-            <button className="slider-button prev" onClick={handlePrev}>
+            <button
+              className="slider-button prev"
+              onClick={handlePrev}
+              disabled={startIndex === 0}
+            >
               &lt;
             </button>
             <div className="slider">
               <div
-                className={`slider-inner `}
-                style={{ transform: `translateX(-${startIndex * (100 / 5)}%)` }}
+                className="slider-inner"
+                style={{
+                  transform: `translateX(-${
+                    (startIndex / getItemsPerPage()) * 100
+                  }%)`,
+                }}
               >
                 {departments?.map((department, index) => (
-                  <div className=" slider-item">
-                    {" "}
+                  <div className="slider-item" key={index}>
                     <button
-                      key={index}
-                      className={` btn btn-outline-secondary  ${
-                        activeBtn === department.dept_name ? "active" : null
+                      className={`btn btn-outline-secondary ${
+                        activeBtn === department.deptt ? "active" : ""
                       }`}
-                      onClick={() => handleClick(department.dept_name)}
+                      onClick={() => handleClick(department)}
                     >
-                      {department.dept_name}
+                      {department.deptt}
                     </button>
                   </div>
                 ))}
               </div>
             </div>
-            <button className="slider-button next" onClick={handleNext}>
+            <button
+              className="slider-button next"
+              onClick={handleNext}
+              disabled={startIndex >= departments?.length - getItemsPerPage()}
+            >
               &gt;
             </button>
           </div>
         </div>
       </div>
-      <Subjects department={activeBtn} />
+      <Subjects department={selectedDepartment} />
     </div>
   );
 };

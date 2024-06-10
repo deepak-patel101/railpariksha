@@ -9,12 +9,14 @@
 }
 .underline {
   position: relative;
+  border-radius: 10px;
   text-decoration: none;
 }
 
 .underline::after {
   content: "";
   position: absolute;
+  border-radius: 10px;
   left: 0;
   bottom: 0;
   width: 0;
@@ -25,6 +27,7 @@
 
 .underline:hover::after,
 .parent:hover .underline::after {
+  border-radius: 10px;
   width: 100%;
 }
 

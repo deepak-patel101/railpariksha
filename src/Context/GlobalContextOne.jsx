@@ -3,7 +3,8 @@ import GlobalReducer from "../Reducer/GlobalReducerOne"; // adjust the path as n
 
 const initialState = {
   department_loading: false,
-  department: null,
+  departments: null,
+  subject: null,
   department_error: false,
 };
 
@@ -13,30 +14,32 @@ export const GlobalProvider = ({ children }) => {
   const [state, dispatch] = useReducer(GlobalReducer, initialState);
 
   const fetchMastInfo = async () => {
-    dispatch({ type: "GET_MAST_INFO_BEGIN" });
+    dispatch({ type: "GET_SUBJECT_MASTER_INFO_BEGIN" });
     try {
       const response = await fetch(
-        `https://railwaymcq.com/student/deptt_api.php`
+        `https://railwaymcq.com/student/subject_api.php`
       );
-      console.log(response.data);
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
       const data = await response.json();
-      console.log(data);
-      dispatch({ type: "GET_MAST_INFO_SUCCESS", payload: data });
+
+      dispatch({ type: "GET_SUBJECT_MASTER_INFO_SUCCESS", payload: data });
     } catch (error) {
-      console.error("Error fetching mast info:", error);
-      dispatch({ type: "GET_MAST_INFO_ERROR" });
+      console.error("Error fetching SUBJECT_MASTER info:", error);
+      dispatch({ type: "GET_SUBJECT_MASTER_INFO_ERROR" });
     }
   };
 
   useEffect(() => {
     fetchMastInfo();
   }, []);
+  const setSubject = (data) => {
+    dispatch({ type: "SET_SUBJECT", payload: data });
+  };
 
   return (
-    <GlobalContext.Provider value={{ ...state, fetchMastInfo }}>
+    <GlobalContext.Provider value={{ ...state, fetchMastInfo, setSubject }}>
       {children}
     </GlobalContext.Provider>
   );
