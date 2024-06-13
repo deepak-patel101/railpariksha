@@ -5,7 +5,6 @@ import DepartmentCarousel from "./DepartmentCarousel";
 const Department = () => {
   const { department_loading, departments, department_error } =
     useGlobalContext();
-  console.log(department_loading, departments, department_error);
   return (
     <>
       <DepartmentCarousel departments={departments} />

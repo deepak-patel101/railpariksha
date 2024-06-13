@@ -22,7 +22,6 @@ const GlobalReducer = (state, action) => {
       };
     case "SET_SUBJECT":
       const subObj = action.payload;
-      console.log("from reduser");
       return {
         ...state,
         subject: {
@@ -31,6 +30,8 @@ const GlobalReducer = (state, action) => {
           subject: subObj.subject,
           subjectCode: subObj.subjectCode,
           topics: subObj.topics,
+          selectedTopic: subObj.selectedTopic,
+          selectedTopicCode: subObj.selectedTopicCode,
         },
       };
     default:

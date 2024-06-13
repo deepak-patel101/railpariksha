@@ -10,7 +10,7 @@ const Slider = () => {
       id="carouselExampleIndicators"
       className="carousel slide"
       data-bs-ride="carousel"
-      data-bs-interval="4000"
+      // data-bs-interval="1000"
     >
       <ol className="carousel-indicators">
         <li

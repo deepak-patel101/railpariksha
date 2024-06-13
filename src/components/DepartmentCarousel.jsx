@@ -7,8 +7,10 @@ import Loading from "./Loading";
 
 const DepartmentCarousel = ({ departments }) => {
   const [startIndex, setStartIndex] = useState(0);
-  const [activeBtn, setActiveBtn] = useState("");
-  const [selectedDepartment, setSelectedDepartment] = useState("");
+  const [activeBtn, setActiveBtn] = useState("Electrical"); // default value
+  const [selectedDepartment, setSelectedDepartment] = useState(
+    null // default value
+  );
   const [screenSize, setScreenSize] = useState({
     width: window.innerWidth,
     height: window.innerHeight,
@@ -57,6 +59,9 @@ const DepartmentCarousel = ({ departments }) => {
       Math.min(departments?.length - itemsPerPage, prevIndex + itemsPerPage)
     );
   };
+  useEffect(() => {
+    setSelectedDepartment(departments?.[0]);
+  }, [departments]);
 
   const handleClick = (btnname) => {
     const departmentname = btnname.deptt;
@@ -91,6 +96,7 @@ const DepartmentCarousel = ({ departments }) => {
               &lt;
             </button>
             <div className="slider">
+              {" "}
               <div
                 className="slider-inner"
                 style={{

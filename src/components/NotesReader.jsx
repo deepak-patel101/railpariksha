@@ -3,22 +3,39 @@ import { useState } from "react";
 import { useGlobalContext } from "../Context/GlobalContextOne";
 import { FaFilePdf } from "react-icons/fa6";
 import PdfReader from "./PdfReader";
-import { read } from "@popperjs/core";
-import { redirect } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { IoCloseCircleSharp } from "react-icons/io5";
+import { PiExamFill } from "react-icons/pi";
 
 const NotesReader = () => {
-  const { subject } = useGlobalContext();
+  const { subject, setSubject } = useGlobalContext();
   const [readMore, setReadMore] = useState(false);
+  const navigate = useNavigate();
+
+  const handleTest = (topic, topicCode) => {
+    setSubject({
+      ...subject,
+      selectedTopic: topic,
+      selectedTopicCode: topicCode,
+    });
+    navigate("/TestSeries/Select-Test");
+  };
+
+  const handleScroll = (id) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
 
   return (
     <div
       className="p-4"
       style={{
         background: "white",
-        height: "80vh",
+        maxHeight: "80vh",
         maxWidth: "150vh",
-        boxShadow: "5px 5px 10px rgba(0,0,0, 0.3)",
+        boxShadow: "5px 5px 10px rgba(0,0,0, 0.5)",
         borderRadius: "10px",
       }}
     >
@@ -35,42 +52,78 @@ const NotesReader = () => {
             background: "rgba(0,0,0,0.5)",
             display: "flex",
             justifyContent: "center",
+            boxShadow: "5px 5px 10px rgba(0,0,0, 0.5)",
+            borderRadius: "15px",
             alignItems: "center",
           }}
           onClick={() => setReadMore(!readMore)}
         >
           <div
+            style={
+              {
+                // boxShadow: "5px 5px 10px rgba(0,0,0, 0.5)",
+                // background: "white",
+                // borderRadius: "15px",
+              }
+            }
             className="position-relative "
             onClick={(e) => e.stopPropagation()} // Stop click event propagation
           >
             <div
-              className="position-absolute top-0 end-0 m-2 "
-              style={{ cursor: "pointer", background: "white" }}
+              className="position-absolute top-0 end-0 d-flex  justify-content-center align-items-center text-center  "
+              style={{
+                // height: "15px",
+                // width: "15px",
+                marginTop: "20px",
+                cursor: "pointer",
+                background: "white",
+                borderRadius: "50%",
+                // zIndex: "9",
+              }}
               onClick={() => setReadMore(!readMore)}
             >
-              <IoCloseCircleSharp />
+              <IoCloseCircleSharp
+                className=" "
+                style={{
+                  // zIndex: "10",
+                  margin: "1px",
+                  color: "red",
+                  padding: "0",
+                  boxShadow: "5px 5px 10px rgba(0,0,0, 0.5)",
+                  borderRadius: "50%",
+                }}
+              />
             </div>
-            <PdfReader onClick={(e) => e.stopPropagation()} />
+            <PdfReader onClick={(e) => e.stopPropagation()} link={true} />
           </div>
         </div>
       ) : null}
       <div className="row">
         <div
           className="col-4"
-          style={{ maxHeight: "70vh", overflowY: "auto", position: "fix" }}
+          style={{
+            maxHeight: "70vh",
+            overflowY: "auto",
+            position: "fix",
+          }}
         >
           <nav
             id="navbar-example3"
             className="h-100 flex-column align-items-stretch pe-4 border-end"
             style={{ background: "white", height: "auto" }}
           >
-            <nav className="nav nav-pills flex-column">
+            <nav className="nav nav-pills flex-column" style={{}}>
               {Object.entries(subject?.topics).map(([key, value], index) => {
                 return (
                   <a
+                    style={{ fontSize: "12px" }}
                     key={key}
-                    className="btn btn-outline-primary m-1"
+                    className="btn btn-sm btn-outline-primary  m-1"
                     href={`#item-${key}`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleScroll(`item-${key}`);
+                    }}
                   >
                     {value.topic}
                   </a>
@@ -89,9 +142,10 @@ const NotesReader = () => {
             tabIndex="0"
             style={{ maxHeight: "70vh", overflowY: "auto", position: "fix" }}
           >
+            {console.log(subject)}
             {Object.entries(subject?.topics).map(([key, value], index) => {
               return (
-                <div id={`item-${key}`}>
+                <div id={`item-${key}`} key={key}>
                   <h4>{value.topic}</h4>
                   <p>
                     <ul>
@@ -131,11 +185,18 @@ const NotesReader = () => {
                     </ul>
                   </p>{" "}
                   <button
-                    className="btn btn-outline-success"
+                    className="btn btn-outline-success "
                     onClick={() => setReadMore(!readMore)}
                   >
                     {" "}
                     <FaFilePdf /> Read more
+                  </button>{" "}
+                  <button
+                    className="btn btn-outline-danger"
+                    onClick={() => handleTest(value.topic, value.topcode)}
+                  >
+                    {" "}
+                    <PiExamFill /> Have a test
                   </button>
                   <hr />
                 </div>

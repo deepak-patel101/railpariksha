@@ -4,7 +4,15 @@ import GlobalReducer from "../Reducer/GlobalReducerOne"; // adjust the path as n
 const initialState = {
   department_loading: false,
   departments: null,
-  subject: null,
+  subject: {
+    department: null,
+    departmentCode: null,
+    subject: null,
+    subjectCode: null,
+    topics: null,
+    selectedTopic: null,
+    selectedTopicCode: null,
+  },
   department_error: false,
 };
 
@@ -30,6 +38,8 @@ export const GlobalProvider = ({ children }) => {
       dispatch({ type: "GET_SUBJECT_MASTER_INFO_ERROR" });
     }
   };
+
+  // https://railwaymcq.com/RailPariksha/mcq_Api.php?topicCode=101&subjectcode=100
 
   useEffect(() => {
     fetchMastInfo();

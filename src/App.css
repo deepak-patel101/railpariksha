@@ -1,3 +1,10 @@
 .carousel-indicators li::before {
   content: none;
 }
+.backBtn:hover {
+  background-color: black;
+  color: white;
+}
+.backBtn {
+  background-color: black;
+}

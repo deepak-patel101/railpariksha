@@ -1,18 +1,69 @@
-import React from "react";
+import React, { useState } from "react";
 import { useGlobalContext } from "../Context/GlobalContextOne";
+import { useNavigate } from "react-router-dom";
+import { IoArrowBackCircle } from "react-icons/io5";
+import { IoArrowBackCircleOutline } from "react-icons/io5";
+import SelectTest from "./SelectTest";
+import SelectTopics from "./SelectTopics";
 const Topics = () => {
-  const { subject } = useGlobalContext();
+  const { subject, setSubject } = useGlobalContext();
+
+  const navigate = useNavigate();
+
+  const handleGoBack = () => {
+    navigate("/TestSeries");
+  };
   console.log(subject);
   return (
-    <>
-      {Object.entries(subject?.topics).map(([key, value], index) => {
-        return (
-          <button key={key} className="btn btn-outline-primary  m-1">
-            {value.topic}
-          </button>
-        );
-      })}
-    </>
+    <div className="container text-center mt-12">
+      {" "}
+      <IoArrowBackCircleOutline
+        className="backBtn "
+        style={{
+          borderRadius: "100%",
+          border: "0px",
+          fontSize: "30px",
+          cursor: "pointer",
+        }}
+        onClick={handleGoBack}
+        onMouseEnter={(e) => {
+          e.target.style.backgroundColor = "black";
+          e.target.style.color = "white";
+        }}
+        onMouseLeave={(e) => {
+          e.target.style.backgroundColor = ""; // Reset to default
+          e.target.style.color = ""; // Reset to default
+        }}
+      />
+      {subject?.selectedTopic ? (
+        <>
+          <h2> selected topic : {subject.selectedTopic}</h2>
+          <SelectTest />
+        </>
+      ) : (
+        <>
+          <SelectTopics />
+        </>
+      )}{" "}
+      <IoArrowBackCircleOutline
+        className="backBtn "
+        style={{
+          borderRadius: "100%",
+          border: "0px",
+          fontSize: "30px",
+          cursor: "pointer",
+        }}
+        onClick={handleGoBack}
+        onMouseEnter={(e) => {
+          e.target.style.backgroundColor = "black";
+          e.target.style.color = "white";
+        }}
+        onMouseLeave={(e) => {
+          e.target.style.backgroundColor = ""; // Reset to default
+          e.target.style.color = ""; // Reset to default
+        }}
+      />
+    </div>
   );
 };
 export default Topics;

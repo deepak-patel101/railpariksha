@@ -1,13 +1,21 @@
 import React from "react";
-import Topics from "../components/Topics";
+
 import { useGlobalContext } from "../Context/GlobalContextOne";
+import Department from "../components/Department";
+import TrendingTest from "../components/TrendingTest";
+
 const Exam = () => {
   const { subject } = useGlobalContext();
+  console.log(subject);
   return (
-    <>
-      <h1>Exam</h1>
-      {subject ? <Topics /> : null}
-    </>
+    <div className="container text-center mt-12" style={{ minHeight: "90vh" }}>
+      <>
+        <div>
+          <TrendingTest />
+        </div>
+        <Department />
+      </>
+    </div>
   );
 };
 export default Exam;

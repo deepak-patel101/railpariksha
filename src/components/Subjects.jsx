@@ -17,7 +17,7 @@ const Subjects = ({ department }) => {
 
   const handleTest = (obj) => {
     setSubject(obj);
-    navigate("/TestSeries");
+    navigate("/TestSeries/Select-Topics");
   };
   const handleNotes = (obj) => {
     setNotesBtnClicked(!notesBtnClicked);
@@ -60,6 +60,7 @@ const Subjects = ({ department }) => {
             >
               <IoCloseCircleSharp
                 style={{
+                  color: "red",
                   boxShadow: "5px 5px 10px rgba(0,0,0, 0.3)",
                   borderRadius: "50%",
                 }}
@@ -115,7 +116,7 @@ const Subjects = ({ department }) => {
                               <FaBook /> Notes
                             </button>
                             <div
-                              className="col btn btn-outline-primary m-1"
+                              className="col btn btn-outline-danger m-1"
                               onClick={() =>
                                 handleTest({
                                   department: department.deptt,
