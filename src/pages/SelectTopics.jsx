@@ -46,7 +46,7 @@ const SelectTopics = () => {
           />
         </div>
         <div class="p-2">
-          <h3>Select subject</h3>
+          <h3>Select Topic for {subject.subject}</h3>
         </div>
       </div>
       <hr />

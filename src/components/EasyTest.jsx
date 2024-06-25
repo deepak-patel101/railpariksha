@@ -6,7 +6,7 @@ import { FaAngleDoubleUp } from "react-icons/fa";
 import { FaRegNoteSticky } from "react-icons/fa6";
 
 const EasyTest = () => {
-  const [hover, setHover] = useState(false);
+  const [hover, setHover] = useState(true);
   //   const [click, setClick] = useState(false);
 
   const handleClick = (event) => {

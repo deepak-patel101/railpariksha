@@ -9,8 +9,10 @@ import Trending from "./pages/Trending";
 import YourIdeas from "./pages/YourIdeas";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Footer from "./NAVBAR/Footer";
-import SelectTopics from "./components/SelectTopics";
-import SelectTest from "./components/SelectTest";
+import SelectTopics from "./pages/SelectTopics";
+import SelectTest from "./pages/SelectTest";
+import StartTest from "./pages/StartTest";
+import ScoreCard from "./pages/ScoreCard";
 
 function App() {
   return (
@@ -23,14 +25,15 @@ function App() {
           <Route path="/TestSeries" element={<Exam />} />
           <Route path="/TestSeries/Select-Test" element={<SelectTest />} />
           <Route path="/TestSeries/Select-Topics" element={<SelectTopics />} />
+          <Route path="/TestSeries/Start-Test" element={<StartTest />} />
+          <Route path="/TestSeries/Score-card" element={<ScoreCard />} />
           <Route path="/Notification" element={<Notification />} />
           <Route path="/Trending" element={<Trending />} />
           <Route path="/MyIdeas" element={<YourIdeas />} />
-
           <Route path="/Log&Reg" element={<LogReg />} />
-        </Routes>{" "}
+        </Routes>
         <Footer />
-      </Router>{" "}
+      </Router>
     </>
   );
 }

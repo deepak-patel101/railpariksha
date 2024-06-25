@@ -3,7 +3,8 @@ import { useGlobalContext } from "../Context/GlobalContextOne";
 import { IoArrowBackCircleOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import { useTestContext } from "../Context/TestContext";
-import SelectTestType from "./SelectTestType";
+import SelectTestType from "../components/SelectTestType";
+import { BiError } from "react-icons/bi";
 
 const SelectTest = () => {
   const { subject, setSubject } = useGlobalContext();
@@ -37,11 +38,38 @@ const SelectTest = () => {
           />
         </div>
         <div class="p-2">
-          <h3>Start a test for = {subject.selectedTopic}</h3>
+          <h3>Start a test for - {subject.selectedTopic}</h3>
         </div>
       </div>
       <hr />
+      {!test_loading &&
+      test_data?.message ===
+        "No MCQs found for the given topic code and subject code" ? (
+        <h5 style={{ color: "red" }}>
+          <BiError /> No MCQs found for the selected topic.{" "}
+        </h5>
+      ) : null}
       <SelectTestType />
+      <div class="p-2">
+        <IoArrowBackCircleOutline
+          className="backBtn "
+          style={{
+            borderRadius: "100%",
+            border: "0px",
+            fontSize: "25px",
+            cursor: "pointer",
+          }}
+          onClick={handleGoBack}
+          onMouseEnter={(e) => {
+            e.target.style.backgroundColor = "black";
+            e.target.style.color = "white";
+          }}
+          onMouseLeave={(e) => {
+            e.target.style.backgroundColor = ""; // Reset to default
+            e.target.style.color = ""; // Reset to default
+          }}
+        />
+      </div>
     </div>
   );
 };
