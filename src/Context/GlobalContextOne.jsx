@@ -25,13 +25,13 @@ export const GlobalProvider = ({ children }) => {
     dispatch({ type: "GET_SUBJECT_MASTER_INFO_BEGIN" });
     try {
       const response = await fetch(
-        `https://railwaymcq.com/student/subject_api.php`
+        `https://railwaymcq.com/railwaymcq/RailPariksha/Department.php`
       );
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
       const data = await response.json();
-
+      console.log(data);
       dispatch({ type: "GET_SUBJECT_MASTER_INFO_SUCCESS", payload: data });
     } catch (error) {
       console.error("Error fetching SUBJECT_MASTER info:", error);

@@ -32,8 +32,9 @@ export const TestProvider = ({ children }) => {
     dispatch({ type: "GET_TEST_MASTER_INFO_BEGIN" });
     try {
       const response = await fetch(
-        `https://railwaymcq.com/RailPariksha/mcq_Api.php?topicCode=${subject.selectedTopicCode}&subjectcode=${subject.subjectCode}`
+        `https://railwaymcq.com/railwaymcq/RailPariksha/mcq_Api.php?topicCode=${subject.selectedTopicCode}&subjectcode=${subject.subjectCode}`
       );
+
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }

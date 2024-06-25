@@ -23,6 +23,25 @@ const Subjects = ({ department }) => {
     setNotesBtnClicked(!notesBtnClicked);
     setSubject(obj);
   };
+
+  const isRecent = (dateString) => {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffInDays = (now - date) / (1000 * 60 * 60 * 24);
+    return diffInDays <= 7;
+  };
+
+  const countRecentTopics = (subject) => {
+    let recentCount = 0;
+
+    subject.topics.forEach((topic) => {
+      if (isRecent(topic.createdOn)) {
+        recentCount++;
+      }
+    });
+    return recentCount;
+  };
+
   return (
     <div className="container mt-5" style={{ fontSize: "14px" }}>
       {notesBtnClicked ? (
@@ -73,13 +92,20 @@ const Subjects = ({ department }) => {
       <div className="row">
         {subjectList &&
           Object.entries(department?.subjects).map(([key, value]) => {
+            const recentCount = countRecentTopics(value);
+
             return (
               <div
                 key={key}
                 className="col-md-4 mb-3 parent "
                 style={{ cursor: "pointer" }}
               >
-                <div className="card Subject underline">
+                <div className="card Subject underline position-relative">
+                  {recentCount > 0 && (
+                    <span className="position-absolute  top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                      {recentCount}
+                    </span>
+                  )}
                   <div className="card-body  position-relative m-2">
                     <p
                       className="position-absolute top-0 start-0 "

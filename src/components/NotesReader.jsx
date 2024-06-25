@@ -27,6 +27,22 @@ const NotesReader = () => {
       element.scrollIntoView({ behavior: "smooth" });
     }
   };
+  const isRecent = (dateString) => {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffInDays = (now - date) / (1000 * 60 * 60 * 24);
+    return diffInDays <= 7;
+  };
+
+  const countRecentTopics = (topic) => {
+    let recentCount = 0;
+
+    if (isRecent(topic.createdOn)) {
+      recentCount++;
+    }
+
+    return recentCount;
+  };
 
   return (
     <div
@@ -114,18 +130,24 @@ const NotesReader = () => {
           >
             <nav className="nav nav-pills flex-column" style={{}}>
               {Object.entries(subject?.topics).map(([key, value], index) => {
+                const recentCount = countRecentTopics(value);
                 return (
                   <a
                     style={{ fontSize: "12px" }}
                     key={key}
-                    className="btn btn-sm btn-outline-primary  m-1"
+                    className="btn btn-sm btn-outline-primary  position-relative m-1"
                     href={`#item-${key}`}
                     onClick={(e) => {
                       e.preventDefault();
                       handleScroll(`item-${key}`);
                     }}
                   >
-                    {value.topic}
+                    {value.topic}{" "}
+                    {recentCount > 0 && (
+                      <span className="position-absolute  top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                        New
+                      </span>
+                    )}
                   </a>
                 );
               })}
@@ -142,7 +164,6 @@ const NotesReader = () => {
             tabIndex="0"
             style={{ maxHeight: "70vh", overflowY: "auto", position: "fix" }}
           >
-            {console.log(subject)}
             {Object.entries(subject?.topics).map(([key, value], index) => {
               return (
                 <div id={`item-${key}`} key={key}>

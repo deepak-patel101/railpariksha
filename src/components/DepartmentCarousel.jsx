@@ -8,14 +8,13 @@ import Loading from "./Loading";
 const DepartmentCarousel = ({ departments }) => {
   const [startIndex, setStartIndex] = useState(0);
   const [activeBtn, setActiveBtn] = useState("Electrical"); // default value
-  const [selectedDepartment, setSelectedDepartment] = useState(
-    null // default value
-  );
+  const [selectedDepartment, setSelectedDepartment] = useState(null); // default value
   const [screenSize, setScreenSize] = useState({
     width: window.innerWidth,
     height: window.innerHeight,
   });
   const { department_loading, department_error } = useGlobalContext();
+
   useEffect(() => {
     const handleResize = () => {
       setScreenSize({
@@ -59,6 +58,7 @@ const DepartmentCarousel = ({ departments }) => {
       Math.min(departments?.length - itemsPerPage, prevIndex + itemsPerPage)
     );
   };
+
   useEffect(() => {
     setSelectedDepartment(departments?.[0]);
   }, [departments]);
@@ -68,6 +68,26 @@ const DepartmentCarousel = ({ departments }) => {
     setActiveBtn(departmentname);
     setSelectedDepartment(btnname);
   };
+
+  const isRecent = (dateString) => {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffInDays = (now - date) / (1000 * 60 * 60 * 24);
+    return diffInDays <= 7;
+  };
+
+  const countRecentTopics = (department) => {
+    let recentCount = 0;
+    Object.values(department.subjects).forEach((subject) => {
+      subject.topics.forEach((topic) => {
+        if (isRecent(topic.createdOn)) {
+          recentCount++;
+        }
+      });
+    });
+    return recentCount;
+  };
+
   return (
     <div className="container" style={{ margin: "0px", padding: "0px" }}>
       <div
@@ -89,14 +109,13 @@ const DepartmentCarousel = ({ departments }) => {
         <div className="col-md-12">
           <div className="slider-container mt-4 mb-4">
             <button
-              className="slider-button prev"
+              className="slider-button prev  mt-2"
               onClick={handlePrev}
               disabled={startIndex === 0}
             >
               &lt;
             </button>
             <div className="slider">
-              {" "}
               <div
                 className="slider-inner"
                 style={{
@@ -105,22 +124,30 @@ const DepartmentCarousel = ({ departments }) => {
                   }%)`,
                 }}
               >
-                {departments?.map((department, index) => (
-                  <div className="slider-item" key={index}>
-                    <button
-                      className={`btn btn-outline-secondary ${
-                        activeBtn === department.deptt ? "active" : ""
-                      }`}
-                      onClick={() => handleClick(department)}
-                    >
-                      {department.deptt}
-                    </button>
-                  </div>
-                ))}
+                {departments?.map((department, index) => {
+                  const recentCount = countRecentTopics(department);
+                  return (
+                    <div className="slider-item mt-3" key={index}>
+                      <button
+                        className={`btn btn-outline-secondary position-relative ${
+                          activeBtn === department.deptt ? "active" : ""
+                        }`}
+                        onClick={() => handleClick(department)}
+                      >
+                        {department.deptt}
+                        {recentCount > 0 && (
+                          <span className="position-absolute  top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            {recentCount}
+                          </span>
+                        )}
+                      </button>
+                    </div>
+                  );
+                })}
               </div>
             </div>
             <button
-              className="slider-button next"
+              className="slider-button next mt-2"
               onClick={handleNext}
               disabled={startIndex >= departments?.length - getItemsPerPage()}
             >
