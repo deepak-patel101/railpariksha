@@ -6,15 +6,11 @@ import Slider from "../components/Slider";
 
 const Home = () => {
   return (
-    <>
-      <div
-        className="container text-center mt-12"
-        style={{ minHeight: "90vh" }}
-      >
-        {/*  image for home */}
-        <div>
-          <Slider />
-          {/* <div className="col-12 col-md-6 ">
+    <div className="container text-center mt-12" style={{ minHeight: "90vh" }}>
+      {/*  image for home */}
+      <div>
+        <Slider />
+        {/* <div className="col-12 col-md-6 ">
             <img
               src={home}
               alt="study"
@@ -44,20 +40,19 @@ const Home = () => {
               </p>
             </div>
           </div> */}
-        </div>
-        {/* image ends here */}
-        <div className="row mt-3">
-          <div className="col-12">
-            <HomeTrending />
-          </div>
-        </div>
-        <div className="row mt-3">
-          <div className="col-12">
-            <Department />
-          </div>
+      </div>
+      {/* image ends here */}
+      <div className="row mt-3">
+        <div className="col-12">
+          <HomeTrending />
         </div>
       </div>
-    </>
+      <div className="row mt-3">
+        <div className="col-12">
+          <Department />
+        </div>
+      </div>
+    </div>
   );
 };
 export default Home;

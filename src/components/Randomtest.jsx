@@ -38,9 +38,9 @@ const RandomTest = () => {
       <hr />
       <div className={`content-for-test-type ${hover ? "show" : "hide"}`}>
         {hover ? (
-          <>
+          <div>
             <SelectTestToDo testType={"random"} bgColor={"#EDDBB5"} />
-          </>
+          </div>
         ) : null}
       </div>{" "}
       <div

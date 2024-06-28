@@ -75,40 +75,35 @@ const SelectTopics = () => {
             const recentCount = countRecentTopics(value);
 
             return (
-              <>
-                <div
-                  key={key}
-                  className="col-md-4 mb-3 parent "
-                  style={{ cursor: "pointer" }}
-                >
-                  <div className="card Subject underline position-relative">
-                    {recentCount > 0 && (
-                      <span className="position-absolute  top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                        New
-                      </span>
-                    )}
-                    <div className="card-body  position-relative m-2">
-                      <p
-                        className="position-absolute top-0 start-0 "
-                        style={{ fontSize: "12px" }}
-                      >
-                        {subject.department}
-                      </p>
-                      <div className="position-absolute top-50 end-0 d-flex arrow justify-content-center align-items-center text-center">
-                        <IoMdArrowDropright />
-                      </div>
-                      <div className="row">
-                        <div className="col-12 col-sm-12">
-                          <div className="container text-center">
-                            <div className="row  pb-1">
-                              <p className="col m-1">
-                                <FaBook /> {value.topic}
-                              </p>
-                            </div>
+              <div key={key} className="col-md-4 mb-3 parent " style={{}}>
+                <div className="card Subject underline position-relative">
+                  {recentCount > 0 && (
+                    <span className="position-absolute  top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                      New
+                    </span>
+                  )}
+                  <div className="card-body  position-relative m-2">
+                    <p
+                      className="position-absolute top-0 start-0 "
+                      style={{ fontSize: "12px" }}
+                    >
+                      {subject.department}
+                    </p>
+                    <div className="position-absolute top-50 end-0 d-flex arrow justify-content-center align-items-center text-center">
+                      <IoMdArrowDropright />
+                    </div>
+                    <div className="row">
+                      <div className="col-12 col-sm-12">
+                        <div className="container text-center">
+                          <div className="row  pb-1">
+                            <p className="col m-1">
+                              <FaBook /> {value.topic}
+                            </p>
                           </div>
-                          <div className="container text-center">
-                            <div className="row">
-                              {/* <button
+                        </div>
+                        <div className="container text-center">
+                          <div className="row">
+                            {/* <button
                             className="col btn btn-outline-success m-1"
                             onClick={() =>
                               handleNotes({
@@ -122,14 +117,13 @@ const SelectTopics = () => {
                           >
                             <FaBook /> Notes
                           </button> */}
-                              <div
-                                className="col btn btn-outline-danger m-1"
-                                onClick={() =>
-                                  handleTest(value.topic, value.topcode)
-                                }
-                              >
-                                <PiExamFill /> Test
-                              </div>
+                            <div
+                              className="col btn btn-outline-danger m-1"
+                              onClick={() =>
+                                handleTest(value.topic, value.topcode)
+                              }
+                            >
+                              <PiExamFill /> Test
                             </div>
                           </div>
                         </div>
@@ -137,7 +131,7 @@ const SelectTopics = () => {
                     </div>
                   </div>
                 </div>
-              </>
+              </div>
             );
           })}
       </div>

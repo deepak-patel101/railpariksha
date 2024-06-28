@@ -36,14 +36,14 @@ const Topics = () => {
         }}
       />
       {subject?.selectedTopic ? (
-        <>
+        <div>
           <h2> selected topic : {subject.selectedTopic}</h2>
           <SelectTest />
-        </>
+        </div>
       ) : (
-        <>
+        <div>
           <SelectTopics />
-        </>
+        </div>
       )}{" "}
       <IoArrowBackCircleOutline
         className="backBtn "

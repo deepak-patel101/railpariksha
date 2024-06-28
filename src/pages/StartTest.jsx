@@ -55,7 +55,7 @@ const StartTest = () => {
           <div className="col-12 col-md-4 d-flex justify-content-center align-items-center text-center">
             <TestControls />
           </div>
-          <div className="col-12 col-md-8 d-flex ">
+          <div className="col-12 col-md-8 d-flex">
             <QuestionPaper />
           </div>
         </div>

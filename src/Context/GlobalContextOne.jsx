@@ -3,6 +3,9 @@ import GlobalReducer from "../Reducer/GlobalReducerOne"; // adjust the path as n
 
 const initialState = {
   department_loading: false,
+  notes: null,
+  notes_loading: false,
+  notes_error: false,
   departments: null,
   subject: {
     department: null,
@@ -31,7 +34,7 @@ export const GlobalProvider = ({ children }) => {
         throw new Error("Network response was not ok");
       }
       const data = await response.json();
-      console.log(data);
+      // console.log(data);
       dispatch({ type: "GET_SUBJECT_MASTER_INFO_SUCCESS", payload: data });
     } catch (error) {
       console.error("Error fetching SUBJECT_MASTER info:", error);
@@ -48,8 +51,29 @@ export const GlobalProvider = ({ children }) => {
     dispatch({ type: "SET_SUBJECT", payload: data });
   };
 
+  const fetchNote = async () => {
+    dispatch({ type: "GET_NOTES_BEGIN" });
+    try {
+      const response = await fetch(
+        `https://railwaymcq.com/railwaymcq/RailPariksha/getPdfID.php`
+      );
+      if (!response.ok) {
+        throw new Error("Failed to fetch PDF ID");
+      }
+      const data = await response.json();
+      dispatch({ type: "GET_NOTES_SUCCESS", payload: data });
+    } catch (error) {
+      console.log(error);
+      dispatch({ type: "GET_NOTES_ERROR" });
+    }
+  };
+  useEffect(() => {
+    fetchNote();
+  }, []);
   return (
-    <GlobalContext.Provider value={{ ...state, fetchMastInfo, setSubject }}>
+    <GlobalContext.Provider
+      value={{ ...state, fetchMastInfo, setSubject, fetchNote }}
+    >
       {children}
     </GlobalContext.Provider>
   );

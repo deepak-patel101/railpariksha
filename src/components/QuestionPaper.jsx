@@ -103,7 +103,7 @@ const QuestionPaper = () => {
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
-    maxHeight: "500px",
+    minHeight: "500px",
   };
 
   const handleOptionChange = (option) => {
@@ -141,6 +141,7 @@ const QuestionPaper = () => {
       updateActiveQuestion(nextQuestionIndex);
     } else if (action === "Mark&review") {
       const userResp = {
+        ...userResponse?.testAnswer[questionIndex],
         timeTaken: !testAnswerForQuestion
           ? time
           : Number(time) + Number(testAnswerForQuestion),
@@ -160,6 +161,7 @@ const QuestionPaper = () => {
         setMsg(true);
       } else {
         const userResp = {
+          ...userResponse?.testAnswer[questionIndex],
           answer: selectedOption,
           timeTaken: !testAnswerForQuestion
             ? time
@@ -210,7 +212,7 @@ const QuestionPaper = () => {
   return (
     <div className="col-12 col-md-12" style={style}>
       {submitPopUp ? (
-        <>
+        <div>
           <div
             style={{
               margin: "0",
@@ -243,7 +245,7 @@ const QuestionPaper = () => {
               </div>
             </div>
           </div>
-        </>
+        </div>
       ) : (
         // /////////////////////SECOND PART OF CONDITION ///////////////////////
         <div className="container" style={{ flex: "1" }}>
@@ -253,11 +255,11 @@ const QuestionPaper = () => {
               <hr />
             </div>
           </div>
-
           <div
             className="row overflow-x"
             style={{
-              minHeight: screenSize.width > 770 ? "240px" : "auto",
+              minHeight: screenSize.width > 770 ? "240px" : "",
+              // maxHeight: "auto",
             }}
           >
             <b className="text-start">
@@ -268,7 +270,10 @@ const QuestionPaper = () => {
               - {questionData?.question}
             </b>
 
-            <div className="row m-1 text-start">
+            <div
+              // style={{ paddingBottom: "50px" }}
+              className="row m-1 text-start"
+            >
               {questionData?.options?.map((option, index) => {
                 let selectedAns;
 
@@ -283,7 +288,7 @@ const QuestionPaper = () => {
                 );
 
                 return (
-                  <div className="form-check" key={index}>
+                  <div className="form-check m-1" key={index}>
                     <input
                       className="form-check-input"
                       type="radio"
@@ -307,9 +312,7 @@ const QuestionPaper = () => {
               })}
             </div>
           </div>
-
           <hr />
-
           <div style={{ marginTop: "20px" }}>
             {screenSize.width >= 500 ? (
               <div className="row">
@@ -436,7 +439,12 @@ const QuestionPaper = () => {
                 Submit
               </button>
             </div>
-          </div>
+          </div>{" "}
+          <p>
+            {" "}
+            Note: in case of wrong or inappropriate translation please set the
+            language to English.
+          </p>
         </div>
       )}
     </div>

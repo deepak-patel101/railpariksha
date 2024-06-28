@@ -54,7 +54,7 @@ const AnswerSheet = () => {
                   {Object.entries(userResponse.testAnswer).map(
                     ([qNo, ansData]) => {
                       return (
-                        <>
+                        <div>
                           {qNo === QuestionNo ? (
                             <div
                               className="justify-content-center align-items-center text-center"
@@ -131,7 +131,7 @@ const AnswerSheet = () => {
                               </div>
                             </div>
                           ) : null}
-                        </>
+                        </div>
                       );
                     }
                   )}
@@ -141,9 +141,9 @@ const AnswerSheet = () => {
                     if (userResponse?.testAnswer[QuestionNo]) {
                       if (qNo === QuestionNo) {
                         value?.options.forEach((option) => {
-                          const formattedOption = option
-                            ?.toLowerCase()
-                            .replace(/\s+/g, "");
+                          // const formattedOption = option
+                          //   ?.toLowerCase()
+                          //   .replace(/\s+/g, "");
                           const correctAnswer = value?.answer
                             ?.toLowerCase()
                             .replace(/\s+/g, "");
@@ -254,7 +254,7 @@ const AnswerSheet = () => {
                           ) : bgStyle === "rgba(217, 90, 90,0.5)" ? (
                             <FiXCircle style={{ color: "#D20C0C" }} />
                           ) : (
-                            <>&nbsp;&nbsp;&nbsp;&nbsp;</>
+                            <div>&nbsp;&nbsp;&nbsp;&nbsp;</div>
                           )}{" "}
                           {index + 1}- {option}
                         </div>
@@ -263,16 +263,16 @@ const AnswerSheet = () => {
                   </div>
 
                   {
-                    <>
+                    <div>
                       {userResponse?.testAnswer[QuestionNo] ? (
-                        <>
+                        <div>
                           {" "}
                           {Object.entries(userResponse.testAnswer).map(
                             ([qNo, ansData]) => {
                               return (
                                 <div>
                                   {qNo === QuestionNo ? (
-                                    <>
+                                    <div>
                                       <hr />{" "}
                                       <div>
                                         Your answer ={" "}
@@ -280,23 +280,23 @@ const AnswerSheet = () => {
                                           ? "Skipped"
                                           : ansData.answer}
                                       </div>
-                                    </>
+                                    </div>
                                   ) : null}
                                 </div>
                               );
                             }
                           )}
-                        </>
+                        </div>
                       ) : (
-                        <>
+                        <div>
                           <div>
                             <hr />
                             {}
                             Your answer = Not Attempted
                           </div>
-                        </>
+                        </div>
                       )}
-                    </>
+                    </div>
                   }
                 </div>
               </div>

@@ -97,35 +97,33 @@ const TestControls = () => {
         </div>
       </div>
       {screenSize.width > 770 ? (
-        <>
-          <div className="row container m-1" style={style}>
-            Note-
-            <hr />
-            <div className="row">
-              <div className="col">
-                {" "}
-                <button className="btn btn-sm btn-outline-dark">
-                  Not visited
-                </button>
-              </div>
-              <div className="col">
-                {" "}
-                <button className="btn btn-sm btn-danger">Not attempted</button>
-              </div>
-              <div className="w-100"></div>
-              <div className="col">
-                {" "}
-                <button className="btn btn-sm btn-warning">
-                  Marked for review
-                </button>
-              </div>
-              <div className="col">
-                {" "}
-                <button className="btn btn-sm btn-success">Answer Saved</button>
-              </div>
+        <div className="row container m-1" style={style}>
+          Note-
+          <hr />
+          <div className="row">
+            <div className="col">
+              {" "}
+              <button className="btn btn-sm btn-outline-dark">
+                Not visited
+              </button>
+            </div>
+            <div className="col">
+              {" "}
+              <button className="btn btn-sm btn-danger">Not attempted</button>
+            </div>
+            <div className="w-100"></div>
+            <div className="col">
+              {" "}
+              <button className="btn btn-sm btn-warning">
+                Marked for review
+              </button>
+            </div>
+            <div className="col">
+              {" "}
+              <button className="btn btn-sm btn-success">Answer Saved</button>
             </div>
           </div>
-        </>
+        </div>
       ) : null}
     </div>
   );

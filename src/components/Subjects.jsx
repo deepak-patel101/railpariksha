@@ -9,7 +9,7 @@ import NotesReader from "./NotesReader";
 import { useNavigate } from "react-router-dom";
 
 const Subjects = ({ department }) => {
-  const { subject, setSubject } = useGlobalContext();
+  const { subject, setSubject, notes } = useGlobalContext();
   const [notesBtnClicked, setNotesBtnClicked] = useState(false);
   const subjectList = department?.subjects;
 
@@ -19,8 +19,9 @@ const Subjects = ({ department }) => {
     setSubject(obj);
     navigate("/TestSeries/Select-Topics");
   };
+
   const handleNotes = (obj) => {
-    setNotesBtnClicked(!notesBtnClicked);
+    setNotesBtnClicked((prev) => !prev);
     setSubject(obj);
   };
 
@@ -31,20 +32,36 @@ const Subjects = ({ department }) => {
     return diffInDays <= 7;
   };
 
-  const countRecentTopics = (subject) => {
-    let recentCount = 0;
+  const countRecentTopics = (value, notes) => {
+    let recentCount = { recentCount: 0, forNotes: false, forTest: false };
 
-    subject.topics.forEach((topic) => {
+    value.topics.forEach((topic) => {
       if (isRecent(topic.createdOn)) {
-        recentCount++;
+        recentCount.recentCount++;
+        recentCount.forNotes = true;
       }
     });
+
+    notes?.forEach((note) => {
+      if (note.sub === value.sub) {
+        value?.topics?.forEach((topic) => {
+          if (
+            Number(topic?.topcode) === Number(note?.topcode) &&
+            isRecent(note.createdOn)
+          ) {
+            recentCount.recentCount++;
+            recentCount.forNotes = true;
+          }
+        });
+      }
+    });
+
     return recentCount;
   };
 
   return (
     <div className="container mt-5" style={{ fontSize: "14px" }}>
-      {notesBtnClicked ? (
+      {notesBtnClicked && (
         <div
           style={{
             margin: "0",
@@ -59,23 +76,23 @@ const Subjects = ({ department }) => {
             justifyContent: "center",
             alignItems: "center",
           }}
-          onClick={() => setNotesBtnClicked(!notesBtnClicked)}
+          onClick={() => setNotesBtnClicked(false)}
         >
           <div
-            className="position-relative boxRadios "
+            className="position-relative boxRadios"
             style={{
               boxShadow: "5px 5px 10px rgba(52,80,142, 0.3)",
               borderRadius: "15px",
             }}
-            onClick={(e) => e.stopPropagation()} // Stop click event propagation
+            onClick={(e) => e.stopPropagation()}
           >
             <div
-              className="position-absolute top-0 end-0 m-2 "
+              className="position-absolute top-0 end-0 m-2"
               style={{
                 cursor: "pointer",
                 background: "white",
               }}
-              onClick={() => setNotesBtnClicked(!notesBtnClicked)}
+              onClick={() => setNotesBtnClicked(false)}
             >
               <IoCloseCircleSharp
                 style={{
@@ -88,27 +105,23 @@ const Subjects = ({ department }) => {
             <NotesReader onClick={(e) => e.stopPropagation()} />
           </div>
         </div>
-      ) : null}
+      )}
       <div className="row">
         {subjectList &&
           Object.entries(department?.subjects).map(([key, value]) => {
-            const recentCount = countRecentTopics(value);
+            const recentCount = countRecentTopics(value, notes);
 
             return (
-              <div
-                key={key}
-                className="col-md-4 mb-3 parent "
-                style={{ cursor: "pointer" }}
-              >
+              <div key={key} className="col-md-4 mb-3 parent">
                 <div className="card Subject underline position-relative">
-                  {recentCount > 0 && (
-                    <span className="position-absolute  top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                      {recentCount}
+                  {recentCount.recentCount > 0 && (
+                    <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                      {recentCount.recentCount}
                     </span>
                   )}
-                  <div className="card-body  position-relative m-2">
+                  <div className="card-body position-relative m-2">
                     <p
-                      className="position-absolute top-0 start-0 "
+                      className="position-absolute top-0 start-0"
                       style={{ fontSize: "12px" }}
                     >
                       {department.deptt}
@@ -119,7 +132,7 @@ const Subjects = ({ department }) => {
                     <div className="row">
                       <div className="col-12 col-sm-12">
                         <div className="container text-center">
-                          <div className="row  pb-1">
+                          <div className="row pb-1">
                             <p className="col m-1">
                               <FaBook /> {value.sub}
                             </p>
@@ -128,7 +141,7 @@ const Subjects = ({ department }) => {
                         <div className="container text-center">
                           <div className="row">
                             <button
-                              className="col btn btn-outline-success m-1"
+                              className="col btn btn-outline-success m-1 position-relative"
                               onClick={() =>
                                 handleNotes({
                                   department: department.deptt,
@@ -139,7 +152,20 @@ const Subjects = ({ department }) => {
                                 })
                               }
                             >
-                              <FaBook /> Notes
+                              <FaBook /> Notes{" "}
+                              {recentCount.forNotes && (
+                                <span
+                                  style={{
+                                    padding: "5px",
+                                    color: "white",
+                                    fontSize: "8px",
+                                    padding: "2px",
+                                  }}
+                                  className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                >
+                                  New
+                                </span>
+                              )}
                             </button>
                             <div
                               className="col btn btn-outline-danger m-1"

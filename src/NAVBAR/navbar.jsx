@@ -1,17 +1,13 @@
 import React, { useState } from "react";
-import english from "../img/english.png";
-import hindi from "../img/HINDI.png";
+import { FaLanguage } from "react-icons/fa6";
 import { Link } from "react-router-dom";
+import GoogleTranslate from "../components/GoogleTranslate";
 
 const Navbar = () => {
-  const [language, setLanguage] = useState("english");
-  const handleClick = (value) => {
-    setLanguage(value);
-  };
   return (
     <div>
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
-        <div className="container-fluid">
+        <div className="container-fluid" style={{ fontSize: "15px" }}>
           <Link to="/" className="navbar-brand">
             Rail Pariksha
           </Link>
@@ -60,6 +56,18 @@ const Navbar = () => {
                 </Link>
               </li>
             </ul>
+
+            <div className="d-flex">
+              <FaLanguage
+                className="mr-1"
+                style={{
+                  fontSize: "40px",
+                  paddingRight: "5px",
+                  color: "#129ADA",
+                }}
+              />{" "}
+              <GoogleTranslate />
+            </div>
             {/* <div>
               {language === "english" ? (
                 <img

@@ -78,10 +78,12 @@ const UserScoreCard = () => {
     const remainingSeconds = seconds % 60;
     return `${minutes}:${remainingSeconds} s`;
   };
-  const accuracy = (
-    (score?.rightAns / (score?.rightAns + score?.wrongAns)) *
-    100
-  ).toFixed(2);
+  const accuracy =
+    score?.rightAns != 0 && score?.wrongAns != 0
+      ? ((score?.rightAns / (score?.rightAns + score?.wrongAns)) * 100).toFixed(
+          2
+        )
+      : "0.00";
 
   return (
     <div
@@ -101,9 +103,9 @@ const UserScoreCard = () => {
             <div className="col-12 col-md-3">
               <h5 className="row">Question Status</h5>
               {screenSize.width < 760 ? null : (
-                <>
+                <div>
                   <hr />
-                </>
+                </div>
               )}
 
               <div className="row">
@@ -116,16 +118,16 @@ const UserScoreCard = () => {
             </div>
             <div className="col-12 col-md-3">
               {screenSize.width < 760 ? (
-                <>
+                <div>
                   <hr />
-                </>
+                </div>
               ) : null}
 
               <h5 className="row">Your attempts</h5>
               {screenSize.width < 760 ? null : (
-                <>
+                <div>
                   <hr />
-                </>
+                </div>
               )}
 
               <div className="row">Right - {score?.rightAns}</div>
@@ -133,16 +135,16 @@ const UserScoreCard = () => {
             </div>
             <div className="col-12 col-md-3">
               {screenSize.width < 760 ? (
-                <>
+                <div>
                   <hr />
-                </>
+                </div>
               ) : null}
 
               <h5 className="row">Score</h5>
               {screenSize.width < 760 ? null : (
-                <>
+                <div>
                   <hr />
-                </>
+                </div>
               )}
 
               <div className="row">For right ans. +{score?.rightAns}</div>
@@ -153,16 +155,16 @@ const UserScoreCard = () => {
             </div>
             <div className="col-12 col-md-3">
               {screenSize.width < 760 ? (
-                <>
+                <div>
                   <hr />
-                </>
+                </div>
               ) : null}
 
               <h5 className="row">Time & Accuracy</h5>
               {screenSize.width < 760 ? null : (
-                <>
+                <div>
                   <hr />
-                </>
+                </div>
               )}
 
               <div className="row">
@@ -172,9 +174,7 @@ const UserScoreCard = () => {
                 Time used in test -{" "}
                 {convertSecondsToMinutesAndSeconds(countDown?.timeTaken)}
               </div>
-              <div className="row">
-                Accuracy - {accuracy !== NaN ? accuracy : "0.00"}%
-              </div>
+              <div className="row">Accuracy - {accuracy}%</div>
             </div>
           </div>
         </div>

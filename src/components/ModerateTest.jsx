@@ -38,9 +38,9 @@ const ModerateTest = () => {
       <hr />
       <div className={`content-for-test-type ${hover ? "show" : "hide"}`}>
         {hover ? (
-          <>
+          <div>
             <SelectTestToDo testType={"moderate"} bgColor={"#B5DBED"} />
-          </>
+          </div>
         ) : null}
       </div>{" "}
       <div

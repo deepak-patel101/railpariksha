@@ -13,7 +13,7 @@ const SelectTestType = () => {
     backgroundColor: "#ffffff", // Adding background color to the div
   };
   return (
-    <>
+    <div>
       <div className="d-flex flex-column mb-3">
         <div
           className="p-2 mb-3"
@@ -61,7 +61,7 @@ const SelectTestType = () => {
           <MarathonTest />
         </div>
       </div>
-    </>
+    </div>
   );
 };
 export default SelectTestType;

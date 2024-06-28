@@ -38,9 +38,9 @@ const ToughTest = () => {
       <hr />
       <div className={`content-for-test-type ${hover ? "show" : "hide"}`}>
         {hover ? (
-          <>
+          <div>
             <SelectTestToDo testType={"hard"} bgColor={"#EDB5B5"} />
-          </>
+          </div>
         ) : null}
       </div>{" "}
       <div

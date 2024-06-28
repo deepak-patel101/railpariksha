@@ -20,6 +20,24 @@ const GlobalReducer = (state, action) => {
         department_loading: false,
         department_error: true,
       };
+    case "GET_NOTES_BEGIN":
+      return {
+        ...state,
+
+        notes_loading: true,
+      };
+    case "GET_NOTES_SUCCESS":
+      return {
+        ...state,
+        notes_loading: false,
+        notes: action.payload,
+      };
+    case "GET_NOTES_ERROR":
+      return {
+        ...state,
+        notes_loading: false,
+        notes_error: true,
+      };
     case "SET_SUBJECT":
       const subObj = action.payload;
       return {

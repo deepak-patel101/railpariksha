@@ -1,5 +1,4 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useGlobalContext } from "../Context/GlobalContextOne";
 import { FaFilePdf } from "react-icons/fa6";
 import PdfReader from "./PdfReader";
@@ -9,8 +8,21 @@ import { PiExamFill } from "react-icons/pi";
 
 const NotesReader = () => {
   const { subject, setSubject } = useGlobalContext();
+  const [selectedTopic, setSelectedTopic] = useState(null);
   const [readMore, setReadMore] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [pdfData, setPdfData] = useState([]);
+
   const navigate = useNavigate();
+
+  const handleReadMore = (topic, topicCode) => {
+    setSelectedTopic({
+      topic,
+      topicCode,
+      subcode: subject.subjectCode,
+    });
+    setReadMore(true);
+  };
 
   const handleTest = (topic, topicCode) => {
     setSubject({
@@ -27,6 +39,7 @@ const NotesReader = () => {
       element.scrollIntoView({ behavior: "smooth" });
     }
   };
+
   const isRecent = (dateString) => {
     const date = new Date(dateString);
     const now = new Date();
@@ -34,28 +47,41 @@ const NotesReader = () => {
     return diffInDays <= 7;
   };
 
-  const countRecentTopics = (topic) => {
-    let recentCount = 0;
-
-    if (isRecent(topic.createdOn)) {
-      recentCount++;
-    }
-
-    return recentCount;
-  };
+  useEffect(() => {
+    const fetchPdf = async (subcode) => {
+      setLoading(true);
+      try {
+        const response = await fetch(
+          `https://railwaymcq.com/railwaymcq/RailPariksha/getPdfID.php?&subcode=${subcode}`
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch PDF ID");
+        }
+        const pdfData = await response.json();
+        setPdfData(pdfData);
+        setLoading(false);
+      } catch (error) {
+        console.log(error);
+        setLoading(false);
+      }
+    };
+    fetchPdf(subject.subjectCode);
+  }, [subject]);
 
   return (
     <div
       className="p-4"
       style={{
         background: "white",
-        maxHeight: "80vh",
-        maxWidth: "150vh",
+        maxHeight: "85vh",
+        width: "150vh",
         boxShadow: "5px 5px 10px rgba(0,0,0, 0.5)",
         borderRadius: "10px",
       }}
     >
-      {readMore ? (
+      <p>subject-{subject.subject}</p>
+      <hr />
+      {readMore && (
         <div
           style={{
             margin: "0",
@@ -68,74 +94,68 @@ const NotesReader = () => {
             background: "rgba(0,0,0,0.5)",
             display: "flex",
             justifyContent: "center",
-            boxShadow: "5px 5px 10px rgba(0,0,0, 0.5)",
-            borderRadius: "15px",
             alignItems: "center",
           }}
-          onClick={() => setReadMore(!readMore)}
+          onClick={() => setReadMore(false)}
         >
           <div
-            style={
-              {
-                // boxShadow: "5px 5px 10px rgba(0,0,0, 0.5)",
-                // background: "white",
-                // borderRadius: "15px",
-              }
-            }
-            className="position-relative "
-            onClick={(e) => e.stopPropagation()} // Stop click event propagation
+            className="position-relative p-2"
+            style={{
+              boxShadow: "5px 5px 10px rgba(0,0,0, 0.5)",
+              background: "white",
+              borderRadius: "15px",
+            }}
+            onClick={(e) => e.stopPropagation()}
           >
             <div
-              className="position-absolute top-0 end-0 d-flex  justify-content-center align-items-center text-center  "
+              className="position-absolute top-0 end-0 d-flex justify-content-center align-items-center"
               style={{
-                // height: "15px",
-                // width: "15px",
-                marginTop: "20px",
+                height: "20px",
+                width: "20px",
                 cursor: "pointer",
                 background: "white",
                 borderRadius: "50%",
-                // zIndex: "9",
+                zIndex: "100",
               }}
-              onClick={() => setReadMore(!readMore)}
+              onClick={() => setReadMore(false)}
             >
               <IoCloseCircleSharp
-                className=" "
                 style={{
-                  // zIndex: "10",
-                  margin: "1px",
                   color: "red",
-                  padding: "0",
                   boxShadow: "5px 5px 10px rgba(0,0,0, 0.5)",
                   borderRadius: "50%",
                 }}
               />
             </div>
-            <PdfReader onClick={(e) => e.stopPropagation()} link={true} />
+            <PdfReader selectedTopic={selectedTopic} />
           </div>
         </div>
-      ) : null}
+      )}
       <div className="row">
         <div
           className="col-4"
           style={{
             maxHeight: "70vh",
             overflowY: "auto",
-            position: "fix",
           }}
         >
           <nav
             id="navbar-example3"
             className="h-100 flex-column align-items-stretch pe-4 border-end"
-            style={{ background: "white", height: "auto" }}
+            style={{ background: "white" }}
           >
-            <nav className="nav nav-pills flex-column" style={{}}>
-              {Object.entries(subject?.topics).map(([key, value], index) => {
-                const recentCount = countRecentTopics(value);
+            <nav className="nav nav-pills flex-column mt-1">
+              {Object.entries(subject?.topics || {}).map(([key, value]) => {
+                const isTopicRecent = pdfData.some(
+                  (data) =>
+                    data.topic === value.topic && isRecent(data.createdOn)
+                );
+
                 return (
                   <a
                     style={{ fontSize: "12px" }}
                     key={key}
-                    className="btn btn-sm btn-outline-primary  position-relative m-1"
+                    className="btn btn-sm btn-outline-primary position-relative m-1"
                     href={`#item-${key}`}
                     onClick={(e) => {
                       e.preventDefault();
@@ -143,8 +163,11 @@ const NotesReader = () => {
                     }}
                   >
                     {value.topic}{" "}
-                    {recentCount > 0 && (
-                      <span className="position-absolute  top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                    {isTopicRecent && (
+                      <span
+                        style={{ fontSize: "10px" }}
+                        className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger justify-content-center text-center"
+                      >
                         New
                       </span>
                     )}
@@ -162,63 +185,70 @@ const NotesReader = () => {
             data-bs-smooth-scroll="true"
             className="scrollspy-example-2"
             tabIndex="0"
-            style={{ maxHeight: "70vh", overflowY: "auto", position: "fix" }}
+            style={{ maxHeight: "70vh", overflowY: "auto" }}
           >
-            {Object.entries(subject?.topics).map(([key, value], index) => {
+            {Object.entries(subject?.topics || {}).map(([key, value]) => {
+              const isTopicRecent = pdfData.some(
+                (data) => data.topic === value.topic && isRecent(data.createdOn)
+              );
+
               return (
                 <div id={`item-${key}`} key={key}>
                   <h4>{value.topic}</h4>
-                  <p>
-                    <ul>
-                      <li>
-                        <strong>1.7.4 Over Head equipment (OHE)</strong>
-                        <br />A system of conductors / equipments carrying
-                        traction power from traction sub station to electric
-                        locomotive.
-                      </li>
-                      <li>
-                        <strong>1.7.5 Neutral Section (NS)</strong>
-                        <br />
-                        To separate OHE of two adjoining feed posts. A short
-                        neutral section (PTFE) type is provided opposite the
-                        Traction Sub Station to avoid the need of lowering the
-                        pantograph during extended feed conditions.
-                      </li>
-                      <li>
-                        <strong>1.7.6 Sectioning Post (SP)</strong>
-                        <br />
-                        <ol>
-                          <li>
-                            To facilitate the extension of traction power from
-                            one feed zone to half of the adjoining feed zone
-                            during emergency.
-                          </li>
-                          <li>
-                            Parallel the UP and DN OHE in double the sections.
-                          </li>
-                        </ol>
-                      </li>
-                      <li>
-                        <strong>
-                          1.7.7 Sub-sectioning and paralleling post (SSP)
-                        </strong>
-                      </li>
-                    </ul>
-                  </p>{" "}
-                  <button
-                    className="btn btn-outline-success "
-                    onClick={() => setReadMore(!readMore)}
-                  >
+                  <div className="m-2">
+                    {loading ? <div>loading...</div> : null}
+                    {/* Filter pdfData to get notes for the current topic */}
+                    {pdfData
+                      .filter((data) => data.topic === value.topic)
+                      .map((data, index) => (
+                        <div key={index}>
+                          {data.notes !== "" ? (
+                            <div
+                              className="text-start"
+                              dangerouslySetInnerHTML={{ __html: data.notes }}
+                            />
+                          ) : (
+                            <strong className="mb-1" style={{ color: "red" }}>
+                              Oops! No notes found
+                            </strong>
+                          )}
+                        </div>
+                      ))}
+                    {/* Check if there are no notes found and render the message */}
+                    {!pdfData.some(
+                      (data) =>
+                        data.topic === value.topic && data.notes !== null
+                    ) && (
+                      <strong className="mb-1" style={{ color: "red" }}>
+                        Oops! No notes found
+                      </strong>
+                    )}
+                  </div>
+
+                  <div className="d-flex justify-content-evenly m-1">
                     {" "}
-                    <FaFilePdf /> Read more
-                  </button>{" "}
-                  <button
-                    className="btn btn-outline-danger"
-                    onClick={() => handleTest(value.topic, value.topcode)}
-                  >
-                    {" "}
-                    <PiExamFill /> Have a test
-                  </button>
+                    <button
+                      className="btn btn-outline-success  position-relative"
+                      onClick={() => handleReadMore(value.topic, value.topcode)}
+                    >
+                      <FaFilePdf /> Read more
+                      {isTopicRecent && (
+                        <span
+                          style={{ fontSize: "10px" }}
+                          className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger justify-content-center text-center"
+                        >
+                          New
+                        </span>
+                      )}
+                    </button>
+                    <button
+                      className="btn btn-outline-danger m-1"
+                      onClick={() => handleTest(value.topic, value.topcode)}
+                    >
+                      <PiExamFill /> Have a test
+                    </button>
+                  </div>
+
                   <hr />
                 </div>
               );

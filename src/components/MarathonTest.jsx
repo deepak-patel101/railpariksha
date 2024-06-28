@@ -38,9 +38,9 @@ const MarathonTest = () => {
       <hr />
       <div className={`content-for-test-type ${hover ? "show" : "hide"}`}>
         {hover ? (
-          <>
+          <div>
             <SelectTestToDo testType={"marathon"} bgColor={"#EDB5E1"} />
-          </>
+          </div>
         ) : null}
       </div>{" "}
       <div

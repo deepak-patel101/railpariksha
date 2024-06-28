@@ -13,7 +13,7 @@ const DepartmentCarousel = ({ departments }) => {
     width: window.innerWidth,
     height: window.innerHeight,
   });
-  const { department_loading, department_error } = useGlobalContext();
+  const { department_loading, department_error, notes } = useGlobalContext();
 
   useEffect(() => {
     const handleResize = () => {
@@ -63,10 +63,10 @@ const DepartmentCarousel = ({ departments }) => {
     setSelectedDepartment(departments?.[0]);
   }, [departments]);
 
-  const handleClick = (btnname) => {
-    const departmentname = btnname.deptt;
-    setActiveBtn(departmentname);
-    setSelectedDepartment(btnname);
+  const handleClick = (department) => {
+    const departmentName = department.deptt;
+    setActiveBtn(departmentName);
+    setSelectedDepartment(department);
   };
 
   const isRecent = (dateString) => {
@@ -76,8 +76,9 @@ const DepartmentCarousel = ({ departments }) => {
     return diffInDays <= 7;
   };
 
-  const countRecentTopics = (department) => {
+  const countRecentTopics = (department, notes) => {
     let recentCount = 0;
+    // Count recent topics
     Object.values(department.subjects).forEach((subject) => {
       subject.topics.forEach((topic) => {
         if (isRecent(topic.createdOn)) {
@@ -85,6 +86,22 @@ const DepartmentCarousel = ({ departments }) => {
         }
       });
     });
+
+    // Count recent notes that match subCode and topcode
+    notes?.forEach((note) => {
+      const subject = department.subjects[note.subCode];
+      if (subject) {
+        subject.topics.forEach((topic) => {
+          if (
+            Number(note.topcode) === Number(topic.topcode) &&
+            isRecent(note.createdOn)
+          ) {
+            recentCount++;
+          }
+        });
+      }
+    });
+
     return recentCount;
   };
 
@@ -125,7 +142,7 @@ const DepartmentCarousel = ({ departments }) => {
                 }}
               >
                 {departments?.map((department, index) => {
-                  const recentCount = countRecentTopics(department);
+                  const recentCount = countRecentTopics(department, notes);
                   return (
                     <div className="slider-item mt-3" key={index}>
                       <button
@@ -136,7 +153,7 @@ const DepartmentCarousel = ({ departments }) => {
                       >
                         {department.deptt}
                         {recentCount > 0 && (
-                          <span className="position-absolute  top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                          <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                             {recentCount}
                           </span>
                         )}
