@@ -5,6 +5,7 @@ import PdfReader from "./PdfReader";
 import { useNavigate } from "react-router-dom";
 import { IoCloseCircleSharp } from "react-icons/io5";
 import { PiExamFill } from "react-icons/pi";
+import "./css/NoteReader.css"; // Import the custom CSS
 
 const NotesReader = () => {
   const { subject, setSubject } = useGlobalContext();
@@ -70,11 +71,11 @@ const NotesReader = () => {
 
   return (
     <div
-      className="p-4"
+      className="p-2 topDiv"
       style={{
         background: "white",
-        maxHeight: "85vh",
-        width: "150vh",
+        maxWidth: "80vw",
+        overflow: "hidden",
         boxShadow: "5px 5px 10px rgba(0,0,0, 0.5)",
         borderRadius: "10px",
       }}
@@ -133,15 +134,12 @@ const NotesReader = () => {
       )}
       <div className="row">
         <div
-          className="col-4"
-          style={{
-            maxHeight: "70vh",
-            overflowY: "auto",
-          }}
+          className="col-4 scrollspy-example-2"
+          style={{ maxHeight: "70vh", overflowY: "auto" }}
         >
           <nav
-            id="navbar-example3"
-            className="h-100 flex-column align-items-stretch pe-4 border-end"
+            id="navbar-example3 topicName"
+            className="h-100 flex-column align-items-stretch pe-4 border-end nav-pills"
             style={{ background: "white" }}
           >
             <nav className="nav nav-pills flex-column mt-1">
@@ -155,7 +153,7 @@ const NotesReader = () => {
                   <a
                     style={{ fontSize: "12px" }}
                     key={key}
-                    className="btn btn-sm btn-outline-primary position-relative m-1"
+                    className="btn btn-sm d-flex btn-outline-primary position-relative mb-2 topicBTN"
                     href={`#item-${key}`}
                     onClick={(e) => {
                       e.preventDefault();
@@ -194,41 +192,44 @@ const NotesReader = () => {
 
               return (
                 <div id={`item-${key}`} key={key}>
-                  <h4>{value.topic}</h4>
+                  <h4 className="topicHead">{value.topic}</h4>
                   <div className="m-2">
                     {loading ? <div>loading...</div> : null}
-                    {/* Filter pdfData to get notes for the current topic */}
                     {pdfData
                       .filter((data) => data.topic === value.topic)
                       .map((data, index) => (
                         <div key={index}>
                           {data.notes !== "" ? (
                             <div
-                              className="text-start"
+                              className="text-start topicData"
                               dangerouslySetInnerHTML={{ __html: data.notes }}
                             />
                           ) : (
-                            <strong className="mb-1" style={{ color: "red" }}>
+                            <strong
+                              className="mb-1 topicData"
+                              style={{ color: "red" }}
+                            >
                               Oops! No notes found
                             </strong>
                           )}
                         </div>
                       ))}
-                    {/* Check if there are no notes found and render the message */}
                     {!pdfData.some(
                       (data) =>
                         data.topic === value.topic && data.notes !== null
                     ) && (
-                      <strong className="mb-1" style={{ color: "red" }}>
+                      <strong
+                        className="mb-1 topicData"
+                        style={{ color: "red" }}
+                      >
                         Oops! No notes found
                       </strong>
                     )}
                   </div>
 
                   <div className="d-flex justify-content-evenly m-1">
-                    {" "}
                     <button
-                      className="btn btn-outline-success  position-relative"
+                      className="btn btn-outline-success position-relative topicBTN "
                       onClick={() => handleReadMore(value.topic, value.topcode)}
                     >
                       <FaFilePdf /> Read more
@@ -242,7 +243,7 @@ const NotesReader = () => {
                       )}
                     </button>
                     <button
-                      className="btn btn-outline-danger m-1"
+                      className="btn btn-outline-danger  topicBTN"
                       onClick={() => handleTest(value.topic, value.topcode)}
                     >
                       <PiExamFill /> Have a test
