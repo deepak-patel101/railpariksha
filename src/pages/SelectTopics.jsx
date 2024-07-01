@@ -1,4 +1,5 @@
 import React from "react";
+import { useEffect } from "react";
 import { useGlobalContext } from "../Context/GlobalContextOne";
 import { useNavigate } from "react-router-dom";
 import { IoArrowBackCircleOutline } from "react-icons/io5";
@@ -10,6 +11,9 @@ const SelectTopics = () => {
   const { subject, setSubject } = useGlobalContext();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    window.scrollTo(0, 0); // Scroll to the top of the page
+  }, []);
   const handleGoBack = () => {
     navigate("/TestSeries");
   };

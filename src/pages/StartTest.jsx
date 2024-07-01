@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useTestContext } from "../Context/TestContext";
 import TestControls from "../components/TestControls";
 import QuestionPaper from "../components/QuestionPaper";
@@ -6,7 +6,9 @@ import QuestionPaper from "../components/QuestionPaper";
 const StartTest = () => {
   const [startTest, setStartTest] = useState(false);
   const { start_Test, userResponse } = useTestContext();
-
+  useEffect(() => {
+    window.scrollTo(0, 0); // Scroll to the top of the page
+  }, []);
   return (
     <div className="container text-center mt-12" style={{ minHeight: "90vh" }}>
       {!startTest ? (

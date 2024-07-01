@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useGlobalContext } from "../Context/GlobalContextOne";
 import { IoArrowBackCircleOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
@@ -14,6 +14,9 @@ const SelectTest = () => {
   const handleGoBack = () => {
     navigate("/TestSeries");
   };
+  useEffect(() => {
+    window.scrollTo(0, 0); // Scroll to the top of the page
+  }, []);
   return (
     <div className="container text-start mt-12" style={{ minHeight: "90vh" }}>
       <div class="d-flex flex-row  align-items-center mb-3">

@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useGlobalContext } from "../Context/GlobalContextOne";
 import { useNavigate } from "react-router-dom";
 import { useTestContext } from "../Context/TestContext";
+import CountdownTimer from "./CountdownTimer";
 
 const QuestionPaper = () => {
   const { subject } = useGlobalContext();
@@ -22,7 +23,6 @@ const QuestionPaper = () => {
   const [isRunning, setIsRunning] = useState(false); // State to control timer start/stop
   const [submitTestTimer, setSubmitTestTimer] = useState(false);
   const [submitPopUp, setSubmitPopUp] = useState(false);
-
   const navigate = useNavigate();
 
   const submitTest = (action) => {
@@ -109,8 +109,10 @@ const QuestionPaper = () => {
   const handleOptionChange = (option) => {
     setSelectedOption(option);
   };
+
   const testAnswerForQuestion =
     userResponse?.testAnswer[questionIndex]?.timeTaken;
+
   const handleBtnClicked = (action) => {
     if (action === "Next" || action === "Previous") {
       if (testAnswerForQuestion) {

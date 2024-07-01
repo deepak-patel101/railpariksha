@@ -42,7 +42,7 @@ const CountdownTimer = () => {
       remainingTime: `${minutes}:${seconds}`,
     };
     updateCountDown(countDownData);
-  }, [seconds]); // Dependency array to include relevant dependencies
+  }, [minutes, seconds]); // Dependency array to include relevant dependencies
 
   useEffect(() => {
     let timerInterval = null;
@@ -68,17 +68,19 @@ const CountdownTimer = () => {
   }, [minutes, seconds]);
 
   return (
-    <div
-      className="p-2"
-      style={{
-        background: backgroundColor,
-        borderRadius: "5px",
-      }}
-    >
-      <h1>
-        {minutes}:{seconds < 10 ? `0${seconds}` : seconds}
-      </h1>
-    </div>
+    <></>
+    // <div
+    //   className="p-2"
+    //   style={{
+    //     background: backgroundColor,
+    //     borderRadius: "5px",
+    //   }}
+    // >
+    //   <h1>
+    //     {Number(minutes)}:
+    //     {Number(seconds) < 10 ? `0${Number(seconds)}` : Number(seconds)}
+    //   </h1>
+    // </div>
   );
 };
 

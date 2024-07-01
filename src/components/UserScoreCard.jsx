@@ -79,7 +79,7 @@ const UserScoreCard = () => {
     return `${minutes}:${remainingSeconds} s`;
   };
   const accuracy =
-    score?.rightAns != 0 && score?.wrongAns != 0
+    score?.rightAns != 0
       ? ((score?.rightAns / (score?.rightAns + score?.wrongAns)) * 100).toFixed(
           2
         )

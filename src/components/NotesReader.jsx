@@ -74,7 +74,7 @@ const NotesReader = () => {
       className="p-2 topDiv"
       style={{
         background: "white",
-        maxWidth: "80vw",
+        maxWidth: "98vw",
         overflow: "hidden",
         boxShadow: "5px 5px 10px rgba(0,0,0, 0.5)",
         borderRadius: "10px",

@@ -1,10 +1,13 @@
 import React from "react";
 import HomeTrending from "../components/HomeTrending";
 import Department from "../components/Department";
-
+import { useEffect } from "react";
 import Slider from "../components/Slider";
 
 const Home = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0); // Scroll to the top of the page
+  }, []);
   return (
     <div className="container text-center mt-12" style={{ minHeight: "90vh" }}>
       {/*  image for home */}

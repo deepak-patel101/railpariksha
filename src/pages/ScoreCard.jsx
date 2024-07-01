@@ -9,7 +9,9 @@ import { IoArrowBackCircleOutline } from "react-icons/io5";
 const ScoreCard = () => {
   const { start_Test, userResponse } = useTestContext();
   const navigate = useNavigate();
-
+  useEffect(() => {
+    window.scrollTo(0, 0); // Scroll to the top of the page
+  }, []);
   useEffect(() => {
     const handleBackButton = (event) => {
       event.preventDefault();

@@ -4,12 +4,13 @@ import { useGlobalContext } from "../Context/GlobalContextOne";
 import { LuAlarmClock } from "react-icons/lu";
 import { useTestContext } from "../Context/TestContext";
 import { MdOutlineQuestionAnswer } from "react-icons/md";
+import { BsDisplay } from "react-icons/bs";
 
 const TestControls = () => {
   const { subject } = useGlobalContext();
-  const { start_Test, updateActiveQuestion, userResponse } = useTestContext();
+  const { start_Test, updateActiveQuestion, countDown, userResponse } =
+    useTestContext();
   const [questionIndex, setQuestionIndex] = useState(0);
-
   const style = {
     boxShadow: "5px 5px 10px rgba(0,0,0, 0.5)",
     padding: "15px",
@@ -52,9 +53,46 @@ const TestControls = () => {
     );
     setQuestionIndex(qIndex - 1);
   }, [start_Test.activeQuestion]);
+  const timeStringToSeconds = (timeString) => {
+    if (!timeString) return 0; // Handle case where timeString is undefined or null
+
+    const [minutes, seconds] = timeString.split(":").map(Number);
+
+    if (isNaN(minutes) || isNaN(seconds)) return 0; // Handle invalid format
+
+    return minutes * 60 + seconds;
+  };
+
+  const countDownTimerChage = (countdownTime) => {
+    if (!countdownTime) return 0;
+    const [minutes, seconds] = countdownTime.split(":").map(Number);
+    if (isNaN(minutes) || isNaN(seconds)) return 0;
+    return (
+      <h1>
+        {Number(minutes)}:
+        {Number(seconds) < 10 ? `0${Number(seconds)}` : Number(seconds)}
+      </h1>
+    );
+  };
+  const percentage =
+    (timeStringToSeconds(countDown.remainingTime) /
+      Number(countDown.testTiming * 3600)) *
+    100;
+  const interpolateColor = (percentage) => {
+    // Calculate RGB values based on percentage
+    const r = Math.round(255 * (1 - percentage)); // Red component
+    const g = Math.round(255 * percentage); // Green component
+
+    // Generate gradient color string
+    return `linear-gradient(to bottom, white, rgba(${r}, ${g}, 0, 0.5))`;
+  };
+
+  const backgroundColor = interpolateColor(percentage);
 
   return (
     <div className="container">
+      {" "}
+      <CountdownTimer className="visually-hidden" />
       <div className="row m-1" style={style}>
         <h4>{subject.department}</h4>
       </div>
@@ -62,7 +100,15 @@ const TestControls = () => {
         <h5>
           <LuAlarmClock /> Test Timer <hr />
         </h5>
-        <CountdownTimer />
+        <div
+          className="p-2"
+          style={{
+            background: backgroundColor,
+            borderRadius: "5px",
+          }}
+        >
+          {countDownTimerChage(countDown.remainingTime)}
+        </div>
       </div>
       <div className="row m-1" style={style}>
         <h5>

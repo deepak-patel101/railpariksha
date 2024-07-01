@@ -71,6 +71,7 @@ const Subjects = ({ department }) => {
             height: "100vh",
             width: "100vw",
             zIndex: "3",
+            // filter: "blur(10px)",
             background: "rgba(0,0,0,0.5)",
             display: "flex",
             justifyContent: "center",
