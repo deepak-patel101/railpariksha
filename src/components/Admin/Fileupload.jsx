@@ -6,6 +6,7 @@ import { IoCloseCircleSharp } from "react-icons/io5";
 import { TbHelpSquareRoundedFilled } from "react-icons/tb";
 import { FaUpload } from "react-icons/fa";
 import ExcelExample from "../../img/excelExample.jpg";
+import { MdNearbyError } from "react-icons/md";
 
 const FileUpload = () => {
   const { departments } = useGlobalContext();
@@ -16,9 +17,11 @@ const FileUpload = () => {
   const [viewExample, setViewExample] = useState(false);
   const [queFrom, setQueFrom] = useState("");
   const [loading, setLoading] = useState(false);
+  const [excelMsg, setExcelMsg] = useState(false);
   const fileInputRef = useRef(null); // Create a ref for the file input
 
   const handleFileChange = (e) => {
+    setExcelMsg(false);
     const selectedFile = e.target.files[0];
 
     // Check if a file is selected
@@ -64,7 +67,19 @@ const FileUpload = () => {
       const sheetName = workbook.SheetNames[0];
       const worksheet = workbook.Sheets[sheetName];
       const jsonData = XLSX.utils.sheet_to_json(worksheet);
-      console.log(jsonData[0]);
+
+      const keysArray = [
+        "Question",
+        "Option1",
+        "Option2",
+        "Option3",
+        "Option4",
+        "Answer",
+        "Difficulty",
+      ]; // Example array of keys to check
+
+      const hasAllKeys = keysArray.every((key) => key in jsonData[0]);
+
       // Include the additional input data
       const payload = {
         selectedSubcode,
@@ -72,39 +87,44 @@ const FileUpload = () => {
         queFrom,
         data: jsonData,
       };
-
-      // Send data to the backend
-      fetch(
-        // "https://railwaymcq.com/railwaymcq/RailPariksha/InsertMCQfromExcel.php",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
-        }
-      )
-        .then((response) => response.json())
-        .then((data) => {
-          setLoading(false); // Set loading to false here
-          if (data.message === "Data inserted successfully") {
-            alert("Data inserted successfully");
-            setDepartment("");
-            setSubcode("");
-            setTopcode("");
-            setFile(null);
-            setQueFrom("");
-            if (fileInputRef.current) {
-              fileInputRef.current.value = null; // Reset the file input field
-            }
-          } else {
-            alert(data.message);
+      if (hasAllKeys) {
+        setExcelMsg(false);
+        // Send data to the backend
+        fetch(
+          "https://railwaymcq.com/railwaymcq/RailPariksha/InsertMCQfromExcel.php",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload),
           }
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-          setLoading(false);
-        });
+        )
+          .then((response) => response.json())
+          .then((data) => {
+            setLoading(false); // Set loading to false here
+            if (data.message === "Data inserted successfully") {
+              alert("Data inserted successfully");
+              setDepartment("");
+              setSubcode("");
+              setTopcode("");
+              setFile(null);
+              setQueFrom("");
+              if (fileInputRef.current) {
+                fileInputRef.current.value = null; // Reset the file input field
+              }
+            } else {
+              alert(data.message);
+            }
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+            setLoading(false);
+          });
+      } else {
+        setLoading(false);
+        setExcelMsg(true);
+      }
     };
     reader.readAsArrayBuffer(file);
   };
@@ -161,19 +181,6 @@ const FileUpload = () => {
                   borderRadius: "50%",
                 }}
               />
-            </div>
-            <div className="m-2 ">
-              {" "}
-              <img
-                className="row"
-                src={ExcelExample}
-                alt="example Image"
-                style={{ maxHeight: "450px" }}
-              ></img>
-              <b className="row" style={{ color: "red" }}>
-                {" "}
-                Note- columns name must be same as this table
-              </b>
             </div>
           </div>
         </div>
@@ -294,7 +301,7 @@ const FileUpload = () => {
               className="d-flex text-start"
             >
               {" "}
-              Select Mcq Source
+              Source of MCQ
               <p style={{ color: "red", margin: "0px", padding: "0px" }}> *</p>
             </p>
             <select
@@ -303,7 +310,8 @@ const FileUpload = () => {
               onChange={(e) => setQueFrom(e.target.value)}
             >
               <option value="">Select QueFrom</option>
-              <option value="default">Default</option>
+              <option value="default">Default & other</option>
+              {/* <option value="miscellaneous">miscellaneous</option> */}
               <option value="PDF">PDF</option>
               <option value="PYQ">PYQ</option>
               {/* Add more options as needed */}
@@ -341,15 +349,22 @@ const FileUpload = () => {
               </button>
             </div>
           </div>
-          <u
-            className="m-1"
-            style={{ cursor: "pointer", color: "red" }}
-            onClick={handleSampleFile}
-          >
-            <TbHelpSquareRoundedFilled style={{ fontSize: "15px" }} /> sample
-            Excel file
-          </u>
-          <div>
+
+          <div className="mt-2">
+            {excelMsg ? (
+              <div style={{ color: "red" }}>
+                {" "}
+                <MdNearbyError /> Excel files columns didn`t match
+              </div>
+            ) : null}{" "}
+            <u
+              className="m-1"
+              style={{ cursor: "pointer", color: "#2FB44D" }}
+              onClick={handleSampleFile}
+            >
+              <TbHelpSquareRoundedFilled style={{ fontSize: "15px" }} /> sample
+              Excel file
+            </u>
             {loading ? (
               <div className=" d-flex justify-content-center">
                 <div>
