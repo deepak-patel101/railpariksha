@@ -1,3 +1,5 @@
+import { act } from "react-dom/test-utils";
+
 const TestReducer = (state, action) => {
   switch (action.type) {
     case "GET_TEST_MASTER_INFO_BEGIN":
@@ -18,7 +20,16 @@ const TestReducer = (state, action) => {
         test_loading: false,
         test_error: true,
       };
-
+    case "SET_TEMP_TEST_DATA":
+      return {
+        ...state,
+        temp_test_data: action.payload,
+      };
+    case "SET_ACTIVE_BTN_FOR_TEST_LIST":
+      return {
+        ...state,
+        defaultActiveBtn: action.payload,
+      };
     case "SET_START_TEST":
       const data = action.payload;
       return {

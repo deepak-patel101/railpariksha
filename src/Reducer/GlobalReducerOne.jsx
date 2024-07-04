@@ -46,6 +46,7 @@ const GlobalReducer = (state, action) => {
           department: subObj.department,
           departmentCode: subObj.departmentCode,
           subject: subObj.subject,
+          queFrom: subObj.queFrom,
           subjectCode: subObj.subjectCode,
           topics: subObj.topics,
           selectedTopic: subObj.selectedTopic,

@@ -15,6 +15,7 @@ const initialState = {
     topics: null,
     selectedTopic: null,
     selectedTopicCode: null,
+    queFrom: null,
   },
   department_error: false,
 };

@@ -55,6 +55,11 @@ const Navbar = () => {
                   My Ideas
                 </Link>
               </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="Admin">
+                  Admin
+                </Link>
+              </li>
             </ul>
 
             <div className="d-flex">

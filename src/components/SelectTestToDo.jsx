@@ -8,8 +8,12 @@ import { useNavigate } from "react-router-dom";
 
 const SelectTestToDo = ({ testType, bgColor }) => {
   const { subject } = useGlobalContext();
-  const { test_loading, test_data, test_error, SetStartTestData } =
-    useTestContext();
+  const {
+    test_loading,
+    temp_test_data: test_data,
+    test_error,
+    SetStartTestData,
+  } = useTestContext();
   const navigate = useNavigate();
 
   const startTest = (testDataToStartTest) => {
@@ -79,7 +83,9 @@ const SelectTestToDo = ({ testType, bgColor }) => {
                                               Topic - {subject.selectedTopic}
                                             </li>
                                             <li>Question - {test.length}</li>
-                                            <li>Language - English / Hindi</li>
+                                            <li>
+                                              Language - English , Hindi... etc
+                                            </li>
                                             <li>
                                               Difficulty -{" "}
                                               {testType === "easy"

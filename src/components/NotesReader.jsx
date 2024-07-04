@@ -5,10 +5,12 @@ import PdfReader from "./PdfReader";
 import { useNavigate } from "react-router-dom";
 import { IoCloseCircleSharp } from "react-icons/io5";
 import { PiExamFill } from "react-icons/pi";
+import { useTestContext } from "../Context/TestContext";
 import "./css/NoteReader.css"; // Import the custom CSS
 
 const NotesReader = () => {
   const { subject, setSubject } = useGlobalContext();
+  const { setDefaultActiveBtn } = useTestContext();
   const [selectedTopic, setSelectedTopic] = useState(null);
   const [readMore, setReadMore] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -25,7 +27,8 @@ const NotesReader = () => {
     setReadMore(true);
   };
 
-  const handleTest = (topic, topicCode) => {
+  const handleTest = (topic, topicCode, pdf) => {
+    setDefaultActiveBtn(pdf);
     setSubject({
       ...subject,
       selectedTopic: topic,
@@ -71,10 +74,11 @@ const NotesReader = () => {
 
   return (
     <div
-      className="p-2 topDiv"
+      className="p-2 topDiv "
       style={{
         background: "white",
-        maxWidth: "98vw",
+        maxWidth: "95vw",
+        maxHeight: "95vh",
         overflow: "hidden",
         boxShadow: "5px 5px 10px rgba(0,0,0, 0.5)",
         borderRadius: "10px",
@@ -244,7 +248,9 @@ const NotesReader = () => {
                     </button>
                     <button
                       className="btn btn-outline-danger  topicBTN"
-                      onClick={() => handleTest(value.topic, value.topcode)}
+                      onClick={() =>
+                        handleTest(value.topic, value.topcode, "PDF")
+                      }
                     >
                       <PiExamFill /> Have a test
                     </button>

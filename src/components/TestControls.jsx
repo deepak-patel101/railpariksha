@@ -7,6 +7,8 @@ import { MdOutlineQuestionAnswer } from "react-icons/md";
 import { BsDisplay } from "react-icons/bs";
 
 const TestControls = () => {
+  const [mint, setMint] = useState(null);
+  const [sec, setSec] = useState(null);
   const { subject } = useGlobalContext();
   const { start_Test, updateActiveQuestion, countDown, userResponse } =
     useTestContext();
@@ -63,17 +65,22 @@ const TestControls = () => {
     return minutes * 60 + seconds;
   };
 
-  const countDownTimerChage = (countdownTime) => {
-    if (!countdownTime) return 0;
+  const countDownTimerChange = (countdownTime) => {
+    if (!countdownTime) return;
     const [minutes, seconds] = countdownTime.split(":").map(Number);
-    if (isNaN(minutes) || isNaN(seconds)) return 0;
-    return (
-      <h1>
-        {Number(minutes)}:
-        {Number(seconds) < 10 ? `0${Number(seconds)}` : Number(seconds)}
-      </h1>
-    );
+    if (isNaN(minutes) || isNaN(seconds)) {
+      setMint(0);
+      setSec("00");
+      return;
+    }
+    setMint(minutes);
+    setSec(seconds < 10 ? `0${seconds}` : seconds.toString());
   };
+
+  useEffect(() => {
+    countDownTimerChange(countDown.remainingTime);
+  }, [countDown.remainingTime]);
+
   const percentage =
     (timeStringToSeconds(countDown.remainingTime) /
       Number(countDown.testTiming * 3600)) *
@@ -92,7 +99,6 @@ const TestControls = () => {
   return (
     <div className="container">
       {" "}
-      <CountdownTimer className="visually-hidden" />
       <div className="row m-1" style={style}>
         <h4>{subject.department}</h4>
       </div>
@@ -107,7 +113,10 @@ const TestControls = () => {
             borderRadius: "5px",
           }}
         >
-          {countDownTimerChage(countDown.remainingTime)}
+          <CountdownTimer className="visually-hidden" />
+          <h1>{/* {mint}:{sec} */}</h1>
+          {/* {countDownTimerChage(countDown.remainingTime)} */}
+          <h1>{countDown.remainingTime}</h1>
         </div>
       </div>
       <div className="row m-1" style={style}>

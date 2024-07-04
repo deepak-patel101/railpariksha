@@ -13,6 +13,7 @@ import SelectTopics from "./pages/SelectTopics";
 import SelectTest from "./pages/SelectTest";
 import StartTest from "./pages/StartTest";
 import ScoreCard from "./pages/ScoreCard";
+import Admin from "./pages/Admin";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
         <Route path="/TestSeries/Score-card" element={<ScoreCard />} />
         <Route path="/Notification" element={<Notification />} />
         <Route path="/Trending" element={<Trending />} />
+        <Route path="/Admin" element={<Admin />} />
         <Route path="/MyIdeas" element={<YourIdeas />} />
         <Route path="/Log&Reg" element={<LogReg />} />
       </Routes>

@@ -6,16 +6,19 @@ import { IoMdArrowDropright } from "react-icons/io";
 import { useGlobalContext } from "../Context/GlobalContextOne";
 import { IoCloseCircleSharp } from "react-icons/io5";
 import NotesReader from "./NotesReader";
+import { useTestContext } from "../Context/TestContext";
 import { useNavigate } from "react-router-dom";
 
 const Subjects = ({ department }) => {
   const { subject, setSubject, notes } = useGlobalContext();
+  const { setDefaultActiveBtn } = useTestContext();
   const [notesBtnClicked, setNotesBtnClicked] = useState(false);
   const subjectList = department?.subjects;
 
   const navigate = useNavigate();
 
   const handleTest = (obj) => {
+    setDefaultActiveBtn("All");
     setSubject(obj);
     navigate("/TestSeries/Select-Topics");
   };

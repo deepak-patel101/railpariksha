@@ -48,10 +48,11 @@
   scrollbar-width: thin;
   scrollbar-color: #007bff #f1f1f1;
 }
-@media (max-width: 370px) {
-  /* .topDiv {
-    padding: 5px;
-  } */
+@media (max-width: 400px) {
+  .topDiv {
+    max-width: 100vw;
+    max-height: 100vh;
+  }
   .topicBTN {
     font-size: 9px !important;
   }
@@ -66,7 +67,30 @@
   .topicData h6 {
     font-size: 11px !important;
   }
-  .topicHead  {
+  .topicHead {
     font-size: 12px !important;
   }
+}
+
+.section {
+  margin-bottom: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+table,
+th,
+td {
+  border: 1px solid #ddd;
+}
+th,
+td {
+  padding: 8px;
+  text-align: left;
+}
+th {
+  background-color: #f2f2f2;
 }

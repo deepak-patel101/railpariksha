@@ -43,7 +43,9 @@ const SelectTest = () => {
         <div class="p-2">
           <h3>Start a test for - {subject.selectedTopic}</h3>
         </div>
-      </div>
+        <br />
+      </div>{" "}
+      <div>{subject.queFrom ? "MCQ based on PDF and NOTES" : null}</div>
       <hr />
       {!test_loading &&
       test_data?.message ===

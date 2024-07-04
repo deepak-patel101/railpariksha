@@ -1,0 +1,33 @@
+/* EnhancedUploadIcon.css */
+.icon-container {
+  display: inline-block;
+  animation: rotate-scale-color 3s infinite;
+}
+
+.upload-icon {
+  font-size: 48px;
+  color: #4caf50;
+}
+
+@keyframes rotate-scale-color {
+  0% {
+    transform: scale(1) rotate(0deg);
+    color: #4caf50;
+  }
+  25% {
+    transform: scale(1.2) rotate(45deg);
+    color: #ff5722;
+  }
+  50% {
+    transform: scale(1) rotate(90deg);
+    color: #2196f3;
+  }
+  75% {
+    transform: scale(1.2) rotate(135deg);
+    color: #ffeb3b;
+  }
+  100% {
+    transform: scale(1) rotate(180deg);
+    color: #4caf50;
+  }
+}

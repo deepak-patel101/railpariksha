@@ -144,9 +144,9 @@ const DepartmentCarousel = ({ departments }) => {
                 {departments?.map((department, index) => {
                   const recentCount = countRecentTopics(department, notes);
                   return (
-                    <div className="slider-item mt-3" key={index}>
+                    <div className="slider-item mt-3 Subject" key={index}>
                       <button
-                        className={`btn btn-outline-secondary position-relative ${
+                        className={`btn btn-outline-dark position-relative mb-1  ${
                           activeBtn === department.deptt ? "active" : ""
                         }`}
                         onClick={() => handleClick(department)}
