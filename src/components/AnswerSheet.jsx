@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import { useTestContext } from "../Context/TestContext";
 import { AiFillThunderbolt } from "react-icons/ai";
 import { GiTortoise } from "react-icons/gi";
-import { FaThumbsUp } from "react-icons/fa";
-import { FaCheckCircle } from "react-icons/fa";
+import { FaThumbsUp, FaCheckCircle } from "react-icons/fa";
 import { FiXCircle } from "react-icons/fi";
 import { FaSheetPlastic } from "react-icons/fa6";
 import "./css/Subject.css";
@@ -32,11 +31,10 @@ const AnswerSheet = () => {
       <h5>
         <FaSheetPlastic /> Answer Sheet
       </h5>
-      {/* <br /> */}
       <div className="container">
         {start_Test?.test &&
           Object.entries(start_Test.test).map(([QuestionNo, value]) => (
-            <div className="parent">
+            <div className="parent" key={QuestionNo}>
               <div
                 className="underline"
                 onMouseEnter={() => {
@@ -47,93 +45,88 @@ const AnswerSheet = () => {
                   setHover(false);
                   setHoverKey(null);
                 }}
-                key={QuestionNo}
                 style={{}}
               >
-                <div className="position-absolute top-0 end-0 translate-middle badge   ">
+                <div className="position-absolute top-0 end-0 translate-middle badge">
                   {Object.entries(userResponse.testAnswer).map(
-                    ([qNo, ansData]) => {
-                      return (
-                        <div>
-                          {qNo === QuestionNo ? (
-                            <div
-                              className="justify-content-center align-items-center text-center"
-                              style={{
-                                position: "relative",
-                                zIndex: "2",
-                                background: "white",
-                                boxShadow: "5px 5px 10px rgba(0,0,0, 0.3)",
-                                borderTopLeftRadius: "50%", // Add desired radius value here
-                                borderTopRightRadius: "50%", // Add desired radius value here
-                              }}
-                            >
+                    ([qNo, ansData]) =>
+                      qNo === QuestionNo && (
+                        <div
+                          key={qNo}
+                          className="justify-content-center align-items-center text-center"
+                          style={{
+                            position: "relative",
+                            zIndex: "2",
+                            background: "white",
+                            boxShadow: "5px 5px 10px rgba(0,0,0, 0.3)",
+                            borderTopLeftRadius: "50%", // Add desired radius value here
+                            borderTopRightRadius: "50%", // Add desired radius value here
+                          }}
+                        >
+                          <div
+                            className="justify-content-center align-items-center text-center"
+                            style={{
+                              height: "34px",
+                              width: "34px",
+                              borderRadius: "50%",
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              background:
+                                ansData.timeTaken < 15
+                                  ? "radial-gradient(circle, #C9CE0F,#F6F7E1,  white)"
+                                  : ansData.timeTaken > 15 &&
+                                    ansData.timeTaken < 30
+                                  ? "radial-gradient(circle, #0FB7CE,#E1F5F7,  white)"
+                                  : "radial-gradient(circle, #B46C6C,#F7E1E1,  white)",
+                            }}
+                          >
+                            {ansData.timeTaken < 15 ? (
                               <div
-                                className="justify-content-center align-items-center text-center"
                                 style={{
-                                  height: "34px",
-                                  width: "34px",
-                                  borderRadius: "50%",
+                                  color: "yellow",
+                                  fontSize: "22px",
                                   display: "flex",
                                   justifyContent: "center",
                                   alignItems: "center",
-                                  background:
-                                    ansData.timeTaken < 15
-                                      ? "radial-gradient(circle, #C9CE0F,#F6F7E1,  white)"
-                                      : ansData.timeTaken > 15 &&
-                                        ansData.timeTaken < 30
-                                      ? "radial-gradient(circle, #0FB7CE,#E1F5F7,  white)"
-                                      : "radial-gradient(circle, #B46C6C,#F7E1E1,  white)",
                                 }}
                               >
-                                {ansData.timeTaken < 15 ? (
-                                  <div
-                                    style={{
-                                      color: "yellow",
-                                      fontSize: "22px",
-                                      display: "flex",
-                                      justifyContent: "center",
-                                      alignItems: "center",
-                                    }}
-                                  >
-                                    <AiFillThunderbolt />
-                                  </div>
-                                ) : ansData.timeTaken > 15 &&
-                                  ansData.timeTaken < 30 ? (
-                                  <div
-                                    style={{
-                                      color: "#4D83F0",
-                                      display: "flex",
-                                      justifyContent: "center",
-                                      alignItems: "center",
-                                    }}
-                                  >
-                                    <FaThumbsUp />
-                                  </div>
-                                ) : (
-                                  <div
-                                    className="justify-content-center align-items-center text-center"
-                                    style={{
-                                      fontSize: "25px",
-                                      color: "red",
-                                      display: "flex",
-                                      justifyContent: "center",
-                                      alignItems: "center",
-                                    }}
-                                  >
-                                    <GiTortoise />
-                                  </div>
-                                )}
+                                <AiFillThunderbolt />
                               </div>
-                              <div style={{ fontSize: "12px", color: "black" }}>
-                                {convertSecondsToMinutesAndSeconds(
-                                  ansData.timeTaken
-                                )}
+                            ) : ansData.timeTaken > 15 &&
+                              ansData.timeTaken < 30 ? (
+                              <div
+                                style={{
+                                  color: "#4D83F0",
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                }}
+                              >
+                                <FaThumbsUp />
                               </div>
-                            </div>
-                          ) : null}
+                            ) : (
+                              <div
+                                className="justify-content-center align-items-center text-center"
+                                style={{
+                                  fontSize: "25px",
+                                  color: "red",
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                }}
+                              >
+                                <GiTortoise />
+                              </div>
+                            )}
+                          </div>
+                          <div style={{ fontSize: "12px", color: "black" }}>
+                            {convertSecondsToMinutesAndSeconds(
+                              ansData.timeTaken
+                            )}
+                          </div>
                         </div>
-                      );
-                    }
+                      )
                   )}
                 </div>
                 {Object.entries(userResponse?.testAnswer).forEach(
@@ -141,9 +134,6 @@ const AnswerSheet = () => {
                     if (userResponse?.testAnswer[QuestionNo]) {
                       if (qNo === QuestionNo) {
                         value?.options.forEach((option) => {
-                          // const formattedOption = option
-                          //   ?.toLowerCase()
-                          //   .replace(/\s+/g, "");
                           const correctAnswer = value?.answer
                             ?.toLowerCase()
                             .replace(/\s+/g, "");
@@ -166,7 +156,7 @@ const AnswerSheet = () => {
                   }
                 )}
                 <div
-                  className="row m-1   mb-4 p-2"
+                  className="row m-1 mb-4 p-2"
                   style={{
                     boxShadow:
                       QuestionNo === hoverKey && hover
@@ -174,21 +164,16 @@ const AnswerSheet = () => {
                         : "5px 5px 10px rgba(0,0,0, 0.3)",
                     borderRadius: "10px",
                     background: `linear-gradient(to bottom, white,#${divBgColor})`,
-                    // background: `gray`,
                   }}
                 >
-                  <div className="col-10  ">
+                  <div className="col-10">
                     <b>
-                      {" "}
-                      Q {Number(QuestionNo) + 1} - {value.question}{" "}
+                      Q {Number(QuestionNo) + 1} - {value.question}
                     </b>
                   </div>
-
                   <div>
-                    {" "}
                     {value?.options.map((option, index) => {
-                      // Determine the border style
-                      let borderStyle = "1px solid transparent"; // Default border style
+                      let borderStyle = "1px solid transparent";
                       let bgStyle = "transparent";
                       if (QuestionNo) {
                         borderStyle =
@@ -196,8 +181,6 @@ const AnswerSheet = () => {
                           option?.toLowerCase().replace(/\s+/g, "")
                             ? "1px solid #5AD95C"
                             : null;
-                      }
-                      if (QuestionNo) {
                         bgStyle =
                           value?.answer?.toLowerCase().replace(/\s+/g, "") ===
                           option?.toLowerCase().replace(/\s+/g, "")
@@ -213,23 +196,17 @@ const AnswerSheet = () => {
                                 .replace(/\s+/g, "") ===
                               option?.toLowerCase().replace(/\s+/g, "")
                                 ? "1px solid #5AD95C"
-                                : // option === ansData.answer
-                                //   ? "1px solid #5AD95C"
-                                option?.toLowerCase().replace(/\s+/g, "") ===
+                                : option?.toLowerCase().replace(/\s+/g, "") ===
                                   ansData?.answer
                                 ? "1px solid #D95A5A"
                                 : null;
-                          }
-                          if (qNo === QuestionNo) {
                             bgStyle =
                               value?.answer
                                 ?.toLowerCase()
                                 .replace(/\s+/g, "") ===
                               option?.toLowerCase().replace(/\s+/g, "")
                                 ? "rgba(90, 217, 92,0.5)"
-                                : // option === ansData.answer
-                                //   ? "1px solid #5AD95C"
-                                option?.toLowerCase().replace(/\s+/g, "") ===
+                                : option?.toLowerCase().replace(/\s+/g, "") ===
                                   ansData?.answer
                                     ?.toLowerCase()
                                     .replace(/\s+/g, "")
@@ -241,7 +218,7 @@ const AnswerSheet = () => {
 
                       return (
                         <div
-                          className="p-2 m-1"
+                          className="m-1"
                           key={index}
                           style={{
                             borderRadius: "10px",
@@ -254,50 +231,36 @@ const AnswerSheet = () => {
                           ) : bgStyle === "rgba(217, 90, 90,0.5)" ? (
                             <FiXCircle style={{ color: "#D20C0C" }} />
                           ) : (
-                            <div>&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                            <>&nbsp;&nbsp;&nbsp;</>
                           )}{" "}
                           {index + 1}- {option}
                         </div>
                       );
                     })}
                   </div>
-
-                  {
-                    <div>
-                      {userResponse?.testAnswer[QuestionNo] ? (
-                        <div>
-                          {" "}
-                          {Object.entries(userResponse.testAnswer).map(
-                            ([qNo, ansData]) => {
-                              return (
+                  <div>
+                    {userResponse?.testAnswer[QuestionNo] ? (
+                      <div>
+                        {Object.entries(userResponse.testAnswer).map(
+                          ([qNo, ansData]) =>
+                            qNo === QuestionNo && (
+                              <div key={qNo}>
+                                <hr />
                                 <div>
-                                  {qNo === QuestionNo ? (
-                                    <div>
-                                      <hr />{" "}
-                                      <div>
-                                        Your answer ={" "}
-                                        {!ansData.answer
-                                          ? "Skipped"
-                                          : ansData.answer}
-                                      </div>
-                                    </div>
-                                  ) : null}
+                                  Your answer ={" "}
+                                  {!ansData.answer ? "Skipped" : ansData.answer}
                                 </div>
-                              );
-                            }
-                          )}
-                        </div>
-                      ) : (
-                        <div>
-                          <div>
-                            <hr />
-                            {}
-                            Your answer = Not Attempted
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  }
+                              </div>
+                            )
+                        )}
+                      </div>
+                    ) : (
+                      <div>
+                        <hr />
+                        Your answer = Not Attempted
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>

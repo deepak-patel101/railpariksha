@@ -2,8 +2,17 @@ import React, { useState } from "react";
 import { FaLanguage } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import GoogleTranslate from "../components/GoogleTranslate";
+import { useUserContext } from "../Context/UserContext";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
+  const { user, updateUserData } = useUserContext();
+  const navigate = useNavigate();
+
+  const handleLogOut = () => {
+    updateUserData(null);
+    navigate("/");
+  };
   return (
     <div>
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
@@ -55,11 +64,13 @@ const Navbar = () => {
                   My Ideas
                 </Link>
               </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="Admin">
-                  Admin
-                </Link>
-              </li>
+              {user?.login_type === "admin" ? (
+                <li className="nav-item">
+                  <Link className="nav-link" to="Admin">
+                    Admin
+                  </Link>
+                </li>
+              ) : null}
             </ul>
 
             <div className="d-flex">
@@ -109,9 +120,17 @@ const Navbar = () => {
                 Search
               </button>
             </form>
-            <Link className="btn btn-success m-1" to="Log&Reg" type="submit">
-              Get started
-            </Link>
+
+            {user ? (
+              <button className="btn btn-success m-1" onClick={handleLogOut}>
+                {" "}
+                Sign Out
+              </button>
+            ) : (
+              <Link className="btn btn-success m-1" to="Log&Reg" type="submit">
+                Get started
+              </Link>
+            )}
           </div>
         </div>
       </nav>

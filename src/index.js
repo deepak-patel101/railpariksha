@@ -6,17 +6,19 @@ import reportWebVitals from "./reportWebVitals";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
-
+import { UserProvider } from "./Context/UserContext";
 import { GlobalProvider } from "./Context/GlobalContextOne";
 import { TestProvider } from "./Context/TestContext";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   // <React.StrictMode>
-  <GlobalProvider>
-    <TestProvider>
-      <App />
-    </TestProvider>
-  </GlobalProvider>
+  <UserProvider>
+    <GlobalProvider>
+      <TestProvider>
+        <App />
+      </TestProvider>
+    </GlobalProvider>
+  </UserProvider>
   //  </React.StrictMode>
 );
 

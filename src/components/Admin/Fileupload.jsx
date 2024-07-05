@@ -18,10 +18,12 @@ const FileUpload = () => {
   const [queFrom, setQueFrom] = useState("");
   const [loading, setLoading] = useState(false);
   const [excelMsg, setExcelMsg] = useState(false);
+  const [fileTypeCheck, setFileTypeCheck] = useState(false);
   const fileInputRef = useRef(null); // Create a ref for the file input
 
   const handleFileChange = (e) => {
     setExcelMsg(false);
+    setFileTypeCheck(false);
     const selectedFile = e.target.files[0];
 
     // Check if a file is selected
@@ -37,7 +39,8 @@ const FileUpload = () => {
         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
       ].includes(selectedFile.type)
     ) {
-      alert("Please select a valid Excel file.");
+      setFileTypeCheck(true);
+      // alert("Please select a valid Excel file.");
       e.target.value = null; // Reset the file input
       return;
     }
@@ -91,7 +94,7 @@ const FileUpload = () => {
         setExcelMsg(false);
         // Send data to the backend
         fetch(
-          "https://railwaymcq.com/railwaymcq/RailPariksha/InsertMCQfromExcel.php",
+          "https://railwaymcq.com/railwaymcq/RailPariksha/user_login_api.php",
           {
             method: "POST",
             headers: {
@@ -137,8 +140,8 @@ const FileUpload = () => {
     <div>
       {viewExample ? (
         <div
+          className=""
           style={{
-            margin: "0",
             position: "fixed",
             top: "0",
             left: "0",
@@ -154,7 +157,7 @@ const FileUpload = () => {
           onClick={() => setViewExample(false)}
         >
           <div
-            className="position-relative p-2"
+            className="position-relative m-3 "
             style={{
               boxShadow: "5px 5px 10px rgba(0,0,0, 0.5)",
               background: "white",
@@ -181,6 +184,25 @@ const FileUpload = () => {
                   borderRadius: "50%",
                 }}
               />
+            </div>
+            <div className="p-1 " style={{ maxWidth: "900px" }}>
+              <img
+                className="img-fluid"
+                src={ExcelExample}
+                alt="example Image"
+                style={{
+                  width: "100%",
+                  height: "auto",
+                  boxShadow: "5px 5px 10px rgba(52,80,142, 0.3)", // Shadow on bottom-right
+                  padding: "15px",
+                  marginBottom: "15px", // Adding some margin at the bottom for spacing
+                  borderRadius: "5px", // Adding border radius for rounded corners
+                  backgroundColor: "#ffffff", // Adding background color to the div
+                }}
+              />
+              <h6 className="row m-1 " style={{ color: "red" }}>
+                Note- columns name must be same as this table
+              </h6>
             </div>
           </div>
         </div>
@@ -309,8 +331,8 @@ const FileUpload = () => {
               value={queFrom}
               onChange={(e) => setQueFrom(e.target.value)}
             >
-              <option value="">Select QueFrom</option>
-              <option value="default">Default & other</option>
+              <option value="">Select Question from</option>
+              <option value="default">Default / Other</option>
               {/* <option value="miscellaneous">miscellaneous</option> */}
               <option value="PDF">PDF</option>
               <option value="PYQ">PYQ</option>
@@ -354,16 +376,22 @@ const FileUpload = () => {
             {excelMsg ? (
               <div style={{ color: "red" }}>
                 {" "}
-                <MdNearbyError /> Excel files columns didn`t match
+                <MdNearbyError /> Excel file`s columns name didn`t match
               </div>
             ) : null}{" "}
+            {fileTypeCheck ? (
+              <div style={{ color: "red" }}>
+                {" "}
+                <MdNearbyError /> Please select a valid Excel file.
+              </div>
+            ) : null}
             <u
               className="m-1"
               style={{ cursor: "pointer", color: "#2FB44D" }}
               onClick={handleSampleFile}
             >
-              <TbHelpSquareRoundedFilled style={{ fontSize: "15px" }} /> sample
-              Excel file
+              <TbHelpSquareRoundedFilled style={{ fontSize: "15px" }} /> Click
+              here for sample Excel file
             </u>
             {loading ? (
               <div className=" d-flex justify-content-center">
