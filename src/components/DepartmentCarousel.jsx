@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./css/slid.css";
 import Subjects from "./Subjects";
 import { useGlobalContext } from "../Context/GlobalContextOne";
 import { MdLeaderboard } from "react-icons/md";
 import Loading from "./Loading";
+import "./css/NoteReader.css"; // Import the custom CSS
+import { GrFormNextLink } from "react-icons/gr";
+import { GrFormPreviousLink } from "react-icons/gr";
 
 const DepartmentCarousel = ({ departments }) => {
   const [startIndex, setStartIndex] = useState(0);
@@ -14,6 +17,7 @@ const DepartmentCarousel = ({ departments }) => {
     height: window.innerHeight,
   });
   const { department_loading, department_error, notes } = useGlobalContext();
+  const sliderRef = useRef(null);
 
   useEffect(() => {
     const handleResize = () => {
@@ -30,34 +34,6 @@ const DepartmentCarousel = ({ departments }) => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-
-  const getItemsPerPage = () => {
-    if (screenSize.width >= 1182) {
-      return 8;
-    } else if (screenSize.width >= 998) {
-      return 7;
-    } else if (screenSize.width >= 772) {
-      return 5;
-    } else if (screenSize.width >= 680) {
-      return 6;
-    } else if (screenSize.width >= 5120) {
-      return 3;
-    } else {
-      return 2;
-    }
-  };
-
-  const handlePrev = () => {
-    const itemsPerPage = getItemsPerPage();
-    setStartIndex((prevIndex) => Math.max(0, prevIndex - itemsPerPage));
-  };
-
-  const handleNext = () => {
-    const itemsPerPage = getItemsPerPage();
-    setStartIndex((prevIndex) =>
-      Math.min(departments?.length - itemsPerPage, prevIndex + itemsPerPage)
-    );
-  };
 
   useEffect(() => {
     setSelectedDepartment(departments?.[0]);
@@ -105,6 +81,37 @@ const DepartmentCarousel = ({ departments }) => {
     return recentCount;
   };
 
+  const smoothScroll = (element, direction) => {
+    const start = element.scrollLeft;
+    const distance = direction === "left" ? -100 : 100;
+    const duration = 300; // in ms
+    let startTime = null;
+
+    const animateScroll = (currentTime) => {
+      if (startTime === null) startTime = currentTime;
+      const timeElapsed = currentTime - startTime;
+      const progress = Math.min(timeElapsed / duration, 1);
+      element.scrollLeft = start + distance * progress;
+      if (timeElapsed < duration) {
+        requestAnimationFrame(animateScroll);
+      }
+    };
+
+    requestAnimationFrame(animateScroll);
+  };
+
+  const slideLeft = () => {
+    if (sliderRef.current) {
+      smoothScroll(sliderRef.current, "left");
+    }
+  };
+
+  const slideRight = () => {
+    if (sliderRef.current) {
+      smoothScroll(sliderRef.current, "right");
+    }
+  };
+
   return (
     <div className="container" style={{ margin: "0px", padding: "0px" }}>
       <div
@@ -124,51 +131,60 @@ const DepartmentCarousel = ({ departments }) => {
           </p>
         </div>
         <div className="col-md-12">
-          <div className="slider-container mt-4 mb-4">
+          <div
+            className="d-flex justify-content-center   m-3"
+            style={{ position: "relative" }}
+          >
             <button
-              className="slider-button prev  mt-2"
-              onClick={handlePrev}
-              disabled={startIndex === 0}
+              className=" btn btn-outline-dark Subject "
+              onClick={slideLeft}
             >
-              &lt;
-            </button>
-            <div className="slider">
-              <div
-                className="slider-inner"
+              <GrFormPreviousLink
+                className=""
                 style={{
-                  transform: `translateX(-${
-                    (startIndex / getItemsPerPage()) * 100
-                  }%)`,
+                  fontSize: "",
                 }}
-              >
-                {departments?.map((department, index) => {
-                  const recentCount = countRecentTopics(department, notes);
-                  return (
-                    <div className="slider-item mt-3 Subject" key={index}>
-                      <button
-                        className={`btn btn-outline-dark position-relative mb-1  ${
-                          activeBtn === department.deptt ? "active" : ""
-                        }`}
-                        onClick={() => handleClick(department)}
-                      >
-                        {department.deptt}
-                        {recentCount > 0 && (
-                          <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                            {recentCount}
-                          </span>
-                        )}
-                      </button>
-                    </div>
-                  );
-                })}
-              </div>
+              />
+            </button>
+            <div
+              className=" scrollspy-example-2"
+              ref={sliderRef}
+              style={{
+                overflowX: "auto ",
+                whiteSpace: "nowrap",
+              }}
+            >
+              {departments?.map((department, index) => {
+                const recentCount = countRecentTopics(department, notes);
+                return (
+                  <div
+                    className="mt-3 m-2 Subject "
+                    key={index}
+                    style={{ display: "inline-block", borderRadius: "5px" }}
+                  >
+                    <button
+                      className={`btn btn-outline-dark position-relative   ${
+                        activeBtn === department.deptt ? "active" : ""
+                      }`}
+                      onClick={() => handleClick(department)}
+                    >
+                      {department.deptt}
+                      {recentCount > 0 && (
+                        <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                          {recentCount}
+                        </span>
+                      )}
+                    </button>
+                  </div>
+                );
+              })}
             </div>
             <button
-              className="slider-button next mt-2"
-              onClick={handleNext}
-              disabled={startIndex >= departments?.length - getItemsPerPage()}
+              className="btn btn-outline-dark Subject"
+              onClick={slideRight}
+              style={{}}
             >
-              &gt;
+              <GrFormNextLink style={{}} />
             </button>
           </div>
         </div>

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import * as XLSX from "xlsx";
 import { useGlobalContext } from "../../Context/GlobalContextOne";
 import { FaFileUpload } from "react-icons/fa";
@@ -21,6 +21,9 @@ const FileUpload = () => {
   const [fileTypeCheck, setFileTypeCheck] = useState(false);
   const fileInputRef = useRef(null); // Create a ref for the file input
 
+  useEffect(() => {
+    setSubcode("");
+  }, [department]);
   const handleFileChange = (e) => {
     setExcelMsg(false);
     setFileTypeCheck(false);
@@ -94,7 +97,7 @@ const FileUpload = () => {
         setExcelMsg(false);
         // Send data to the backend
         fetch(
-          "https://railwaymcq.com/railwaymcq/RailPariksha/user_login_api.php",
+          "https://railwaymcq.com/railwaymcq/RailPariksha/InsertMCQfromExcel.php",
           {
             method: "POST",
             headers: {
@@ -241,7 +244,7 @@ const FileUpload = () => {
             >
               <option value="">Select Department</option>
               {departments &&
-                Object.entries(departments).map(([key, departmentVal]) => (
+                Object.entries(departments)?.map(([key, departmentVal]) => (
                   <option key={key} value={departmentVal.deptt}>
                     {departmentVal.deptt}
                   </option>
@@ -269,9 +272,9 @@ const FileUpload = () => {
             >
               <option value="">Select Subject</option>
               {departments &&
-                Object.entries(departments).map(([key, departmentVal]) => {
+                Object.entries(departments)?.map(([key, departmentVal]) => {
                   if (departmentVal.deptt === department) {
-                    return Object.entries(departmentVal.subjects).map(
+                    return Object.entries(departmentVal?.subjects)?.map(
                       ([subcode, subjects]) => (
                         <option key={subcode} value={subcode}>
                           {subjects.sub}
@@ -299,19 +302,22 @@ const FileUpload = () => {
               onChange={(e) => setTopcode(e.target.value)}
             >
               <option value="">Select Topic</option>
-              {departments &&
+              {selectedSubcode &&
                 Object.entries(departments).map(([key, departmentVal]) => {
                   if (
-                    departmentVal.deptt === department &&
-                    selectedSubcode !== ""
+                    departmentVal?.deptt === department &&
+                    selectedSubcode !== "" &&
+                    selectedSubcode !== undefined
                   ) {
-                    return Object.entries(
-                      departmentVal.subjects[selectedSubcode].topics
-                    ).map(([topcodeVal, topic]) => (
-                      <option key={topcodeVal} value={topic.topcode}>
-                        {topic.topic}
-                      </option>
-                    ));
+                    if (departmentVal?.subjects[selectedSubcode]?.topics) {
+                      return Object.entries(
+                        departmentVal?.subjects[selectedSubcode]?.topics
+                      ).map(([topcodeVal, topic]) => (
+                        <option key={topcodeVal} value={topic.topcode}>
+                          {topic.topic}
+                        </option>
+                      ));
+                    }
                   }
                   return null; // Return null if no match found
                 })}

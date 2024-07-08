@@ -128,7 +128,7 @@ const Navbar = () => {
               </button>
             ) : (
               <Link className="btn btn-success m-1" to="Log&Reg" type="submit">
-                Get started
+                Sign In
               </Link>
             )}
           </div>

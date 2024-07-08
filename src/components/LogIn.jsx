@@ -37,11 +37,14 @@ const Login = () => {
         }
       );
       const data = await response.json();
-      console.log(data.message, msg);
       if (data.success === true) {
         updateUserData(data.userData);
         setLoading(false);
-        navigate("/Admin");
+        if (data.userData.login_type === "admin") {
+          navigate("/Admin");
+        } else {
+          navigate("/");
+        }
       } else {
         setMsg(data.message);
         setLoading(false);
