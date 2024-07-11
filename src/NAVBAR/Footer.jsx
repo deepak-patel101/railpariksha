@@ -74,7 +74,7 @@ const Footer = () => {
         paddingBottom: "10px",
       }}
     >
-      <div className="container text-center ">
+      <div className="container text-center  " style={{ zIndex: "9999" }}>
         <div className="row">
           <div className="col-md-4">
             <h4>Sections</h4>

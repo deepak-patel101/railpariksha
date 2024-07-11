@@ -6,6 +6,17 @@ const UserReducer = (state, action) => {
         ...state,
         user: userData,
       };
+    case "SET_ADMIN_DASHBOARD_DATA": {
+      console.log(action.payload.defaultPath);
+      return {
+        ...state,
+        dashboardData: {
+          activeBtn: action.payload.activeBtn,
+          minNmax: action.payload.minNmax,
+          defaultPath: action.payload.defaultPath,
+        },
+      };
+    }
     default:
       throw new Error(`No Matching "${action.type}" - action type`);
   }

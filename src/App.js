@@ -14,6 +14,18 @@ import SelectTest from "./pages/SelectTest";
 import StartTest from "./pages/StartTest";
 import ScoreCard from "./pages/ScoreCard";
 import Admin from "./pages/Admin";
+import QbankMaster from "./components/Admin/QbankMaster";
+import ShowFeedback from "./components/Admin/ShowFeedback";
+import FatchQbankFeedback from "./components/Admin/FatchQbankFeedback";
+import MCQverifier from "./components/Admin/MCQverifier";
+import EditQbank from "./components/Admin/EditQbank";
+import AddVideolinks from "./components/Admin/AddVideolinks";
+import AddDept from "./components/Admin/AddDept";
+import VideoApproval from "./components/Admin/VideoApproval";
+import SummaryVideo from "./components/Admin/SummaryVideo";
+import VideoModification from "./components/Admin/VideoModification";
+
+import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
   return (
@@ -29,9 +41,54 @@ function App() {
         <Route path="/TestSeries/Score-card" element={<ScoreCard />} />
         <Route path="/Notification" element={<Notification />} />
         <Route path="/Trending" element={<Trending />} />
-        <Route path="/Admin" element={<Admin />} />
         <Route path="/MyIdeas" element={<YourIdeas />} />
         <Route path="/Log&Reg" element={<LogReg />} />
+        <Route path="/Admin" element={<PrivateRoute element={<Admin />} />} />
+        <Route
+          path="/Admin/Q-Bank"
+          element={<PrivateRoute element={<QbankMaster />} />}
+        />
+        <Route
+          path="/Admin/Edit-Q-Bank"
+          element={<PrivateRoute element={<EditQbank />} />}
+        />
+        <Route
+          path="/Admin/ShowFeedback"
+          element={<PrivateRoute element={<ShowFeedback />} />}
+        />
+        <Route
+          path="/Admin/FatchQbankFeedback"
+          element={<PrivateRoute element={<FatchQbankFeedback />} />}
+        />
+        <Route
+          path="/Admin/MCQverifier"
+          element={<PrivateRoute element={<MCQverifier />} />}
+        />
+        <Route
+          path="/Admin/AddVideolinks"
+          element={<PrivateRoute element={<AddVideolinks />} />}
+        />
+        <Route
+          path="/Admin/AddDept"
+          element={<PrivateRoute element={<AddDept />} />}
+        />
+        <Route
+          path="/Admin/VideoApproval"
+          element={<PrivateRoute element={<VideoApproval />} />}
+        />
+        <Route
+          path="/Admin/SummaryVideo"
+          element={<PrivateRoute element={<SummaryVideo />} />}
+        />
+        <Route
+          path="/Admin/SummaryVideo"
+          element={<PrivateRoute element={<SummaryVideo />} />}
+        />
+
+        <Route
+          path="/Admin/VideoModification"
+          element={<PrivateRoute element={<VideoModification />} />}
+        />
       </Routes>
       <Footer />
     </Router>

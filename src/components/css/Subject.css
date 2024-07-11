@@ -39,3 +39,10 @@
 .parent:hover .arrow {
   transform: rotate(0deg); /* Rotate back to 0 degrees on parent hover */
 }
+.papaDiv {
+  box-shadow: 5px 5px 10px rgba(52, 80, 142, 0.3);
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  background-color: #ffffff;
+}

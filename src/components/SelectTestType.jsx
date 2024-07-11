@@ -89,23 +89,24 @@ const SelectTestType = () => {
         }}
       >
         <b>
-          <TbArrowsSort /> Sort question sets by
+          <TbArrowsSort /> Sort question sets based on
         </b>
         <br />
-        <div class="d-flex justify-content-start">
-          {uniqueQueFromArray.map((btn, index) => (
-            <div className="underline col-2 row col-md-2 m-1  ">
-              <button
-                key={index}
-                className={`btn btn-sm btn-outline-dark mb-1  Subject  ${
-                  activeBtn === btn ? "active " : ""
-                }`}
-                onClick={() => setActiveBtn(btn)}
-              >
-                {btn === "PDF" ? "NOTES & PDF" : btn}
-              </button>
-            </div>
-          ))}
+        <div className="d-flex justify-content-start">
+          {uniqueQueFromArray.map((btn, index) =>
+            btn === "default" ? null : (
+              <div key={index} className="underline col-2 row col-md-2 m-1">
+                <button
+                  className={`btn btn-sm btn-outline-dark mb-1 Subject ${
+                    activeBtn === btn ? "active" : ""
+                  }`}
+                  onClick={() => setActiveBtn(btn)}
+                >
+                  {btn === "PDF" ? "NOTES & PDF" : btn}
+                </button>
+              </div>
+            )
+          )}
         </div>
       </div>
 

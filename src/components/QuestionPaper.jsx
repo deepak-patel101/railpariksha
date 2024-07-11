@@ -292,7 +292,7 @@ const QuestionPaper = () => {
                 return (
                   <div className="form-check m-1" key={index}>
                     <input
-                      className="form-check-input"
+                      className="form-check-input border border-danger"
                       type="radio"
                       name="optionRadio"
                       id={`flexRadioDefault${index}`}

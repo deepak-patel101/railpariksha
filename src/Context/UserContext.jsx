@@ -3,6 +3,11 @@ import UserReducer from "../Reducer/UserReducer"; // Make sure this path is corr
 
 const initialState = {
   user: null,
+  dashboardData: {
+    defaultPath: "/Admin/Q-Bank",
+    activeBtn: "",
+    minNmax: false,
+  },
 };
 
 const UserContext = createContext();
@@ -13,9 +18,15 @@ export const UserProvider = ({ children }) => {
   const updateUserData = (data) => {
     dispatch({ type: "SET_USER", payload: data });
   };
+  console.log("");
+  const adminDashBoardData = (data) => {
+    dispatch({ type: "SET_ADMIN_DASHBOARD_DATA", payload: data });
+  };
 
   return (
-    <UserContext.Provider value={{ ...state, updateUserData }}>
+    <UserContext.Provider
+      value={{ ...state, updateUserData, adminDashBoardData }}
+    >
       {children}
     </UserContext.Provider>
   );

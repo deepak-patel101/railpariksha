@@ -14,8 +14,8 @@ const Navbar = () => {
     navigate("/");
   };
   return (
-    <div>
-      <nav className="navbar navbar-expand-lg bg-body-tertiary">
+    <div className=" mb-2" style={{}}>
+      <nav className="navbar navbar-expand-lg bg-body-tertiary  Subject ">
         <div className="container-fluid" style={{ fontSize: "15px" }}>
           <Link to="/" className="navbar-brand">
             Rail Pariksha
@@ -109,25 +109,29 @@ const Navbar = () => {
                 />
               )}
             </div> */}
-            <form className="d-flex" role="search">
+            <form className="d-flex  " role="search">
               <input
-                className="form-control me-2"
+                className="form-control  m-1"
                 type="search exams here"
                 placeholder="Search"
                 aria-label="Search"
               />
-              <button className="btn btn-outline-success ml-1" type="submit">
+              <button
+                className="btn btn-outline-success m-1"
+                style={{ height: "38px" }}
+                type="submit"
+              >
                 Search
               </button>
             </form>
 
             {user ? (
-              <button className="btn btn-success m-1" onClick={handleLogOut}>
+              <button className="btn btn-success m-1 " onClick={handleLogOut}>
                 {" "}
                 Sign Out
               </button>
             ) : (
-              <Link className="btn btn-success m-1" to="Log&Reg" type="submit">
+              <Link className="btn btn-success " to="Log&Reg" type="submit">
                 Sign In
               </Link>
             )}

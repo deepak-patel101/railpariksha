@@ -2,14 +2,14 @@ import React from "react";
 import FileUpload from "../components/Admin/Fileupload";
 import { useUserContext } from "../Context/UserContext";
 import { TbHandStop } from "react-icons/tb";
+import AdminPage from "../components/Admin/AdminPage";
 const Admin = () => {
   const { user } = useUserContext();
   return (
-    <div className="container text-center mt-12" style={{ minHeight: "90vh" }}>
+    <div className=" text-center mt-12" style={{ minHeight: "90vh" }}>
       {user?.login_type === "admin" ? (
         <div>
-          <>Admin</>
-          <FileUpload />
+          <AdminPage style={{ width: "450px" }} />
         </div>
       ) : (
         <div className="">

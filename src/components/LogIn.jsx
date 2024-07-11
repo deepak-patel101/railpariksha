@@ -89,6 +89,7 @@ const Login = () => {
             <button
               className="btn btn-outline-secondary Subject me-1"
               type="button"
+              style={{ height: "38px" }}
               onClick={() => setEyeOpen(!eyeOpen)}
             >
               {eyeOpen ? <IoMdEye /> : <IoEyeOff />}
