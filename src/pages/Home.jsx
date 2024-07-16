@@ -6,6 +6,15 @@ import Slider from "../components/Slider";
 
 const Home = () => {
   useEffect(() => {
+    fetch("https://railwaymcq.com/railwaymcq/RailPariksha/Visitors_count.php")
+      .then((response) => response.text())
+      .then((data) => {})
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }, []);
+
+  useEffect(() => {
     window.scrollTo(0, 0); // Scroll to the top of the page
   }, []);
   return (

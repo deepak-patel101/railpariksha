@@ -19,7 +19,7 @@ const AdminPage = () => {
         `https://railwaymcq.com/railwaymcq/RailPariksha/DataBaseSummary.php`
       );
       const data = await response.json();
-      setDataBaseCount(data[0]);
+      setDataBaseCount(data);
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -120,32 +120,51 @@ const AdminPage = () => {
             <hr />
             <div className="row">
               {loading ? <Loading /> : null}
-              {Object.entries(databaseCount).map(([item, value], index) => (
-                <div key={index} className="col-12 col-md-4 mb-1 mt-1">
-                  <div className="card Subject">
-                    <div
-                      className="card-header"
-                      style={{
-                        background:
-                          "linear-gradient(to bottom, white, #B7EDB5)",
-                      }}
-                    >
-                      {item}
-                    </div>
-                    <div className="card-body">
-                      <blockquote className="blockquote mb-0">
-                        <h4>{value}</h4>
-                        <footer
-                          className="blockquote-footer text-end mt-2"
-                          style={{ fontSize: "12px" }}
+              {console.log(databaseCount)}
+              {Object.entries(databaseCount).map(([item, value], index) => {
+                if (item !== "Todays_Count") {
+                  return (
+                    <div key={index} className="col-12 col-md-4 mb-1 mt-1">
+                      <div className="card Subject">
+                        <div
+                          className="card-header"
+                          style={{
+                            background:
+                              "linear-gradient(to bottom, white, #B7EDB5)",
+                          }}
                         >
-                          Total {item}
-                        </footer>
-                      </blockquote>
+                          {item}
+                        </div>
+                        <div className="card-body">
+                          <blockquote className="blockquote mb-0">
+                            <h4>{value}</h4>
+                            <footer
+                              className="blockquote-footer text-end mt-2"
+                              style={{ fontSize: "12px" }}
+                            >
+                              {item !== "VISITORS" ? (
+                                `Total ${item}`
+                              ) : (
+                                <b>
+                                  and Todays -{" "}
+                                  {Object.entries(databaseCount).map(
+                                    ([subItem, subValue], subIndex) => {
+                                      if (subItem === "Todays_Count")
+                                        return subValue;
+                                      return null;
+                                    }
+                                  )}
+                                </b>
+                              )}
+                            </footer>
+                          </blockquote>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-              ))}
+                  );
+                }
+                return null;
+              })}
             </div>
           </div>
         </div>

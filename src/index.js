@@ -9,7 +9,22 @@ import "bootstrap/dist/js/bootstrap.bundle.min";
 import { UserProvider } from "./Context/UserContext";
 import { GlobalProvider } from "./Context/GlobalContextOne";
 import { TestProvider } from "./Context/TestContext";
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
+
+if (process.env.NODE_ENV === "development") {
+  const originalWarn = console.warn;
+  console.warn = function (...args) {
+    if (
+      typeof args[0] === "string" &&
+      args[0].includes("third-party cookie will be blocked")
+    ) {
+      return;
+    }
+    originalWarn.apply(console, args);
+  };
+}
+
 root.render(
   // <React.StrictMode>
   <UserProvider>
@@ -19,7 +34,7 @@ root.render(
       </TestProvider>
     </GlobalProvider>
   </UserProvider>
-  //  </React.StrictMode>
+  // </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

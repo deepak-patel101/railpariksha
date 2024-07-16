@@ -26,6 +26,8 @@ import SummaryVideo from "./components/Admin/SummaryVideo";
 import VideoModification from "./components/Admin/VideoModification";
 
 import PrivateRoute from "./components/PrivateRoute";
+import Videos from "./pages/Videos";
+import VideoPlayer from "./components/VideoPlayer";
 
 function App() {
   return (
@@ -35,6 +37,8 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/Dashboard" element={<Dashboard />} />
         <Route path="/TestSeries" element={<Exam />} />
+        <Route path="/Videos" element={<Videos />} />
+        <Route path="/Videos/Video-Player" element={<VideoPlayer />} />
         <Route path="/TestSeries/Select-Test" element={<SelectTest />} />
         <Route path="/TestSeries/Select-Topics" element={<SelectTopics />} />
         <Route path="/TestSeries/Start-Test" element={<StartTest />} />

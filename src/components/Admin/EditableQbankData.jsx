@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { FaEdit } from "react-icons/fa";
-import { MdCancel } from "react-icons/md";
+import { MdCancel, MdDelete } from "react-icons/md";
 
 const EditableQbankData = () => {
   const [qbankData, setQbankData] = useState([]);
@@ -144,6 +144,29 @@ const EditableQbankData = () => {
     }
   };
 
+  const handleDelete = async (index) => {
+    const updatedItem = qbankData[index];
+    if (
+      window.confirm(
+        `Are you sure you want to delete this question ${updatedItem.qcode}`
+      )
+    ) {
+      try {
+        const response = await axios.delete(
+          "https://railwaymcq.com/student/Qbank_op_api.php",
+          {
+            data: { qcode: updatedItem.qcode },
+          }
+        );
+
+        alert("Question deleted successfully");
+        fetchData();
+      } catch (error) {
+        console.error("Error deleting question:", error);
+        alert("Failed to delete Question!");
+      }
+    }
+  };
   return (
     <div className="editable-qbank-container papaDiv">
       <h5 className="text-start">
@@ -250,7 +273,8 @@ const EditableQbankData = () => {
               <th className="col-12 col-md-1">Option 4</th>
               <th className="col-12 col-md-1">Answer</th>
               <th className="col-12 col-md-1">Reference</th>
-              <th className="col-12 col-md-1">Action</th>
+              <th className="col-12 col-md-1">Edit</th>
+              <th className="col-12 col-md-1">Delete</th>
             </tr>
           </thead>
           <tbody>
@@ -379,14 +403,30 @@ const EditableQbankData = () => {
                       className="d-flex justify-content-center align-items-center"
                       style={{ height: "100%" }}
                     >
-                      <button
+                      {/* <button
                         className="btn btn-outline-dark"
                         onClick={() => handleEdit(index)}
                       >
                         Edit
-                      </button>
+                      </button> 
+ */}
+
+                      <FaEdit
+                        // className="btn btn-outline-dark"
+                        style={{ color: "blue" }}
+                        size={30}
+                        onClick={() => handleEdit(index)}
+                      />
                     </div>
                   )}
+                </td>
+
+                <td className="col-12 col-md-1 ">
+                  <MdDelete
+                    onClick={() => handleDelete(index)}
+                    style={{ color: "red" }}
+                    size={30}
+                  />
                 </td>
               </tr>
             ))}

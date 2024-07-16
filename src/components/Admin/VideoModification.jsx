@@ -4,11 +4,13 @@ import axios from "axios";
 import { MdDeleteForever } from "react-icons/md";
 import { FaEdit } from "react-icons/fa";
 import GoBack from "./comps/GoBack";
+import Loading from "../Loading";
 
 const VideoModification = () => {
   const [qbankData, setQbankData] = useState([]);
   const [subjects, setSubjects] = useState([]);
   const [topcodes, setTopcodes] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     id: "",
     subcode: "",
@@ -19,7 +21,7 @@ const VideoModification = () => {
   });
   const [editingIndex, setEditingIndex] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [qbankPerPage] = useState(5);
+  const [qbankPerPage] = useState(20);
 
   useEffect(() => {
     fetchSubjects();
@@ -49,12 +51,16 @@ const VideoModification = () => {
   };
 
   const fetchData = async () => {
+    setLoading(true);
     try {
       const response = await axios.get(
         `https://railwaymcq.com/student/videomodification_api.php?subcode=${formData.subcode}&topcode=${formData.topcode}`
       );
+      setLoading(false);
       setQbankData(Array.isArray(response.data) ? response.data : []);
     } catch (error) {
+      setLoading(false);
+
       console.error(error);
       setQbankData([]);
     }
@@ -128,45 +134,80 @@ const VideoModification = () => {
   const currentQbankData = qbankData.slice(indexOfFirstQbank, indexOfLastQbank);
 
   return (
-    <div className="editable-qbank-container">
+    <div className="container papaDiv">
       <GoBack page={"Edit Videos"} />
 
-      <div className="filter-section">
-        <select
-          name="subcode"
-          value={formData.subcode}
-          onChange={(e) => {
-            setFormData({ ...formData, subcode: e.target.value });
-            fetchTopcodes(e.target.value);
-          }}
-        >
-          <option value="">Select Subject</option>
-          {subjects.map((subject, index) => (
-            <option key={index} value={subject.subcode}>
-              {subject.sub}
-            </option>
-          ))}
-        </select>
-        <select
-          name="topcode"
-          value={formData.topcode}
-          onChange={(e) =>
-            setFormData({ ...formData, topcode: e.target.value })
-          }
-        >
-          <option value="">Select Topic</option>
-          {topcodes.map((topcode, index) => (
-            <option key={index} value={topcode.topcode}>
-              {topcode.topic}
-            </option>
-          ))}
-        </select>
-        <button onClick={handleFetchData}>Fetch Data</button>
+      <div className="row ms-1 me-1 papaDiv">
+        <div className="col-12 col-md-5 mb-1">
+          <select
+            className="form-select Subject"
+            name="subcode"
+            value={formData.subcode}
+            onChange={(e) => {
+              setFormData({ ...formData, subcode: e.target.value });
+              fetchTopcodes(e.target.value);
+            }}
+          >
+            <option value="">Select Subject</option>
+            {subjects.map((subject, index) => (
+              <option key={index} value={subject.subcode}>
+                {subject.sub}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="col-12 col-md-5 mb-1">
+          <select
+            className="form-select Subject"
+            name="topcode"
+            value={formData.topcode}
+            onChange={(e) =>
+              setFormData({ ...formData, topcode: e.target.value })
+            }
+          >
+            <option value="">Select Topic</option>
+            {topcodes.map((topcode, index) => (
+              <option key={index} value={topcode.topcode}>
+                {topcode.topic}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="col-12 col-md-2 mb-1 ">
+          <button
+            className="btn btn-outline-success Subject"
+            onClick={handleFetchData}
+          >
+            Fetch Data
+          </button>
+        </div>
+        {loading && <Loading />}
       </div>
+
       <div className="qbank-table-container">
-        <table className="qbank-table">
+        <div className="d-flex justify-content-between">
+          <div>Total video Found: {qbankData.length}</div>
+          <div className="d-flex justify-content-between">
+            <button
+              className="btn btn-sm btn-outline-primary"
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage(currentPage - 1)}
+            >
+              Prev
+            </button>
+            <span>Page {currentPage}</span>
+            <button
+              className="btn btn-sm btn-outline-primary"
+              disabled={currentQbankData.length < qbankPerPage}
+              onClick={() => setCurrentPage(currentPage + 1)}
+            >
+              Next
+            </button>
+          </div>
+        </div>
+        <table className="table table-hover  table-striped">
           <thead>
-            <tr>
+            <tr className="table-dark">
               <th>Video ID</th>
               <th>Subject</th>
               <th>Topic</th>
@@ -185,6 +226,7 @@ const VideoModification = () => {
                   <td>
                     {editingIndex === index ? (
                       <select
+                        style={{ maxWidth: "100px" }}
                         name="subcode"
                         value={item.subcode}
                         onChange={(e) => handleInputChange(e, index)}
@@ -203,6 +245,7 @@ const VideoModification = () => {
                   <td>
                     {editingIndex === index ? (
                       <select
+                        style={{ maxWidth: "100px" }}
                         name="topcode"
                         value={item.topcode}
                         onChange={(e) => handleInputChange(e, index)}
@@ -270,8 +313,9 @@ const VideoModification = () => {
           </tbody>
         </table>
       </div>
-      <div className="pagination">
+      <div className="d-flex justify-content-between">
         <button
+          className="btn btn-sm btn-outline-primary"
           disabled={currentPage === 1}
           onClick={() => setCurrentPage(currentPage - 1)}
         >
@@ -279,6 +323,7 @@ const VideoModification = () => {
         </button>
         <span>Page {currentPage}</span>
         <button
+          className="btn btn-sm btn-outline-primary"
           disabled={currentQbankData.length < qbankPerPage}
           onClick={() => setCurrentPage(currentPage + 1)}
         >

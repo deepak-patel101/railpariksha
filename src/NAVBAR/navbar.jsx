@@ -43,7 +43,6 @@ const Navbar = () => {
                   Test Series
                 </Link>
               </li>
-
               {/* <li className="nav-item">
                 <Link className="nav-link disabled" to aria-disabled="true">
                   My performance
@@ -62,6 +61,11 @@ const Navbar = () => {
               <li className="nav-item">
                 <Link className="nav-link" to="MyIdeas">
                   My Ideas
+                </Link>
+              </li>{" "}
+              <li className="nav-item">
+                <Link className="nav-link" to="Videos">
+                  Videos
                 </Link>
               </li>
               {user?.login_type === "admin" ? (

@@ -18,6 +18,9 @@ const initialState = {
     queFrom: null,
   },
   department_error: false,
+  videoData: null,
+  allVideos: null,
+  thread: null,
 };
 
 const GlobalContext = createContext();
@@ -68,12 +71,26 @@ export const GlobalProvider = ({ children }) => {
       dispatch({ type: "GET_NOTES_ERROR" });
     }
   };
+  console.log();
+  const setThreadData = (data) => {
+    dispatch({ type: "SET_THREAD_DATA", payload: data });
+  };
   useEffect(() => {
     fetchNote();
   }, []);
+  const setVideoData = (vData) => {
+    dispatch({ type: "SET_VIDEO_DATA", payload: vData });
+  };
   return (
     <GlobalContext.Provider
-      value={{ ...state, fetchMastInfo, setSubject, fetchNote }}
+      value={{
+        ...state,
+        fetchMastInfo,
+        setSubject,
+        fetchNote,
+        setThreadData,
+        setVideoData,
+      }}
     >
       {children}
     </GlobalContext.Provider>

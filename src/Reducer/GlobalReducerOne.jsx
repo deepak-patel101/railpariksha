@@ -53,6 +53,18 @@ const GlobalReducer = (state, action) => {
           selectedTopicCode: subObj.selectedTopicCode,
         },
       };
+    case "SET_THREAD_DATA":
+      return {
+        ...state,
+        thread: action.payload,
+      };
+    case "SET_VIDEO_DATA":
+      return {
+        ...state,
+        allVideos: action.payload.allVideos || state.allVideos,
+        videoData: action.payload.videoData || state.videoData,
+      };
+
     default:
       throw new Error(`No Matching "${action.type}" - action type`);
   }
