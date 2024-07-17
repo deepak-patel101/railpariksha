@@ -1,19 +1,34 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
+import { FaAngleDoubleDown, FaAngleDoubleUp } from "react-icons/fa";
+
 import { useGlobalContext } from "../Context/GlobalContextOne";
-import GoBackCom from "./GoBackCom";
+
 import { useNavigate } from "react-router-dom";
-const VideoSearchView = ({ currentVideos }) => {
+const VideoSearchView = ({ currentVideos, filteredVideos }) => {
   const { setVideoData } = useGlobalContext();
   const navigate = useNavigate();
   const handleVideoClicked = (data) => {
     setVideoData({ videoData: data });
     navigate("/Videos/Video-Player");
   };
+
+  const [currentCount, setCurrentCount] = useState(16);
+
+  const handleShowMore = () => {
+    setCurrentCount(currentCount + 16);
+  };
+
+  const handleShowLess = () => {
+    setCurrentCount(currentCount - 16);
+  };
+
   return (
     <div className=" papaDiv">
-      VideoSearchView
+      <h6>Search Result {filteredVideos?.length} Video Found</h6>
+      <hr />
+
       <div className="row">
-        {currentVideos?.map((item, idx) => (
+        {filteredVideos?.slice(0, currentCount).map((item, idx) => (
           <div className="col-12 col-md-3 mb-3" key={idx}>
             <div
               className="card Subject"
@@ -53,6 +68,24 @@ const VideoSearchView = ({ currentVideos }) => {
         ))}
 
         <hr />
+      </div>
+      <div className="d-flex justify-content-center">
+        {filteredVideos.length > currentCount && (
+          <button
+            onClick={handleShowMore}
+            className="ms-2 me-2 btn-sm btn btn-outline-dark Subject"
+          >
+            Show More <FaAngleDoubleDown />
+          </button>
+        )}
+        {currentCount > 16 && (
+          <button
+            onClick={handleShowLess}
+            className="ms-2 me-2 btn-sm btn btn-outline-dark Subject"
+          >
+            <FaAngleDoubleUp /> Show Less
+          </button>
+        )}
       </div>
     </div>
   );

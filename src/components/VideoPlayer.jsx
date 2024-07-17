@@ -13,13 +13,32 @@ const VideoPlayer = () => {
   const { videoData, setVideoData, allVideos } = useGlobalContext();
   const [liked, setLiked] = useState(false);
   const [disLiked, setDisLiked] = useState(false);
+  const [showMore, setShowMore] = useState(false);
   const [comments, setComments] = useState({});
   const [commentInput, setCommentInput] = useState({});
   const navigate = useNavigate();
-
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isCollapsedCom, setIsCollapsedCom] = useState(false);
 
+  const [screenSize, setScreenSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
+
+  useEffect(() => {
+    const handleResize = () => {
+      setScreenSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
   const toggleCollapse = () => {
     setIsCollapsed(!isCollapsed);
   };
@@ -160,6 +179,9 @@ const VideoPlayer = () => {
 
   const handleVideoClicked = (data) => {
     setVideoData({ videoData: data });
+    setShowMore(false);
+    setLiked(false);
+    setDisLiked(false);
     navigate("/Videos/Video-Player");
   };
 
@@ -221,7 +243,7 @@ const VideoPlayer = () => {
       <div className="row">
         <div className="col-12 col-md-8 video-modal">
           <div className="papaDiv">
-            <div className="video-wrapper ">
+            <div className="video-wrapper " style={{ borderRadius: "5px" }}>
               <YouTube
                 videoId={videoData?.link}
                 opts={{
@@ -268,114 +290,265 @@ const VideoPlayer = () => {
               </div>
             </div>
           </div>
-          <div className="papaDiv">
-            <div className="row position-relative  m-1">
-              <hr />
-              <div
-                className=" position-absolute  ms-4"
-                style={{ top: "-17px", background: "White", width: "135px" }}
+          {screenSize.width < 770 ? (
+            <div className="mb-2">
+              <p
+                onClick={() => {
+                  setShowMore(!showMore);
+                }}
+                style={{ cursor: "pointer" }}
               >
                 {" "}
-                <button
-                  className="d-flex btn btn-sm  btn-outline-dark"
-                  type="button"
-                  onClick={toggleCollapse}
-                  aria-expanded={isCollapsed}
-                  aria-controls="collapseExample"
-                  style={{ maxHeight: "37px" }}
-                >
-                  Description &nbsp;
-                  {!isCollapsed ? (
-                    <FaAngleDoubleDown className="mt-1" />
-                  ) : (
-                    <FaAngleDoubleUp className="mt-1" />
-                  )}
-                </button>
+                Show More...
+              </p>
+              {showMore ? (
+                <div>
+                  <div className="papaDiv">
+                    <div className="row position-relative  m-1">
+                      <hr />
+                      <div
+                        className=" position-absolute  ms-4"
+                        style={{
+                          top: "-17px",
+                          background: "White",
+                          width: "135px",
+                        }}
+                      >
+                        {" "}
+                        <button
+                          className="d-flex btn btn-sm  btn-outline-dark"
+                          type="button"
+                          onClick={toggleCollapse}
+                          aria-expanded={isCollapsed}
+                          aria-controls="collapseExample"
+                          style={{ maxHeight: "37px" }}
+                        >
+                          Description &nbsp;
+                          {!isCollapsed ? (
+                            <FaAngleDoubleDown className="mt-1" />
+                          ) : (
+                            <FaAngleDoubleUp className="mt-1" />
+                          )}
+                        </button>
+                      </div>
+                      <div className="mt-2" id="collapseExample">
+                        <div style={{ fontSize: "15px" }} className="">
+                          {isCollapsed
+                            ? videoData.description
+                            : videoData.description.slice(0, 30) +
+                              " ...... read more"}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  {/* /////////////////////////////////////////// */}
+                  <div className="  papaDiv m-1">
+                    <div className="row  position-relative">
+                      <hr />
+                      <div
+                        className=" position-absolute  col-4 ms-4"
+                        style={{
+                          top: "-17px",
+                          background: "White",
+                          width: "135px",
+                        }}
+                      >
+                        {" "}
+                        <button
+                          className="  d-flex btn btn-sm btn-outline-dark"
+                          type="button"
+                          onClick={toggleCollapseCom}
+                          aria-controls="collapseExample"
+                          style={{ maxHeight: "37px" }}
+                        >
+                          Comments &nbsp;
+                          {!isCollapsedCom ? (
+                            <FaAngleDoubleDown className="mt-1" />
+                          ) : (
+                            <FaAngleDoubleUp className="mt-1" />
+                          )}
+                        </button>
+                      </div>
+                      <div className="input-group mt-2 mb-3">
+                        <input
+                          type="text"
+                          placeholder="Add a comment..."
+                          style={{ height: "37px" }}
+                          value={commentInput[videoData.id] || ""}
+                          onChange={(e) => handleCommentChange(videoData.id, e)}
+                          className="form-control Subject"
+                        />{" "}
+                        <span
+                          type="button"
+                          className="btn d-flex btn-outline-success Subject"
+                          style={{ height: "37px" }}
+                          onClick={() => handleCommentSubmit(videoData.id)}
+                        >
+                          Comment <IoMdSend className="m-1" />
+                        </span>
+                      </div>
+                      <div
+                        style={{
+                          overflowY: "auto",
+                          overflowX: "hidden",
+                          maxHeight: "370px",
+                        }}
+                        className="scrollspy-example-2 mt-2"
+                      >
+                        {isCollapsedCom ? (
+                          <div className="comments-list">
+                            {comments[videoData.id] &&
+                            comments[videoData.id].length > 0 ? (
+                              comments[videoData.id].map((comment, index) => (
+                                <div>
+                                  <div className="d-flex justify-content-between">
+                                    <FaCircleUser />{" "}
+                                    <div style={{ fontSize: "12px" }}>
+                                      {comment.created_at}
+                                    </div>
+                                  </div>
+                                  <p key={index} className="comment">
+                                    {comment.comment
+                                      ? comment.comment
+                                      : comment.text}
+                                  </p>
+                                </div>
+                              ))
+                            ) : (
+                              <p>No Comments ...</p>
+                            )}
+                          </div>
+                        ) : null}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ) : null}
+            </div>
+          ) : (
+            <div>
+              <div className="papaDiv ">
+                <div className="row position-relative  m-1">
+                  <hr />
+                  <div
+                    className=" position-absolute  ms-4"
+                    style={{
+                      top: "-17px",
+                      background: "White",
+                      width: "135px",
+                    }}
+                  >
+                    {" "}
+                    <button
+                      className="d-flex btn btn-sm  btn-outline-dark"
+                      type="button"
+                      onClick={toggleCollapse}
+                      aria-expanded={isCollapsed}
+                      aria-controls="collapseExample"
+                      style={{ maxHeight: "37px" }}
+                    >
+                      Description &nbsp;
+                      {!isCollapsed ? (
+                        <FaAngleDoubleDown className="mt-1" />
+                      ) : (
+                        <FaAngleDoubleUp className="mt-1" />
+                      )}
+                    </button>
+                  </div>
+                  <div className="mt-2" id="collapseExample">
+                    <div style={{ fontSize: "15px" }} className="">
+                      {isCollapsed
+                        ? videoData.description
+                        : videoData.description.slice(0, 30) +
+                          " ...... read more"}
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div className="mt-2" id="collapseExample">
-                <div style={{ fontSize: "15px" }} className="">
-                  {isCollapsed
-                    ? videoData.description
-                    : videoData.description.slice(0, 30) + " ...... read more"}
+              {/* /////////////////////////////////////////// */}
+              <div className="  papaDiv m-1">
+                <div className="row  position-relative">
+                  <hr />
+                  <div
+                    className=" position-absolute  col-4 ms-4"
+                    style={{
+                      top: "-17px",
+                      background: "White",
+                      width: "135px",
+                    }}
+                  >
+                    {" "}
+                    <button
+                      className="  d-flex btn btn-sm btn-outline-dark"
+                      type="button"
+                      onClick={toggleCollapseCom}
+                      aria-controls="collapseExample"
+                      style={{ maxHeight: "37px" }}
+                    >
+                      Comments &nbsp;
+                      {!isCollapsedCom ? (
+                        <FaAngleDoubleDown className="mt-1" />
+                      ) : (
+                        <FaAngleDoubleUp className="mt-1" />
+                      )}
+                    </button>
+                  </div>
+                  <div className="input-group mt-2 mb-3">
+                    <input
+                      type="text"
+                      placeholder="Add a comment..."
+                      style={{ height: "37px" }}
+                      value={commentInput[videoData.id] || ""}
+                      onChange={(e) => handleCommentChange(videoData.id, e)}
+                      className="form-control Subject"
+                    />{" "}
+                    <span
+                      type="button"
+                      className="btn d-flex btn-outline-success Subject"
+                      style={{ height: "37px" }}
+                      onClick={() => handleCommentSubmit(videoData.id)}
+                    >
+                      Comment <IoMdSend className="m-1" />
+                    </span>
+                  </div>
+                  <div
+                    style={{
+                      overflowY: "auto",
+                      overflowX: "hidden",
+                      maxHeight: "370px",
+                    }}
+                    className="scrollspy-example-2 mt-2"
+                  >
+                    {isCollapsedCom ? (
+                      <div className="comments-list">
+                        {comments[videoData.id] &&
+                        comments[videoData.id].length > 0 ? (
+                          comments[videoData.id].map((comment, index) => (
+                            <div>
+                              <div className="d-flex justify-content-between">
+                                <FaCircleUser />{" "}
+                                <div style={{ fontSize: "12px" }}>
+                                  {comment.created_at}
+                                </div>
+                              </div>
+                              <p key={index} className="comment">
+                                {comment.comment
+                                  ? comment.comment
+                                  : comment.text}
+                              </p>
+                            </div>
+                          ))
+                        ) : (
+                          <p>No Comments ...</p>
+                        )}
+                      </div>
+                    ) : null}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          {/* /////////////////////////////////////////// */}
-          <div className="  papaDiv m-1">
-            <div className="row  position-relative">
-              <hr />
-              <div
-                className=" position-absolute  col-4 ms-4"
-                style={{ top: "-17px", background: "White", width: "135px" }}
-              >
-                {" "}
-                <button
-                  className="  d-flex btn btn-sm btn-outline-dark"
-                  type="button"
-                  onClick={toggleCollapseCom}
-                  aria-controls="collapseExample"
-                  style={{ maxHeight: "37px" }}
-                >
-                  Comments &nbsp;
-                  {!isCollapsedCom ? (
-                    <FaAngleDoubleDown className="mt-1" />
-                  ) : (
-                    <FaAngleDoubleUp className="mt-1" />
-                  )}
-                </button>
-              </div>
-              <div className="input-group mt-2 mb-3">
-                <input
-                  type="text"
-                  placeholder="Add a comment..."
-                  style={{ height: "37px" }}
-                  value={commentInput[videoData.id] || ""}
-                  onChange={(e) => handleCommentChange(videoData.id, e)}
-                  className="form-control Subject"
-                />{" "}
-                <span
-                  type="button"
-                  className="btn d-flex btn-outline-success Subject"
-                  style={{ height: "37px" }}
-                  onClick={() => handleCommentSubmit(videoData.id)}
-                >
-                  Comment <IoMdSend className="m-1" />
-                </span>
-              </div>
-              <div
-                style={{
-                  overflowY: "auto",
-                  overflowX: "hidden",
-                  maxHeight: "370px",
-                }}
-                className="scrollspy-example-2 mt-2"
-              >
-                {isCollapsedCom ? (
-                  <div className="comments-list">
-                    {comments[videoData.id] &&
-                    comments[videoData.id].length > 0 ? (
-                      comments[videoData.id].map((comment, index) => (
-                        <div>
-                          <div className="d-flex justify-content-between">
-                            <FaCircleUser />{" "}
-                            <div style={{ fontSize: "12px" }}>
-                              {comment.created_at}
-                            </div>
-                          </div>
-                          <p key={index} className="comment">
-                            {comment.comment ? comment.comment : comment.text}
-                          </p>
-                        </div>
-                      ))
-                    ) : (
-                      <p>No Comments ...</p>
-                    )}
-                  </div>
-                ) : null}
-              </div>
-            </div>
-          </div>
+          )}
+
           {/* ////////////////////////////////////////// */}
         </div>
         <div
@@ -393,26 +566,34 @@ const VideoPlayer = () => {
             }}
             className="scrollspy-example-2 "
           >
-            <div className="me-2">
-              {suggestions.slice(0, 20).map((item, idx) => (
-                <div className="col-12 pe-1" key={idx}>
+            <div className="  m-2">
+              {suggestions.slice(0, 35).map((item, idx) => (
+                <div className="row ps-2 pe-1 mb-2 Subject " key={idx}>
                   <div
-                    className="card Subject"
+                    className={`col-10 ${
+                      screenSize.width < 770 ? "col-md-12" : "col-md-5"
+                    }  `}
                     style={{
                       position: "relative",
-                      width: "100%",
-                      paddingTop: "56.25%",
+                      maxHeight: "200px",
+
+                      paddingTop:
+                        screenSize.width < 770 ? `` : `${(56.2 * 5) / 12}%`,
+
                       borderRadius: "10px",
                     }}
                   >
                     <img
+                      className={`Subject ${
+                        screenSize.width < 770 ? "ms-4" : ""
+                      }  `}
                       src={`https://img.youtube.com/vi/${item.link}/hqdefault.jpg`}
                       alt="YouTube Thumbnail"
                       onClick={() => {
                         handleVideoClicked(item);
                       }}
                       style={{
-                        position: "absolute",
+                        position: screenSize.width < 770 ? "" : "absolute",
                         top: 0,
                         left: 0,
                         width: "100%",
@@ -423,15 +604,18 @@ const VideoPlayer = () => {
                       }}
                     />
                   </div>
-                  <p
-                    className="text-start"
-                    style={{ fontWeight: "bold", fontSize: "13px" }}
+                  <div
+                    className={`col-12 ${
+                      screenSize.width < 770 ? "mt-2 ms-4" : "col-md-7"
+                    }`}
                   >
-                    {item.title}
-                  </p>
-                  <p className="text-start" style={{ fontSize: "12px" }}>
-                    Views: {item.views} Likes: {item.likes}
-                  </p>
+                    <b className="text-start" style={{ fontSize: "13px" }}>
+                      {item.title.slice(0, 50)} ...
+                    </b>
+                    <div className="text-start" style={{ fontSize: "12px" }}>
+                      Views: {item.views} Likes: {item.likes}
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>

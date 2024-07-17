@@ -28,6 +28,7 @@ import VideoModification from "./components/Admin/VideoModification";
 import PrivateRoute from "./components/PrivateRoute";
 import Videos from "./pages/Videos";
 import VideoPlayer from "./components/VideoPlayer";
+import StartThread from "./components/Discussion/StartThread";
 
 function App() {
   return (
@@ -46,6 +47,7 @@ function App() {
         <Route path="/Notification" element={<Notification />} />
         <Route path="/Trending" element={<Trending />} />
         <Route path="/MyIdeas" element={<YourIdeas />} />
+        <Route path="/MyIdeas/Start-Discussion" element={<StartThread />} />
         <Route path="/Log&Reg" element={<LogReg />} />
         <Route path="/Admin" element={<PrivateRoute element={<Admin />} />} />
         <Route

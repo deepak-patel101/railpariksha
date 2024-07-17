@@ -56,7 +56,8 @@ const GlobalReducer = (state, action) => {
     case "SET_THREAD_DATA":
       return {
         ...state,
-        thread: action.payload,
+        thread: action.payload.thread || state.thread,
+        selectedThread: action.payload.selectedThread || state.selectedThread,
       };
     case "SET_VIDEO_DATA":
       return {

@@ -7,31 +7,39 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
 function DiscussMain() {
-  const [showThreadList, setShowThreadList] = useState(false);
+  const [showNewThread, setNewThread] = useState(false);
 
   const handleClick = () => {
-    setShowThreadList(true);
+    setNewThread(true);
   };
 
   return (
-    <Container fluid onClick={handleClick} style={{ padding: "20px" }}>
+    <Container style={{ padding: "20px" }}>
+      <Row className="mb-3">
+        <Col md={{ span: 6, offset: 3 }}>
+          <button
+            type="button"
+            className="btn btn-success"
+            onClick={handleClick}
+          >
+            New Post
+          </button>
+        </Col>
+      </Row>
       <Row className="mb-3">
         <Col>
           <Header />
         </Col>
       </Row>
-      <Row className="mb-3">
-        <Col md={{ span: 6, offset: 3 }}>
-          <NewThread />
-        </Col>
-      </Row>
-      {showThreadList && (
+      {showNewThread && (
         <Row>
           <Col>
-            <ThreadList />
+            <NewThread />
           </Col>
         </Row>
       )}
+
+      <ThreadList />
     </Container>
   );
 }

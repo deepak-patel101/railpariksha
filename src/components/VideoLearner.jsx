@@ -18,7 +18,7 @@ const VideoLearner = () => {
   const [selectedSubject, setSelectedSubject] = useState("");
   const [selectedTopcode, setSelectedTopcode] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const videosPerPage = 15;
+  const videosPerPage = 16;
   const { user } = useUserContext();
   const [paginationDisabled, setPaginationDisabled] = useState(true);
 
@@ -143,43 +143,10 @@ const VideoLearner = () => {
         <div>Total Videos: {filteredVideos.length}</div>
       </div>
       <hr />
-      <div className="row">
-        <h6 className="text-start">
-          <FaFilter /> Filter by Subject and Topic
-        </h6>
+      <div className="row papaDiv">
         <div className="col-12 col-md-6">
-          <select
-            name="subcode"
-            value={selectedSubject}
-            onChange={handleSubjectChange}
-            className="form-select"
-          >
-            <option value="">Select Subject</option>
-            {subjects.map((subject) => (
-              <option key={subject.subcode} value={subject.subcode}>
-                {subject.sub}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="col-12 col-md-6">
-          <select
-            name="topcode"
-            value={selectedTopcode}
-            onChange={handleTopcodeChange}
-            className="form-select"
-          >
-            <option value="">Select Topic</option>
-            {topcodes.map((topcode) => (
-              <option key={topcode.topcode} value={topcode.topcode}>
-                {topcode.topic}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="col-12">
           <div className="row d-flex">
-            <h6 className="text-start">
+            <h6 className="text-start ">
               <FaSearch /> Search
             </h6>
             <input
@@ -187,8 +154,46 @@ const VideoLearner = () => {
               placeholder="Search videos..."
               value={searchQuery}
               onChange={handleSearchChange}
-              className="form-control"
+              className="form-control Subject"
             />
+          </div>
+        </div>
+        <div div className="col-12 col-md-6 ">
+          <h6 className="text-start">
+            <FaFilter /> Filter by Subject and Topic
+          </h6>
+          <div className="row">
+            {" "}
+            <div className="col-12 col-md-6">
+              <select
+                name="subcode"
+                value={selectedSubject}
+                onChange={handleSubjectChange}
+                className="form-select Subject"
+              >
+                <option value="">Select Subject</option>
+                {subjects.map((subject) => (
+                  <option key={subject.subcode} value={subject.subcode}>
+                    {subject.sub}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="col-12 col-md-6">
+              <select
+                name="topcode"
+                value={selectedTopcode}
+                onChange={handleTopcodeChange}
+                className="form-select Subject"
+              >
+                <option value="">Select Topic</option>
+                {topcodes.map((topcode) => (
+                  <option key={topcode.topcode} value={topcode.topcode}>
+                    {topcode.topic}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
         </div>
       </div>
@@ -199,7 +204,10 @@ const VideoLearner = () => {
           {selectedTopcode === "" && searchQuery === "" ? (
             <VideoHomeView sortedByViews={sortedByViews} />
           ) : (
-            <VideoSearchView currentVideos={currentVideos} />
+            <VideoSearchView
+              currentVideos={currentVideos}
+              filteredVideos={filteredVideos}
+            />
           )}
         </div>
       )}

@@ -5,17 +5,19 @@ import { useGlobalContext } from "../../Context/GlobalContextOne";
 import Spinner from "react-bootstrap/Spinner";
 import Alert from "react-bootstrap/Alert";
 import Card from "react-bootstrap/Card";
+import { useNavigate } from "react-router-dom";
 
 function ThreadList() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { setThreadData, thread: threads } = useGlobalContext();
-
+  const navigate = useNavigate();
   const fetchThreads = () => {
     axios
       .get("https://railwaymcq.com/railwaymcq/RailPariksha/post_thread_api.php")
       .then((response) => {
-        setThreadData(response.data);
+        setThreadData({ thread: response.data });
+
         setLoading(false);
       })
       .catch((error) => {
@@ -43,11 +45,19 @@ function ThreadList() {
     return <Alert variant="danger">Error: {error}</Alert>;
   }
 
+  const handleSelectedThread = (data) => {
+    setThreadData({ selectedThread: data });
+    navigate("/MyIdeas/Start-Discussion");
+  };
+
   return (
     <div>
       {threads?.map((thread) => (
         <Card key={thread.id} className="mb-3">
-          <Card.Body>
+          <Card.Body
+            style={{ cursor: "pointer" }}
+            onClick={() => handleSelectedThread(thread)}
+          >
             <Card.Title>{thread.title}</Card.Title>
             <Card.Text>{thread.content}</Card.Text>
             <Card.Subtitle className="mb-2 text-muted">Replies</Card.Subtitle>

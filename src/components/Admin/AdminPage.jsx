@@ -120,7 +120,6 @@ const AdminPage = () => {
             <hr />
             <div className="row">
               {loading ? <Loading /> : null}
-              {console.log(databaseCount)}
               {Object.entries(databaseCount).map(([item, value], index) => {
                 if (item !== "Todays_Count") {
                   return (

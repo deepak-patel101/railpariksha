@@ -19,8 +19,8 @@ const SelectTest = () => {
   }, []);
   return (
     <div className="container text-start mt-12" style={{ minHeight: "90vh" }}>
-      <div class="d-flex flex-row  align-items-center mb-3">
-        <div class="p-2">
+      <div className="d-flex flex-row  align-items-center mb-3">
+        <div className="p-2">
           <IoArrowBackCircleOutline
             className="backBtn "
             style={{
@@ -40,7 +40,7 @@ const SelectTest = () => {
             }}
           />
         </div>
-        <div class="p-2">
+        <div className="p-2">
           <h3>Start a test for - {subject.selectedTopic}</h3>
         </div>
         <br />
@@ -55,7 +55,7 @@ const SelectTest = () => {
         </h5>
       ) : null}
       <SelectTestType />
-      <div class="p-2">
+      <div className="p-2">
         <IoArrowBackCircleOutline
           className="backBtn "
           style={{

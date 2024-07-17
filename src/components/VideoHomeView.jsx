@@ -40,11 +40,11 @@ const VideoHomeView = ({ sortedByViews }) => {
   };
 
   return (
-    <div className="papaDiv">
+    <div className="">
       {sortedByViews.slice(0, currentCount).map((objects, index) => {
         const videoCount = currentCountVideo[objects.sub] || 8;
         return (
-          <div className="row papaDiv m-1 mb-2" key={index}>
+          <div className="row papaDiv  mb-2" key={index}>
             <div className="d-flex justify-content-between m-2">
               <h6>
                 <MdTopic /> {objects.sub}

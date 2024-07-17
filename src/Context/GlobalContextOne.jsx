@@ -21,6 +21,7 @@ const initialState = {
   videoData: null,
   allVideos: null,
   thread: null,
+  selectedThread: null,
 };
 
 const GlobalContext = createContext();
@@ -78,6 +79,7 @@ export const GlobalProvider = ({ children }) => {
   useEffect(() => {
     fetchNote();
   }, []);
+  console.log();
   const setVideoData = (vData) => {
     dispatch({ type: "SET_VIDEO_DATA", payload: vData });
   };
