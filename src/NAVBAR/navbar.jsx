@@ -60,7 +60,7 @@ const Navbar = () => {
               </li>
               <li className="nav-item">
                 <Link className="nav-link" to="MyIdeas">
-                  My Ideas
+                  Discussion
                 </Link>
               </li>{" "}
               <li className="nav-item">

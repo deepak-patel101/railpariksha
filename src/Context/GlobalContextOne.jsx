@@ -22,6 +22,12 @@ const initialState = {
   allVideos: null,
   thread: null,
   selectedThread: null,
+  threadControl: {
+    feed: true,
+    explore: "",
+    search: "",
+    trending: null,
+  },
 };
 
 const GlobalContext = createContext();
@@ -72,16 +78,20 @@ export const GlobalProvider = ({ children }) => {
       dispatch({ type: "GET_NOTES_ERROR" });
     }
   };
-  console.log();
+
   const setThreadData = (data) => {
     dispatch({ type: "SET_THREAD_DATA", payload: data });
   };
   useEffect(() => {
     fetchNote();
   }, []);
-  console.log();
+
   const setVideoData = (vData) => {
     dispatch({ type: "SET_VIDEO_DATA", payload: vData });
+  };
+  const setThreadControlData = (data) => {
+    console.log("context ", data);
+    dispatch({ type: "SET_THREAD_CONTROL_DATA", payload: data });
   };
   return (
     <GlobalContext.Provider
@@ -92,6 +102,7 @@ export const GlobalProvider = ({ children }) => {
         fetchNote,
         setThreadData,
         setVideoData,
+        setThreadControlData,
       }}
     >
       {children}

@@ -29,6 +29,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import Videos from "./pages/Videos";
 import VideoPlayer from "./components/VideoPlayer";
 import StartThread from "./components/Discussion/StartThread";
+import TrendingVideos from "./components/Trendings/TrendingVideos";
 
 function App() {
   return (
@@ -46,6 +47,7 @@ function App() {
         <Route path="/TestSeries/Score-card" element={<ScoreCard />} />
         <Route path="/Notification" element={<Notification />} />
         <Route path="/Trending" element={<Trending />} />
+        <Route path="/Trending/Videos" element={<TrendingVideos />} />
         <Route path="/MyIdeas" element={<YourIdeas />} />
         <Route path="/MyIdeas/Start-Discussion" element={<StartThread />} />
         <Route path="/Log&Reg" element={<LogReg />} />

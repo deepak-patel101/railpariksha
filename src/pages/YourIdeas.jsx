@@ -6,8 +6,7 @@ const YourIdeas = () => {
   }, []);
   return (
     <div className="container text-center mt-12" style={{ minHeight: "90vh" }}>
-      <h1>My Ideas</h1>
-      <DiscussMain />>{" "}
+      <DiscussMain />{" "}
     </div>
   );
 };

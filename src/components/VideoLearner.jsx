@@ -7,6 +7,7 @@ import Loading from "./Loading.jsx";
 import VideoSearchView from "./VideoSearchView.jsx";
 import VideoHomeView from "./VideoHomeView.jsx";
 import { useGlobalContext } from "../Context/GlobalContextOne.jsx";
+import GoBackCom from "./GoBackCom.jsx";
 
 const VideoLearner = () => {
   const { setVideoData, allVideos: videos } = useGlobalContext();
@@ -136,14 +137,15 @@ const VideoLearner = () => {
 
   return (
     <div>
-      <div className="d-flex justify-content-between mt-5">
-        <h5>
-          <MdOutlineVideoLibrary /> Video Learning Playlist
-        </h5>
-        <div>Total Videos: {filteredVideos.length}</div>
-      </div>
-      <hr />
+      <GoBackCom page={"Videos"} link={"/"} />
+
       <div className="row papaDiv">
+        <div className="d-flex justify-content-between mt-5">
+          <h5>
+            <MdOutlineVideoLibrary /> Video Learning Playlist
+          </h5>
+          <div>Total Videos: {filteredVideos.length}</div>
+        </div>
         <div className="col-12 col-md-6">
           <div className="row d-flex">
             <h6 className="text-start ">

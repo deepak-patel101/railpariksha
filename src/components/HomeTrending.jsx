@@ -11,7 +11,9 @@ const HomeTrending = () => {
   const navigate = useNavigate();
 
   const handleClick = (type) => {
-    navigate("/Trending");
+    if (type === "Videos") {
+      navigate("/Trending/Videos");
+    } else navigate("/Trending");
   };
   return (
     <div className="">
@@ -31,7 +33,7 @@ const HomeTrending = () => {
         </h5>
         <div
           className="col-12 col-md-3 trending dns padding d-flex justify-content-center align-items-center text-center"
-          onClick={() => handleClick("dns")}
+          onClick={() => handleClick("Videos")}
         >
           {" "}
           <BiSolidVideos />

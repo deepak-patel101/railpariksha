@@ -43,7 +43,7 @@ const VideoPlayer = () => {
     setIsCollapsed(!isCollapsed);
   };
   const toggleCollapseCom = () => {
-    handleshowComment(videoData.id);
+    handleshowComment(videoData?.id);
     setIsCollapsedCom(!isCollapsedCom);
   };
   useEffect(() => {
@@ -83,17 +83,17 @@ const VideoPlayer = () => {
 
   useEffect(() => {
     if (videoData?.id) {
-      updateViews(videoData.id);
+      updateViews(videoData?.id);
     }
   }, [videoData]);
 
   const filterDataByKeywords = (array, entry) => {
-    const keywords = entry.toLowerCase().split(" ").slice(0, 5);
+    const keywords = entry?.toLowerCase()?.split(" ").slice(0, 5);
     const suggestionsSet = new Set();
 
-    keywords.forEach((keyword) => {
-      array.forEach((item) => {
-        if (videoData.link !== item.link) {
+    keywords?.forEach((keyword) => {
+      array?.forEach((item) => {
+        if (videoData?.link !== item.link) {
           if (item.title.toLowerCase().includes(keyword)) {
             suggestionsSet.add(item);
           }
@@ -108,26 +108,26 @@ const VideoPlayer = () => {
     if (action === "like") {
       if (!liked) {
         if (disLiked) {
-          await updateDisLikes(videoData.id, true);
+          await updateDisLikes(videoData?.id, true);
           setDisLiked(false);
         }
-        await updateLikes(videoData.id);
+        await updateLikes(videoData?.id);
         setLiked(true);
       } else {
-        await updateLikes(videoData.id, true);
+        await updateLikes(videoData?.id, true);
         setLiked(false);
       }
     }
     if (action === "dislike") {
       if (!disLiked) {
         if (liked) {
-          await updateLikes(videoData.id, true);
+          await updateLikes(videoData?.id, true);
           setLiked(false);
         }
-        await updateDisLikes(videoData.id);
+        await updateDisLikes(videoData?.id);
         setDisLiked(true);
       } else {
-        await updateDisLikes(videoData.id, true);
+        await updateDisLikes(videoData?.id, true);
         setDisLiked(false);
       }
     }
@@ -171,7 +171,7 @@ const VideoPlayer = () => {
     }
   };
 
-  const suggestions = filterDataByKeywords(allVideos, videoData.title);
+  const suggestions = filterDataByKeywords(allVideos, videoData?.title);
 
   useEffect(() => {
     window.scrollTo(0, 0); // Scroll to the top of the page
@@ -200,7 +200,7 @@ const VideoPlayer = () => {
     } catch (error) {
       console.error("Failed to fetch comments", error);
     }
-    handleshowComment(videoData.id);
+    handleshowComment(videoData?.id);
   };
 
   const handleCommentChange = (videoId, event) => {
@@ -239,7 +239,7 @@ const VideoPlayer = () => {
   };
   return (
     <div className="container">
-      <GoBackCom page={"Video Player"} link={"/Videos"} />
+      <GoBackCom page={"Video Player"} link={videoData?.from} />
       <div className="row">
         <div className="col-12 col-md-8 video-modal">
           <div className="papaDiv">
@@ -257,20 +257,20 @@ const VideoPlayer = () => {
                 onReady={(event) => event.target.playVideo()}
               />
             </div>
-            <h6 className="mt-2">{videoData.title}</h6>
+            <h6 className="mt-2">{videoData?.title}</h6>
             <div className="d-flex justify-content-between">
-              <div>views: {videoData.views + 1}</div>
+              <div>views: {Number(videoData?.views) + 1}</div>
               <div className="d-flex justify-content-between">
                 <div className="me-3" style={{ cursor: "pointer" }}>
                   {!liked ? (
                     <p>
                       <BiLike onClick={() => handleLikeDisLike("like")} />{" "}
-                      {videoData.likes}
+                      {videoData?.likes}
                     </p>
                   ) : (
                     <p>
                       <BiSolidLike style={{ fill: "green" }} />{" "}
-                      {videoData.likes + 1}
+                      {Number(videoData?.likes) + 1}
                     </p>
                   )}
                 </div>
@@ -278,12 +278,12 @@ const VideoPlayer = () => {
                   {!disLiked ? (
                     <p>
                       <BiDislike onClick={() => handleLikeDisLike("dislike")} />{" "}
-                      {videoData.dislikes}
+                      {videoData?.dislikes}
                     </p>
                   ) : (
                     <p>
                       <BiSolidDislike style={{ fill: "red" }} />{" "}
-                      {videoData.dislikes + 1}
+                      {Number(videoData?.dislikes) + 1}
                     </p>
                   )}
                 </div>{" "}
@@ -334,8 +334,8 @@ const VideoPlayer = () => {
                       <div className="mt-2" id="collapseExample">
                         <div style={{ fontSize: "15px" }} className="">
                           {isCollapsed
-                            ? videoData.description
-                            : videoData.description.slice(0, 30) +
+                            ? videoData?.description
+                            : videoData?.description.slice(0, 30) +
                               " ...... read more"}
                         </div>
                       </div>
@@ -374,15 +374,17 @@ const VideoPlayer = () => {
                           type="text"
                           placeholder="Add a comment..."
                           style={{ height: "37px" }}
-                          value={commentInput[videoData.id] || ""}
-                          onChange={(e) => handleCommentChange(videoData.id, e)}
+                          value={commentInput[videoData?.id] || ""}
+                          onChange={(e) =>
+                            handleCommentChange(videoData?.id, e)
+                          }
                           className="form-control Subject"
                         />{" "}
                         <span
                           type="button"
                           className="btn d-flex btn-outline-success Subject"
                           style={{ height: "37px" }}
-                          onClick={() => handleCommentSubmit(videoData.id)}
+                          onClick={() => handleCommentSubmit(videoData?.id)}
                         >
                           Comment <IoMdSend className="m-1" />
                         </span>
@@ -397,9 +399,9 @@ const VideoPlayer = () => {
                       >
                         {isCollapsedCom ? (
                           <div className="comments-list">
-                            {comments[videoData.id] &&
-                            comments[videoData.id].length > 0 ? (
-                              comments[videoData.id].map((comment, index) => (
+                            {comments[videoData?.id] &&
+                            comments[videoData?.id].length > 0 ? (
+                              comments[videoData?.id].map((comment, index) => (
                                 <div>
                                   <div className="d-flex justify-content-between">
                                     <FaCircleUser />{" "}
@@ -458,8 +460,8 @@ const VideoPlayer = () => {
                   <div className="mt-2" id="collapseExample">
                     <div style={{ fontSize: "15px" }} className="">
                       {isCollapsed
-                        ? videoData.description
-                        : videoData.description.slice(0, 30) +
+                        ? videoData?.description
+                        : videoData?.description.slice(0, 30) +
                           " ...... read more"}
                     </div>
                   </div>
@@ -498,15 +500,15 @@ const VideoPlayer = () => {
                       type="text"
                       placeholder="Add a comment..."
                       style={{ height: "37px" }}
-                      value={commentInput[videoData.id] || ""}
-                      onChange={(e) => handleCommentChange(videoData.id, e)}
+                      value={commentInput[videoData?.id] || ""}
+                      onChange={(e) => handleCommentChange(videoData?.id, e)}
                       className="form-control Subject"
                     />{" "}
                     <span
                       type="button"
                       className="btn d-flex btn-outline-success Subject"
                       style={{ height: "37px" }}
-                      onClick={() => handleCommentSubmit(videoData.id)}
+                      onClick={() => handleCommentSubmit(videoData?.id)}
                     >
                       Comment <IoMdSend className="m-1" />
                     </span>
@@ -521,9 +523,9 @@ const VideoPlayer = () => {
                   >
                     {isCollapsedCom ? (
                       <div className="comments-list">
-                        {comments[videoData.id] &&
-                        comments[videoData.id].length > 0 ? (
-                          comments[videoData.id].map((comment, index) => (
+                        {comments[videoData?.id] &&
+                        comments[videoData?.id].length > 0 ? (
+                          comments[videoData?.id].map((comment, index) => (
                             <div>
                               <div className="d-flex justify-content-between">
                                 <FaCircleUser />{" "}
@@ -568,9 +570,12 @@ const VideoPlayer = () => {
           >
             <div className="  m-2">
               {suggestions.slice(0, 35).map((item, idx) => (
-                <div className="row ps-2 pe-1 mb-2 Subject " key={idx}>
+                <div
+                  className="row ps-2 pb-1 pe-1 mb-2 Subject underline "
+                  key={idx}
+                >
                   <div
-                    className={`col-10 ${
+                    className={`col-10  ${
                       screenSize.width < 770 ? "col-md-12" : "col-md-5"
                     }  `}
                     style={{
@@ -590,7 +595,7 @@ const VideoPlayer = () => {
                       src={`https://img.youtube.com/vi/${item.link}/hqdefault.jpg`}
                       alt="YouTube Thumbnail"
                       onClick={() => {
-                        handleVideoClicked(item);
+                        handleVideoClicked({ ...item, from: videoData?.from });
                       }}
                       style={{
                         position: screenSize.width < 770 ? "" : "absolute",

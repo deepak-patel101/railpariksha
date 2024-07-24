@@ -6,15 +6,13 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 function Header() {
   return (
-    <header className="bg-success text-white py-3">
-      <Container>
-        <Row>
-          <Col className="text-center">
-            <h1>What is in your mind???</h1>
-          </Col>
-        </Row>
-      </Container>
-    </header>
+    <div className="container papaDiv">
+      <div className="row">
+        <div className="col text-center">
+          <h5>What is in your mind???</h5>
+        </div>
+      </div>
+    </div>
   );
 }
 

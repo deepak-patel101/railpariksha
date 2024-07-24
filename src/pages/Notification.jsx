@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
 const Notification = () => {
   useEffect(() => {
     window.scrollTo(0, 0); // Scroll to the top of the page
@@ -9,4 +9,5 @@ const Notification = () => {
     </div>
   );
 };
+
 export default Notification;

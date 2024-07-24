@@ -65,6 +65,29 @@ const GlobalReducer = (state, action) => {
         allVideos: action.payload.allVideos || state.allVideos,
         videoData: action.payload.videoData || state.videoData,
       };
+    case "SET_THREAD_CONTROL_DATA":
+      return {
+        ...state,
+        threadControl: {
+          ...state.threadControl, // Spread existing threadControl state
+          feed:
+            action.payload.feed !== undefined
+              ? action.payload.feed
+              : state.threadControl.feed,
+          explore:
+            action.payload.explore !== undefined
+              ? action.payload.explore
+              : state.threadControl.explore,
+          search:
+            action.payload.search !== undefined
+              ? action.payload.search
+              : state.threadControl.search,
+          trending:
+            action.payload.trending !== undefined
+              ? action.payload.trending
+              : state.threadControl.trending,
+        },
+      };
 
     default:
       throw new Error(`No Matching "${action.type}" - action type`);

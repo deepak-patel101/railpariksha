@@ -16,26 +16,12 @@ function NewThread({ onThreadCreated }) {
   const [show, setShow] = useState(false);
   const { user } = useUserContext();
   const { setThreadData } = useGlobalContext();
-  const [selectedCategory, setSelectedCategory] = useState("");
-  const [isSubmitted, setIsSubmitted] = useState(false);
-
-  const handleCategorySelect = (category) => {
-    setSelectedCategory(category);
-  };
-
   console.log(user);
   const handleCrateThreadShow = () => {
     setShow(!show);
   };
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    setIsSubmitted(true);
-    if (!selectedCategory || selectedCategory === "Discussion category") {
-      alert("Please select a category");
-      return;
-    }
-
     axios
       .post(
         "https://railwaymcq.com/railwaymcq/RailPariksha/post_thread_api.php",
@@ -44,7 +30,6 @@ function NewThread({ onThreadCreated }) {
           uname: user?.name,
           title,
           content,
-          category: selectedCategory,
         },
         {
           headers: {
@@ -56,7 +41,6 @@ function NewThread({ onThreadCreated }) {
         console.log("Thread created:", response.data);
         setTitle("");
         setContent("");
-        setSelectedCategory("");
         setError(null);
         onThreadCreated(); // Call the callback to notify that the thread is created
       })
@@ -129,39 +113,9 @@ function NewThread({ onThreadCreated }) {
                 required
               />
             </Form.Group>
-            <div className="d-flex justify-content-between">
-              <div className="col-5 m-2">
-                <div
-                  className="dropdown "
-                  style={{ zIndex: 1, position: "absolute" }}
-                >
-                  <button
-                    className="btn btn-sm btn-outline-dark Subject dropdown-toggle"
-                    type="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    {selectedCategory || "Category"}
-                  </button>
-                  <ul className="dropdown-menu papaDive">
-                    {["Vision", "Vacancy", "Issue", "Question", "Other"].map(
-                      (category) => (
-                        <li key={category} className="Subject mb-1">
-                          <a
-                            className="dropdown-item"
-                            href="#"
-                            onClick={() => handleCategorySelect(category)}
-                          >
-                            {category}
-                          </a>
-                        </li>
-                      )
-                    )}
-                  </ul>
-                </div>
-              </div>{" "}
+            <div className="row d-flex flex-row-reverse">
               <button
-                className="btn btn-outline-dark Subject btn-sm col-5 m-2"
+                className="btn btn-outline-dark Subject btn-sm col-4 m-2"
                 type="submit"
               >
                 <IoIosCreate /> Create Thread

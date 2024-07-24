@@ -7,7 +7,6 @@ function ReplyFrom({ threadId, onReplyPosted }) {
   const { user } = useUserContext();
 
   const handleSubmit = (event) => {
-    console.log(threadId);
     console.log(content);
     event.preventDefault();
     axios
@@ -22,9 +21,7 @@ function ReplyFrom({ threadId, onReplyPosted }) {
       )
       .then((response) => {
         const newReply = response.data;
-
         onReplyPosted(newReply);
-        console.log(response.data);
         setContent("");
       })
       .catch((error) => {
@@ -38,6 +35,7 @@ function ReplyFrom({ threadId, onReplyPosted }) {
         value={content}
         onChange={(e) => setContent(e.target.value)}
         required
+        placeholder="Please reply me......."
       />
       <button className="btn btn-success" type="submit">
         Reply

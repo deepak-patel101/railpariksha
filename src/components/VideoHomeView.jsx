@@ -67,7 +67,9 @@ const VideoHomeView = ({ sortedByViews }) => {
                     <img
                       src={`https://img.youtube.com/vi/${item.link}/hqdefault.jpg`}
                       alt="YouTube Thumbnail"
-                      onClick={() => handleVideoClicked(item)}
+                      onClick={() =>
+                        handleVideoClicked({ ...item, from: "/Videos" })
+                      }
                       style={{
                         position: "absolute",
                         top: 0,
