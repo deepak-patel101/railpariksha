@@ -56,6 +56,12 @@
   transform: translateY(-3px) scale(1.05) rotateX(15deg);
 }
 
+.cards:hover b {
+  /* Add your desired styles here */
+  transform: translateY(3px) scale(1.05) rotateX(15deg);
+  display: none;
+  color: blue;
+}
 .cards .card:hover figcaption,
 .cards .card:focus figcaption,
 .cards .card:active figcaption {

@@ -53,7 +53,7 @@ const HomeTrending = () => {
         >
           {" "}
           <FcIdea />
-          My Ideas
+          Discussion
         </div>
         <div
           onClick={() => handleClick("leader-board")}

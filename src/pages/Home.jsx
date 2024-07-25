@@ -3,6 +3,8 @@ import HomeTrending from "../components/HomeTrending";
 import Department from "../components/Department";
 import { useEffect } from "react";
 import Slider from "../components/Slider";
+import TrendingVideos from "../components/Trendings/TrendingVideos";
+import { MdOutlineOndemandVideo } from "react-icons/md";
 
 const Home = () => {
   useEffect(() => {
@@ -57,6 +59,11 @@ const Home = () => {
       <div className="row mt-3">
         <div className="col-12">
           <HomeTrending />
+        </div>
+      </div>
+      <div className="row mt-3">
+        <div className="col-12">
+          <TrendingVideos from={"home"} />
         </div>
       </div>
       <div className="row mt-3">

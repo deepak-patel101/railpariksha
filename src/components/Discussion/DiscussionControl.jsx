@@ -125,6 +125,8 @@ const DiscussionControl = () => {
                         Image by storyset on Freepik
                       </a>
                     </figure>
+
+                    <b className="card-name">{item}</b>
                   </div>
                 );
               })}

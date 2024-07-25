@@ -1,16 +1,33 @@
 import React, { useState, useEffect } from "react";
 import Loading from "../Loading";
 import { FaAngleDoubleDown, FaAngleDoubleUp } from "react-icons/fa";
-import { MdTopic } from "react-icons/md";
+import { MdOutlineOndemandVideo, MdTopic } from "react-icons/md";
 import GoBackCom from "../GoBackCom";
 import { useNavigate } from "react-router-dom";
 import { useGlobalContext } from "../../Context/GlobalContextOne";
 
-const TrendingVideos = () => {
+const TrendingVideos = ({ from }) => {
   const [trendingData, setTrendingData] = useState(null);
+  const [videoDataToShow, setVideoDataToShow] = useState(null);
+  const [trendingDataForHome, setTrendingDataForHome] = useState(null);
   const [loading, setLoading] = useState(true);
   const { setVideoData, videoData } = useGlobalContext();
   const [currentCountVideo, setCurrentCountVideo] = useState({});
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (from === "home" && trendingData) {
+      setTrendingDataForHome({ Trending_Videos: trendingData.Trending_Videos });
+    } else {
+      setVideoDataToShow(trendingData);
+    }
+  }, [from, trendingData]);
+
+  useEffect(() => {
+    if (from === "home" && trendingDataForHome) {
+      setVideoDataToShow(trendingDataForHome);
+    }
+  }, [from, trendingDataForHome]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -30,42 +47,61 @@ const TrendingVideos = () => {
     fetchData();
   }, []);
 
-  const navigate = useNavigate();
-
   const handleShowMoreVideo = (sub) => {
     setCurrentCountVideo((prev) => ({
       ...prev,
-      [sub]: (prev[sub] || 8) + 8,
+      [sub]:
+        (prev[sub] || (from === "home" ? 4 : 8)) + (from === "home" ? 4 : 8),
     }));
   };
 
   const handleShowLessVideo = (sub) => {
     setCurrentCountVideo((prev) => ({
       ...prev,
-      [sub]: (prev[sub] || 8) - 8,
+      [sub]:
+        (prev[sub] || (from === "home" ? 4 : 8)) - (from === "home" ? 4 : 8),
     }));
   };
 
   const handleVideoClicked = (data) => {
     setVideoData({ videoData: data });
-
     navigate("/Videos/Video-Player");
   };
 
   return (
-    <div className="container">
-      <GoBackCom link={"/Trending"} page={"Trending Videos"} />
+    <div className={`container ${from === "home" ? "papaDiv" : ""} `}>
+      {from === "home" ? (
+        <div className="text-start">
+          <h5>
+            <MdOutlineOndemandVideo />
+            &nbsp; Must Watch
+          </h5>
+        </div>
+      ) : (
+        <GoBackCom link={"/Trending"} page={"Trending Videos"} />
+      )}
+      <div>
+        Embrace the world of video tutorials, where learning is no longer
+        confined to textbooks, but enriched with real-time demonstrations and
+        practical insights.
+      </div>
       <div>{loading ? <Loading /> : null} </div>
-      {trendingData &&
-        Object.entries(trendingData)?.map(([title, objects], index) => {
-          const videoCount = currentCountVideo[title] || 8;
+      {videoDataToShow &&
+        Object.entries(videoDataToShow)?.map(([title, objects], index) => {
+          const videoCount =
+            currentCountVideo[title] || (from === "home" ? 4 : 8);
 
           return (
-            <div className="row papaDiv mb-2" key={index}>
+            <div
+              className={`row ${from === "home" ? "" : "papaDiv"} mb-2`}
+              key={index}
+            >
               <div className="d-flex justify-content-between m-2">
-                <h5>
-                  <MdTopic /> {title.replace("_", " ")}
-                </h5>
+                {from === "home" ? null : (
+                  <h5>
+                    <MdTopic /> {title.replace("_", " ")}
+                  </h5>
+                )}
               </div>
               <div className="row">
                 {objects?.slice(0, videoCount).map((item, idx) => (
@@ -130,7 +166,7 @@ const TrendingVideos = () => {
                         </button>
                       )}
 
-                      {videoCount > 8 && (
+                      {videoCount > (from === "home" ? 4 : 8) && (
                         <button
                           onClick={() => handleShowLessVideo(title)}
                           className="ms-2 me-2 btn-sm btn btn-outline-dark Subject"
@@ -145,7 +181,7 @@ const TrendingVideos = () => {
             </div>
           );
         })}
-      <hr />
+      {/* <hr /> */}
     </div>
   );
 };
