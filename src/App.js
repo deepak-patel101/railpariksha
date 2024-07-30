@@ -24,7 +24,7 @@ import AddDept from "./components/Admin/AddDept";
 import VideoApproval from "./components/Admin/VideoApproval";
 import SummaryVideo from "./components/Admin/SummaryVideo";
 import VideoModification from "./components/Admin/VideoModification";
-
+import UserReducer from "./Reducer/UserReducer";
 import PrivateRoute from "./components/PrivateRoute";
 import Videos from "./pages/Videos";
 import VideoPlayer from "./components/VideoPlayer";
