@@ -7,7 +7,7 @@ import GoBack from "./comps/GoBack";
 const QbankMaster = () => {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
-    subcode: "", // Initial value should match this
+    subcode: "",
     topcode: "",
     validity: "",
     difficulty: "",
@@ -65,6 +65,16 @@ const QbankMaster = () => {
         formData
       );
       setLoading(false);
+      setFormData({
+        ...formData,
+        question: "",
+        option1: "",
+        option2: "",
+        option3: "",
+        option4: "",
+        answer: "",
+        reference: "",
+      });
       alert("Data inserted successfully!");
     } catch (error) {
       setLoading(false);
@@ -73,27 +83,6 @@ const QbankMaster = () => {
     }
   };
 
-  const handleUpdate = async () => {
-    try {
-      await axios.post("http://your-php-api-url/update.php", formData);
-      alert("Data updated successfully!");
-    } catch (error) {
-      console.error(error);
-      alert("Failed to update data!");
-    }
-  };
-
-  const handleDelete = async () => {
-    try {
-      await axios.post(
-        `http://your-php-api-url/delete.php?id=${formData.qcode}`
-      );
-      alert("Data deleted successfully!");
-    } catch (error) {
-      console.error(error);
-      alert("Failed to delete data!");
-    }
-  };
   return (
     <div className="container text-center mt-12" style={{ minHeight: "90vh" }}>
       <GoBack page={"Add Q-Bank"} />
@@ -108,7 +97,6 @@ const QbankMaster = () => {
         <form>
           <div className="row">
             <div className="col col-12 mb-3 col-md-3 mb-1">
-              {/* ////////////////// SUBJECT CODE //////////////////// */}
               <p
                 style={{ margin: "0px", padding: "0px" }}
                 className="d-flex text-start"
@@ -136,9 +124,8 @@ const QbankMaster = () => {
                 ))}
               </select>
             </div>
-            {/* /////////////////////////////////////////////////////// */}
+
             <div className="col col-12 mb-3 col-md-3 mb-1">
-              {/* ////////////////// SUBJECT Topic //////////////////// */}
               <p
                 style={{ margin: "0px", padding: "0px" }}
                 className="d-flex text-start"
@@ -164,9 +151,7 @@ const QbankMaster = () => {
                 ))}
               </select>
             </div>
-            {/* /////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
             <div className="col col-12 mb-3 col-md-3 mb-1">
-              {/* //////////////////  validity //////////////////// */}
               <p
                 style={{ margin: "0px", padding: "0px" }}
                 className="d-flex text-start"
@@ -183,10 +168,8 @@ const QbankMaster = () => {
                 placeholder="Validity"
               />
             </div>
-            {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
 
             <div className="col col-12 mb-2 col-md-3 mb-1">
-              {/* //////////////////  DIFFICULTY //////////////////// */}
               <p
                 style={{ margin: "0px", padding: "0px" }}
                 className="d-flex text-start"

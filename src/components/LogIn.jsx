@@ -71,7 +71,7 @@ const Login = () => {
               onChange={(e) => setUsername(e.target.value)}
               className="form-control Subject"
               placeholder="userName"
-              style={{ backgroundColor: "white" }}
+              style={{ backgroundColor: "white", height: "40px" }}
             />
           </div>
           <label className="mt-1">
@@ -84,12 +84,12 @@ const Login = () => {
               onChange={(e) => setPassword(e.target.value)}
               className="form-control Subject"
               placeholder=" password"
-              style={{ backgroundColor: "white" }}
+              style={{ backgroundColor: "white", height: "40px" }}
             />
             <button
               className="btn btn-outline-secondary Subject me-1"
               type="button"
-              style={{ height: "38px" }}
+              style={{ height: "40px" }}
               onClick={() => setEyeOpen(!eyeOpen)}
             >
               {eyeOpen ? <IoMdEye /> : <IoEyeOff />}

@@ -12,12 +12,13 @@ const LogReg = () => {
       setIsSignInActive(true);
     }
   };
-
   const handleToggleUp = () => {
     if (isSignInActive) {
       setIsSignInActive(false);
     }
   };
+  console.log(isSignInActive);
+
   useEffect(() => {
     window.scrollTo(0, 0); // Scroll to the top of the page
   }, []);
@@ -74,7 +75,7 @@ const LogReg = () => {
             </div>
             <div
               className={`sign-up position-relative ${
-                !isSignInActive ? "active" : ""
+                isSignInActive ? "" : "active"
               }`}
               style={{
                 background: "linear-gradient(to bottom, #0A96BA,#063970",
@@ -94,7 +95,7 @@ const LogReg = () => {
                   borderRadius: "5px", // Adding border radius for rounded corners
                   backgroundColor: "#ffffff", // Adding background color to the div
                 }}
-                onClick={(e) => (isSignInActive ? e.stopPropagation() : null)}
+                onClick={(e) => (!isSignInActive ? e.stopPropagation() : null)}
               >
                 {" "}
                 <h4
@@ -115,7 +116,7 @@ const LogReg = () => {
           className="btn btn-primary toggleButton"
           onClick={() => setIsSignInActive(!isSignInActive)}
         >
-          Toggle
+          {isSignInActive ? "Sign Up" : "Sign In"}
         </button>
       </div>
     </>

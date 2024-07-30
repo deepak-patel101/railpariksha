@@ -3,8 +3,10 @@ import HomeTrending from "../components/HomeTrending";
 import Department from "../components/Department";
 import { useEffect } from "react";
 import Slider from "../components/Slider";
+import img from "../img/sv3.png";
 import TrendingVideos from "../components/Trendings/TrendingVideos";
 import { MdOutlineOndemandVideo } from "react-icons/md";
+import TrendingCom from "../components/Trendings/TrndingComp";
 
 const Home = () => {
   useEffect(() => {
@@ -56,9 +58,42 @@ const Home = () => {
           </div> */}
       </div>
       {/* image ends here */}
+
+      <div className="row mt-3 p-2 m-1 papaDiv">
+        {/* <div className="d-flex justify-content-center papaDiv"> */}
+        <div
+          className="col-12 col-md-3 mt-2"
+          style={{
+            overflow: "hidden",
+            borderRadius: "50px",
+            background: `linear-gradient(to bottom, white,#ed8c4d)`,
+          }}
+        >
+          <img
+            src={img}
+            className=""
+            alt="iimg"
+            style={{
+              height: "100px",
+              filter: "drop-shadow(10px 5px 8px rgba(0, 0, 0, 0.5))",
+            }}
+          />
+        </div>
+        <div className="position-relative col-12 col-md-8">
+          <div className="  d-flex align-items-center mt-5 justify-content-center ">
+            <h6>"Arise, awake, and stop not till the goal is reached."</h6>
+            <br />{" "}
+          </div>
+          <div className="text-end">
+            <h6> — Swami Vivekananda</h6>
+          </div>
+        </div>
+        {/* </div> */}
+      </div>
+
       <div className="row mt-3">
         <div className="col-12">
-          <HomeTrending />
+          <TrendingCom from={"home"} />
         </div>
       </div>
       <div className="row mt-3">

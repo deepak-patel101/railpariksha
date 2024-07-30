@@ -363,10 +363,20 @@ const FileUpload = () => {
                 accept=".xls,.xlsx"
                 onChange={handleFileChange}
                 ref={fileInputRef} // Assign ref to the file input
+                style={{
+                  height: "40px",
+                  paddingBottom: "0px",
+                  marginBottom: "0px",
+                }}
               />
 
               <button
-                className={`btn  ${
+                style={{
+                  height: "40px",
+                  paddingBottom: "0px",
+                  marginBottom: "0px",
+                }}
+                className={`btn btn-sm  ${
                   selectedSubcode !== "" && file && topcode !== ""
                     ? "btn-success"
                     : "btn-danger disabled"

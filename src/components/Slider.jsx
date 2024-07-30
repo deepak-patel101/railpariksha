@@ -1,16 +1,37 @@
-import React from "react";
+import React, { useEffect } from "react";
 import home from "../img/home.png";
 import Study from "../img/Study.png";
 import idea from "../img/idea.png";
 import { FaPlay } from "react-icons/fa";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min";
 import "./css/imageSlider.css";
+
 const Slider = () => {
+  useEffect(() => {
+    const carouselElement = document.getElementById(
+      "carouselExampleIndicators"
+    );
+    if (window.bootstrap && window.bootstrap.Carousel) {
+      const carousel = new window.bootstrap.Carousel(carouselElement, {
+        interval: 3000,
+        ride: "carousel",
+      });
+
+      return () => {
+        carousel.dispose();
+      };
+    } else {
+      console.error("Bootstrap Carousel is not available.");
+    }
+  }, []);
+
   return (
     <div
       id="carouselExampleIndicators"
       className="carousel slide"
       data-bs-ride="carousel"
-      // data-bs-interval="1000"
+      data-bs-interval="3000"
     >
       <ol className="carousel-indicators">
         <li
@@ -36,7 +57,7 @@ const Slider = () => {
       >
         <div className="carousel-item active">
           <div
-            className="row "
+            className="row"
             style={{
               background: "linear-gradient(to bottom, white,#bfdaf5)",
               borderRadius: "15px",
@@ -49,7 +70,6 @@ const Slider = () => {
                 style={{
                   maxHeight: "240px",
                   minHeight: "120px",
-                  // minWidth: "150px",
                   objectFit: "contain",
                 }}
               />
@@ -100,7 +120,6 @@ const Slider = () => {
                 style={{
                   maxHeight: "240px",
                   minHeight: "120px",
-                  // minWidth: "150px",
                   objectFit: "contain",
                 }}
               />
@@ -122,7 +141,6 @@ const Slider = () => {
                 style={{
                   maxHeight: "240px",
                   minHeight: "120px",
-                  // minWidth: "150px",
                   objectFit: "contain",
                 }}
               />

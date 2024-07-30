@@ -20,27 +20,6 @@ const GlobalReducer = (state, action) => {
         department_loading: false,
         department_error: true,
       };
-
-    //zone division
-    case "GET_ZONE_DIVISION_MASTER_INFO_BEGIN":
-      return {
-        ...state,
-
-        zone_division_loading: true,
-      };
-    case "GET_ZONE_DIVISION_INFO_SUCCESS":
-      return {
-        ...state,
-        zone_division_loading: false,
-        zone_division: action.payload,
-      };
-    case "GET_ZONE_DIVISION_INFO_ERROR":
-      return {
-        ...state,
-        zone_division_loading: false,
-        zone_division_error: true,
-      };
-    //end of zone division
     case "GET_NOTES_BEGIN":
       return {
         ...state,
@@ -72,15 +51,6 @@ const GlobalReducer = (state, action) => {
           topics: subObj.topics,
           selectedTopic: subObj.selectedTopic,
           selectedTopicCode: subObj.selectedTopicCode,
-        },
-      };
-    case "SET_ZONE_DIVISION":
-      const zone_division = action.payload;
-      return {
-        ...state,
-        subject: {
-          zone: zone_division.zone,
-          division: zone_division.division,
         },
       };
     case "SET_THREAD_DATA":

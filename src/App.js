@@ -24,7 +24,7 @@ import AddDept from "./components/Admin/AddDept";
 import VideoApproval from "./components/Admin/VideoApproval";
 import SummaryVideo from "./components/Admin/SummaryVideo";
 import VideoModification from "./components/Admin/VideoModification";
-import UserReducer from "./Reducer/UserReducer";
+
 import PrivateRoute from "./components/PrivateRoute";
 import Videos from "./pages/Videos";
 import VideoPlayer from "./components/VideoPlayer";
@@ -37,19 +37,55 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/Dashboard" element={<Dashboard />} />
-        <Route path="/TestSeries" element={<Exam />} />
-        <Route path="/Videos" element={<Videos />} />
-        <Route path="/Videos/Video-Player" element={<VideoPlayer />} />
-        <Route path="/TestSeries/Select-Test" element={<SelectTest />} />
-        <Route path="/TestSeries/Select-Topics" element={<SelectTopics />} />
-        <Route path="/TestSeries/Start-Test" element={<StartTest />} />
-        <Route path="/TestSeries/Score-card" element={<ScoreCard />} />
-        <Route path="/Notification" element={<Notification />} />
-        <Route path="/Trending" element={<Trending />} />
-        <Route path="/Trending/Videos" element={<TrendingVideos />} />
-        <Route path="/MyIdeas" element={<YourIdeas />} />
-        <Route path="/MyIdeas/Start-Discussion" element={<StartThread />} />
+        <Route
+          path="/Dashboard"
+          element={<PrivateRoute element={<Dashboard />} />}
+        />
+        <Route
+          path="/TestSeries"
+          element={<PrivateRoute element={<Exam />} />}
+        />
+        <Route path="/Videos" element={<PrivateRoute element={<Videos />} />} />
+        <Route
+          path="/Videos/Video-Player"
+          element={<PrivateRoute element={<VideoPlayer />} />}
+        />
+        <Route
+          path="/TestSeries/Select-Test"
+          element={<PrivateRoute element={<SelectTest />} />}
+        />
+        <Route
+          path="/TestSeries/Select-Topics"
+          element={<PrivateRoute element={<SelectTopics />} />}
+        />
+        <Route
+          path="/TestSeries/Start-Test"
+          element={<PrivateRoute element={<StartTest />} />}
+        />
+        <Route
+          path="/TestSeries/Score-card"
+          element={<PrivateRoute element={<ScoreCard />} />}
+        />
+        <Route
+          path="/Notification"
+          element={<PrivateRoute element={<Notification />} />}
+        />
+        <Route
+          path="/Trending"
+          element={<PrivateRoute element={<Trending />} />}
+        />
+        <Route
+          path="/Trending/Videos"
+          element={<PrivateRoute element={<TrendingVideos />} />}
+        />
+        <Route
+          path="/MyIdeas"
+          element={<PrivateRoute element={<YourIdeas />} />}
+        />
+        <Route
+          path="/MyIdeas/Start-Discussion"
+          element={<PrivateRoute element={<StartThread />} />}
+        />
         <Route path="/Log&Reg" element={<LogReg />} />
         <Route path="/Admin" element={<PrivateRoute element={<Admin />} />} />
         <Route
@@ -88,11 +124,6 @@ function App() {
           path="/Admin/SummaryVideo"
           element={<PrivateRoute element={<SummaryVideo />} />}
         />
-        <Route
-          path="/Admin/SummaryVideo"
-          element={<PrivateRoute element={<SummaryVideo />} />}
-        />
-
         <Route
           path="/Admin/VideoModification"
           element={<PrivateRoute element={<VideoModification />} />}

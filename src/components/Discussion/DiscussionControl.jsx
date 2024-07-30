@@ -25,19 +25,27 @@ const DiscussionControl = () => {
   return (
     <div style={{ height: "90vh" }}>
       <div className="mt-5 mb-3">
-        <div className="input-group" style={{ paddingBottom: "0px" }}>
+        <div
+          className="input-group"
+          style={{ paddingBottom: "0px", height: "40px" }}
+        >
           <input
             type="text"
+            style={{ height: "40px" }}
             className="form-control Subject2"
             placeholder="Search"
             aria-describedby="basic-addon2"
             value={searchValue}
             onChange={handleSearchChange}
           />
-          <div className="input-group-append" style={{ paddingBottom: "0px" }}>
+          <div
+            className="input-group-append"
+            style={{ paddingBottom: "0px", height: "40px" }}
+          >
             <button
               className="Subject btn btn-outline-secondary"
               type="button"
+              style={{ height: "40px" }}
               onClick={() =>
                 setThreadControlData({
                   search: searchValue,

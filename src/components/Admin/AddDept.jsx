@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./feedback.css";
-// import { useInitialContext } from "../context/InitialContext";
 import { useGlobalContext } from "../../Context/GlobalContextOne";
 import GoBack from "./comps/GoBack";
 
@@ -23,6 +22,8 @@ const AddDept = ({ showAlert }) => {
 
   useEffect(() => {
     fetchMaxDepttCode();
+    fetchMaxSubcode();
+    fetchMaxTopcode();
   }, []);
 
   useEffect(() => {
@@ -142,10 +143,12 @@ const AddDept = ({ showAlert }) => {
           topcode: newTopcode,
         }
       );
-      showAlert(
-        `${isNewDeptt ? "Department" : "Data"} added successfully!`,
-        "success"
-      );
+
+      // showAlert(
+      //   `${isNewDeptt ? "Department" : "Data"} added successfully!`,
+      //   "success"
+      // );
+      alert("Data Added Successfully", "success");
 
       if (isNewDeptt) {
         setDepttcode(newDepttCode);
@@ -164,6 +167,7 @@ const AddDept = ({ showAlert }) => {
       setSelectedDept(null);
     } catch (err) {
       setError(err.response?.data?.error || "An unexpected error occurred");
+      // console.error("Error occurred:", err.response?.data?.error);
     }
   };
 
@@ -297,13 +301,7 @@ const AddDept = ({ showAlert }) => {
 
         <div className="">
           <label>Add topic:(only for verifying purpose)</label>
-          <select
-            className="form-select Subject"
-            // name="topic"
-            // value={topic}
-            // onChange={handleTopicChange}
-            // disabled={!selectedSubject}
-          >
+          <select className="form-select Subject">
             <option value="">Please watch topic before adding..........</option>
             {selectedSubject?.topics &&
               selectedSubject.topics.map((topicObj, index) => (
