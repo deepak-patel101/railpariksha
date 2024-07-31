@@ -7,7 +7,7 @@ const PrivateRoute = ({ element, adminOnly, ...rest }) => {
 
   // If the user is not logged in
   if (!user) {
-    window.alert("To access all content for Rail Pariksha, please login");
+    window.alert("To access all content of Rail Pariksha, please login");
     return <Navigate to="/Log&Reg" replace />;
   }
 

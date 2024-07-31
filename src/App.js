@@ -30,6 +30,7 @@ import Videos from "./pages/Videos";
 import VideoPlayer from "./components/VideoPlayer";
 import StartThread from "./components/Discussion/StartThread";
 import TrendingVideos from "./components/Trendings/TrendingVideos";
+import DeletedInspectionNotes from "./components/DeletedInspectionNotes";
 
 function App() {
   return (
@@ -67,7 +68,7 @@ function App() {
           element={<PrivateRoute element={<ScoreCard />} />}
         />
         <Route
-          path="/Notification"
+          path="/Add-Notes"
           element={<PrivateRoute element={<Notification />} />}
         />
         <Route
@@ -85,6 +86,10 @@ function App() {
         <Route
           path="/MyIdeas/Start-Discussion"
           element={<PrivateRoute element={<StartThread />} />}
+        />
+        <Route
+          path="/Add-Notes/DeletedInspectionNotes"
+          element={<PrivateRoute element={<DeletedInspectionNotes />} />}
         />
         <Route path="/Log&Reg" element={<LogReg />} />
         <Route path="/Admin" element={<PrivateRoute element={<Admin />} />} />

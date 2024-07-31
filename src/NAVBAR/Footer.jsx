@@ -8,8 +8,8 @@ import { FaFacebookSquare } from "react-icons/fa";
 import { LuFacebook } from "react-icons/lu";
 import { FaSquareTwitter } from "react-icons/fa6";
 import { CiTwitter } from "react-icons/ci";
-import { FaLightbulb } from "react-icons/fa";
-import { FaRegLightbulb } from "react-icons/fa";
+import { FaRegNoteSticky } from "react-icons/fa6";
+import { FaNoteSticky } from "react-icons/fa6";
 import { IoCallOutline } from "react-icons/io5";
 import { IoIosNotifications } from "react-icons/io";
 import { IoIosNotificationsOutline } from "react-icons/io";
@@ -102,9 +102,9 @@ const Footer = () => {
                 onMouseEnter={() => handleHover("noti")}
                 onMouseLeave={() => handleHover("noti")}
               >
-                {noti ? <IoIosNotificationsOutline /> : <IoIosNotifications />}
-                <Link className="nav-link d-inline" to="/Notification">
-                  Notification
+                {noti ? <FaNoteSticky /> : <FaRegNoteSticky />}
+                <Link className="nav-link d-inline" to="/Add-Notes">
+                  Notes
                 </Link>
               </li>
               <li
@@ -124,9 +124,9 @@ const Footer = () => {
                 onMouseEnter={() => handleHover("idea")}
                 onMouseLeave={() => handleHover("idea")}
               >
-                {idea ? <FaRegLightbulb /> : <FaLightbulb />}
+                {idea ? <FaNoteSticky /> : <FaRegNoteSticky />}
                 <Link className="nav-link d-inline" to="/MyIdeas">
-                  My Ideas
+                  Discussion
                 </Link>
               </li>
             </ul>

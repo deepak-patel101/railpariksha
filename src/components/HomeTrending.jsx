@@ -5,8 +5,8 @@ import { FcIdea } from "react-icons/fc";
 import { PiRankingDuotone } from "react-icons/pi";
 import { useNavigate } from "react-router-dom";
 import { BsFire } from "react-icons/bs";
-
 import "./css/HomeTrending.css";
+
 const HomeTrending = () => {
   const navigate = useNavigate();
 
