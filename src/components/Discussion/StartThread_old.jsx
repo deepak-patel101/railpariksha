@@ -19,9 +19,9 @@ const StartThread = () => {
     width: window.innerWidth,
     height: window.innerHeight,
   });
-  const [threadLikes, setThreadLikes] = useState(selectedThread?.likes || 0);
+  const [threadLikes, setThreadLikes] = useState(selectedThread?.postlike || 0);
   const [threadDislikes, setThreadDislikes] = useState(
-    selectedThread?.dislikes || 0
+    selectedThread?.postdislike || 0
   );
   const [userLiked, setUserLiked] = useState(false);
   const [userDisliked, setUserDisliked] = useState(false);
@@ -31,6 +31,15 @@ const StartThread = () => {
       return acc;
     }, {}) || {}
   );
+  // const chatEndRef = useRef(null);
+
+  // const scrollToBottom = () => {
+  //   chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  // };
+
+  // useEffect(() => {
+  //   scrollToBottom();
+  // }, [replies]);
 
   const fetchReplies = async () => {
     try {
@@ -45,7 +54,7 @@ const StartThread = () => {
 
   useEffect(() => {
     fetchReplies();
-  }, [selectedThread?.id, replies]);
+  }, [selectedThread?.id]);
 
   const handleReplyPosted = (newReply) => {
     setReplies((prevReplies) => [...prevReplies, newReply]);
@@ -74,15 +83,14 @@ const StartThread = () => {
   }, []);
   const handleLike = () => {
     if (!userLiked) {
-      const newLikes = Number(threadLikes) + 1;
+      const newLikes = threadLikes + 1;
       const newDislikes = userDisliked ? threadDislikes - 1 : threadDislikes;
 
       setThreadLikes(newLikes);
       setThreadDislikes(newDislikes);
       setUserLiked(true);
       setUserDisliked(false);
-      // console.log("like count", newLikes);
-      // console.log("Dislike count ", newDislikes);
+
       axios
         .put(
           "https://railwaymcq.com/railwaymcq/RailPariksha/post_thread_api.php",
@@ -92,9 +100,7 @@ const StartThread = () => {
             dislikes: newDislikes,
           }
         )
-        .then(() => {
-          // console.log("like successfully", response);
-        })
+        .then(() => {})
         .catch((error) => {
           console.error("There was an error updating the like count!", error);
         });
@@ -103,7 +109,7 @@ const StartThread = () => {
 
   const handleDislike = () => {
     if (!userDisliked) {
-      const newDislikes = Number(threadDislikes) + 1;
+      const newDislikes = threadDislikes + 1;
       const newLikes = userLiked ? threadLikes - 1 : threadLikes;
 
       setThreadDislikes(newDislikes);

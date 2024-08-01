@@ -3,11 +3,12 @@ import axios from "axios";
 import { UserContext } from "../Context/UserContext";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import "../components/css/feedback.css";
+// import "../components/css/feedback.css";
 import { MdDelete } from "react-icons/md";
 import { SlNote } from "react-icons/sl";
 import { useNavigate } from "react-router-dom";
 import { FaRecycle } from "react-icons/fa6";
+import GoBack from "./Admin/comps/GoBack";
 
 const InspectionNote = () => {
   const { user, updateUserData } = useContext(UserContext);
@@ -270,9 +271,10 @@ const InspectionNote = () => {
 
   return (
     <div className="inspection-note-container">
-      <h2>Hello, {user?.name} Sir!</h2>
+      <GoBack link={"/"} page={"Add Notes"} />
+      <h5>Hello, {user?.name} !</h5>
 
-      <form className="note-form">
+      <form className="papaDiv">
         <input
           type="hidden"
           name="userid"
@@ -337,53 +339,77 @@ const InspectionNote = () => {
       </form>
       <button
         type="button"
-        className="btn btn-secondary"
+        className="mb-2 Subject btn btn-outline-secondary"
         onClick={fetchRecycleNotes}
       >
-        <FaRecycle />
-        Show Recycled Notes
+        <FaRecycle /> Deleted Notes
       </button>
-      <div className="search-filters">
-        <input
-          type="text"
-          name="searchKeyword"
-          placeholder="Search by keyword"
-          value={searchKeyword}
-          onChange={handleSearchChange}
-        />
-        <div className="mb-3">
-          <label htmlFor="formGroupExampleInput1" className="form-label">
-            Start Date:
-          </label>
-          <input
-            type="date"
-            name="fromDate"
-            placeholder="From date"
-            value={fromDate}
-            onChange={handleSearchChange}
-          />
+      <div className="papaDiv">
+        <div className="row">
+          <div className="col-12">
+            {" "}
+            <input
+              className="form-control"
+              style={{ height: "40px" }}
+              type="text"
+              name="searchKeyword"
+              placeholder="Search by keyword"
+              value={searchKeyword}
+              onChange={handleSearchChange}
+            />
+          </div>
         </div>
-        <div className="mb-3">
-          <label htmlFor="formGroupExampleInput" className="form-label">
-            End Date:
-          </label>
-          <input
-            type="date"
-            name="toDate"
-            placeholder="To date"
-            value={toDate}
-            onChange={handleSearchChange}
-          />
+        <h6>Fiter By</h6>
+        <div className="row">
+          <div className="col-12 col-md-4">
+            {" "}
+            <label htmlFor="formGroupExampleInput1" className="form-label">
+              Start Date:
+            </label>
+            <input
+              className="form-control"
+              style={{ height: "40px" }}
+              type="date"
+              name="fromDate"
+              placeholder="From date"
+              value={fromDate}
+              onChange={handleSearchChange}
+            />
+          </div>
+          <div className="col-12 col-md-4">
+            {" "}
+            <label htmlFor="formGroupExampleInput" className="form-label">
+              End Date:
+            </label>
+            <input
+              className="form-control"
+              style={{ height: "40px" }}
+              type="date"
+              name="toDate"
+              placeholder="To date"
+              value={toDate}
+              onChange={handleSearchChange}
+            />
+          </div>
+          <div className="col-12 col-md-4">
+            <label htmlFor="formGroupExampleInput" className="form-label">
+              Filter by Days
+            </label>
+            <select
+              onChange={handleSelect}
+              className="form-select"
+              style={{ height: "40px" }}
+            >
+              <option value="">Select Date Filter</option>
+              <option value="today">Today</option>
+              <option value="thisWeek">This Week</option>
+              <option value="lastWeek">Last Week</option>
+              <option value="lastMonth">Last Month</option>
+              <option value="lastQuarter">Last Quarter</option>
+              <option value="lastYear">Last Year</option>
+            </select>
+          </div>
         </div>
-        <select onChange={handleSelect}>
-          <option value="">Select Date Filter</option>
-          <option value="today">Today</option>
-          <option value="thisWeek">This Week</option>
-          <option value="lastWeek">Last Week</option>
-          <option value="lastMonth">Last Month</option>
-          <option value="lastQuarter">Last Quarter</option>
-          <option value="lastYear">Last Year</option>
-        </select>
       </div>
       <div className="notes-list">
         {filterNotes(notes).map((note) => (

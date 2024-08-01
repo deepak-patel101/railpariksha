@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { SlDislike, SlLike } from "react-icons/sl";
 
 const ChatBox = ({
@@ -9,17 +9,41 @@ const ChatBox = ({
   handleReplyDislike,
 }) => {
   const chatBoxRef = useRef(null);
+  const [autoScroll, setAutoScroll] = useState(true);
 
   const scrollToBottom = () => {
-    chatBoxRef.current?.scrollTo({
-      top: chatBoxRef.current.scrollHeight,
-      behavior: "smooth",
-    });
+    if (autoScroll) {
+      chatBoxRef.current?.scrollTo({
+        top: chatBoxRef.current.scrollHeight,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  const handleScroll = () => {
+    if (chatBoxRef.current) {
+      const { scrollTop, scrollHeight, clientHeight } = chatBoxRef.current;
+      // Check if the user is close to the bottom
+      if (scrollHeight - scrollTop - clientHeight < 50) {
+        setAutoScroll(true);
+      } else {
+        setAutoScroll(false);
+      }
+    }
   };
 
   useEffect(() => {
     scrollToBottom();
   }, [replies]);
+
+  useEffect(() => {
+    const chatBoxElement = chatBoxRef.current;
+    chatBoxElement?.addEventListener("scroll", handleScroll);
+
+    return () => {
+      chatBoxElement?.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   return (
     <div

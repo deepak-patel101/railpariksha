@@ -180,13 +180,13 @@ function DiscussMain() {
                   }}
                 />
               </div>
-              <div className="col-12 col-md-2">
+              <div className="col-12 col-md-3">
                 <WhatsNew />
               </div>
             </div>
           </div>
         )}
-        <div className="col-12 col-md-7">
+        <div className="col-12 col-md-6">
           <div className="row papaDiv mb-2 m-1">
             {screenSize.width < 770 ? null : (
               <h6>Let them Know, What is in your mind..?</h6>
@@ -199,7 +199,7 @@ function DiscussMain() {
         </div>
 
         {screenSize.width < 770 ? null : (
-          <div className="col-12 col-md-2">
+          <div className="col-12 col-md-3">
             <WhatsNew />
           </div>
         )}

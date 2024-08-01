@@ -7,7 +7,6 @@ function ReplyFrom({ threadId, onReplyPosted }) {
   const { user } = useUserContext();
 
   const handleSubmit = (event) => {
-    console.log(content);
     event.preventDefault();
     axios
       .post(

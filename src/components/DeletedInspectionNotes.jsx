@@ -3,6 +3,9 @@ import axios from "axios";
 import "../components/css/Recycle.css";
 
 import { useLocation } from "react-router-dom";
+import GoBackCom from "./GoBackCom";
+import { RiDeleteBin6Fill } from "react-icons/ri";
+import { FaRedo } from "react-icons/fa";
 
 const DeletedInspectionNotes = () => {
   const [deletedNotes, setDeletedNotes] = useState([]);
@@ -56,46 +59,49 @@ const DeletedInspectionNotes = () => {
   };
 
   return (
-    <div className="container mt-5">
-      <h1 className="text-center mb-4">Deleted Notes</h1>
-      <table className="table table-bordered table-hover">
-        <thead className="thead-dark">
-          <tr>
-            <th>ID</th>
-            <th>Note</th>
-            <th>Deleted On</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {deletedNotes.map((note) => (
-            <tr key={note.noteid}>
-              <td>{note.noteid}</td>
-              {/* <td>{note.note}</td> */}
-              <td>
-                {" "}
-                <div dangerouslySetInnerHTML={{ __html: note.note }} />
-              </td>
-              <td>{note.deleted_on}</td>
-              <td>
-                <button
-                  className="btn btn-warning btn-sm mr-2"
-                  onClick={() => restoreNote(note.noteid)}
-                >
-                  Restore
-                </button>
-
-                <button
-                  className="btn btn-danger btn-sm"
-                  onClick={() => permanentlyDeleteNote(note.noteid)}
-                >
-                  Permanently Delete
-                </button>
-              </td>
+    <div className="container  ">
+      <GoBackCom link={"/Add-Notes"} page={"Deleted Notes"} />
+      <div className="papaDiv">
+        {" "}
+        <table className="table table-striped table-hover">
+          <thead className="thead-dark">
+            <tr className="table-dark">
+              <th style={{ width: "10vw" }}>ID</th>
+              <th style={{ width: "60vw" }}>Note</th>
+              <th style={{ width: "20vw" }}>Deleted On</th>
+              <th style={{ width: "10vw" }}>Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {deletedNotes.map((note) => (
+              <tr key={note.noteid}>
+                <td>{note.noteid}</td>
+                {/* <td>{note.note}</td> */}
+                <td>
+                  {" "}
+                  <div dangerouslySetInnerHTML={{ __html: note.note }} />
+                </td>
+                <td>{note.deleted_on}</td>
+                <td>
+                  <button
+                    className="btn btn-outline-success btn-sm me-1"
+                    onClick={() => restoreNote(note.noteid)}
+                  >
+                    <FaRedo />
+                  </button>
+
+                  <button
+                    className="btn btn-outline-danger btn-sm ms-1"
+                    onClick={() => permanentlyDeleteNote(note.noteid)}
+                  >
+                    <RiDeleteBin6Fill />
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

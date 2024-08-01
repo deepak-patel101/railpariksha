@@ -119,10 +119,11 @@ const Navbar = () => {
                 type="search exams here"
                 placeholder="Search"
                 aria-label="Search"
+                style={{ height: "40px" }}
               />
               <button
                 className="btn btn-outline-success m-1"
-                style={{ height: "38px" }}
+                style={{ height: "40px" }}
                 type="submit"
               >
                 Search
@@ -130,12 +131,21 @@ const Navbar = () => {
             </form>
 
             {user ? (
-              <button className="btn btn-success m-1 " onClick={handleLogOut}>
+              <button
+                className="btn btn-success m-1 "
+                onClick={handleLogOut}
+                style={{ height: "40px" }}
+              >
                 {" "}
                 Sign Out
               </button>
             ) : (
-              <Link className="btn btn-success " to="Log&Reg" type="submit">
+              <Link
+                className="btn btn-success "
+                to="Log&Reg"
+                type="submit"
+                style={{ height: "40px" }}
+              >
                 Sign In
               </Link>
             )}
