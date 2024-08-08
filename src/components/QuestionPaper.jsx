@@ -3,6 +3,7 @@ import { useGlobalContext } from "../Context/GlobalContextOne";
 import { useNavigate } from "react-router-dom";
 import { useTestContext } from "../Context/TestContext";
 import CountdownTimer from "./CountdownTimer";
+import QuestionFeedback from "./Feedback/QuestionFeedback";
 
 const QuestionPaper = () => {
   const { subject } = useGlobalContext();
@@ -14,10 +15,10 @@ const QuestionPaper = () => {
     updateUserResponse,
     countDown,
   } = useTestContext();
-
   const [selectedOption, setSelectedOption] = useState(null);
   const [questionIndex, setQuestionIndex] = useState(0);
   const [questionData, setQuestionData] = useState(null);
+  const [giveFeedback, setGiveFeedback] = useState(false);
   const [msg, setMsg] = useState(false);
   const [time, setTime] = useState(0); // State to keep track of elapsed time
   const [isRunning, setIsRunning] = useState(false); // State to control timer start/stop
@@ -114,6 +115,7 @@ const QuestionPaper = () => {
     userResponse?.testAnswer[questionIndex]?.timeTaken;
 
   const handleBtnClicked = (action) => {
+    setGiveFeedback(false);
     if (action === "Next" || action === "Previous") {
       if (testAnswerForQuestion) {
       }
@@ -210,6 +212,10 @@ const QuestionPaper = () => {
   useEffect(() => {
     setIsRunning(true);
   }, [start_Test.activeQuestion]);
+  const handleFeedBackBtnClicked = () => {
+    setGiveFeedback(!giveFeedback);
+    console.log("feedbakc", questionData);
+  };
 
   return (
     <div className="col-12 col-md-12" style={style}>
@@ -292,7 +298,7 @@ const QuestionPaper = () => {
                 return (
                   <div className="form-check m-1" key={index}>
                     <input
-                      className="form-check-input border border-danger"
+                      className="form-check-input border border-dark"
                       type="radio"
                       name="optionRadio"
                       id={`flexRadioDefault${index}`}
@@ -318,10 +324,10 @@ const QuestionPaper = () => {
           <div style={{ marginTop: "20px" }}>
             {screenSize.width >= 500 ? (
               <div className="row">
-                <div className="d-flex justify-content-center align-items-center text-center">
-                  <div className="">
+                <div className="d-flex justify-content-between align-items-center ">
+                  <div className="me-1">
                     <button
-                      className="btn btn-primary m-1"
+                      className="btn btn-outline-primary btn-sm  me-1 m-1"
                       onClick={() => handleBtnClicked("Previous")}
                     >
                       previous
@@ -329,7 +335,7 @@ const QuestionPaper = () => {
                   </div>
                   <div className="">
                     <button
-                      className="btn btn-warning m-1"
+                      className="btn  btn-sm btn-warning m-1"
                       onClick={() => handleBtnClicked("Mark&review")}
                     >
                       Mark for review
@@ -337,17 +343,25 @@ const QuestionPaper = () => {
                   </div>
                   <div className="">
                     <button
-                      className="btn btn-primary m-1"
+                      className="btn ms-1 me-1 btn-sm btn-outline-primary m-1"
                       onClick={() => handleBtnClicked("Next")}
                     >
                       next
+                    </button>
+                  </div>
+                  <div className="">
+                    <button
+                      className="btn ms-1 me-1 btn-sm btn-outline-dark m-1"
+                      onClick={() => handleFeedBackBtnClicked("FeedBack")}
+                    >
+                      Feedback
                     </button>
                   </div>
                   <div className="ms-auto">
                     {start_Test.activeQuestion ===
                     Object.keys(start_Test.test).length - 1 ? (
                       <button
-                        className="btn btn-success m-1"
+                        className="btn  ms-1 me-1 btn-sm btn-success m-1"
                         onClick={() => {
                           handleBtnClicked("Save&next");
                         }}
@@ -356,7 +370,7 @@ const QuestionPaper = () => {
                       </button>
                     ) : (
                       <button
-                        className="btn btn-success m-1"
+                        className="btn ms-1 me-1 btn-sm btn-success m-1"
                         onClick={() => handleBtnClicked("Save&next")}
                       >
                         save & next
@@ -382,7 +396,7 @@ const QuestionPaper = () => {
                 <div className="row">
                   <div className="col-6 col-sm-3">
                     <button
-                      className="btn btn-primary m-1"
+                      className="btn btn-sm btn-primary m-1"
                       onClick={() => handleBtnClicked("Previous")}
                     >
                       previous
@@ -392,6 +406,7 @@ const QuestionPaper = () => {
                     <button
                       className="btn btn-warning m-1"
                       onClick={() => handleBtnClicked("Mark&review")}
+                      style={{ fontSize: "12px" }}
                     >
                       Mark for review
                     </button>
@@ -401,7 +416,7 @@ const QuestionPaper = () => {
 
                   <div className="col-6 col-sm-3">
                     <button
-                      className="btn btn-primary m-1"
+                      className="btn btn-sm btn-primary m-1"
                       onClick={() => handleBtnClicked("Next")}
                     >
                       next
@@ -411,7 +426,7 @@ const QuestionPaper = () => {
                     {start_Test.activeQuestion ===
                     Object.keys(start_Test.test).length - 1 ? (
                       <button
-                        className="btn btn-success m-1"
+                        className="btn btn-sm btn-success m-1"
                         onClick={() => {
                           handleBtnClicked("Save&next");
                         }}
@@ -420,7 +435,7 @@ const QuestionPaper = () => {
                       </button>
                     ) : (
                       <button
-                        className="btn btn-success m-1"
+                        className="btn btn-sm btn-success m-1"
                         onClick={() => handleBtnClicked("Save&next")}
                       >
                         save & next
@@ -430,6 +445,9 @@ const QuestionPaper = () => {
                 </div>
               </div>
             )}{" "}
+            {giveFeedback ? (
+              <QuestionFeedback questionData={questionData} />
+            ) : null}
             <hr />
             <div className="row">
               <button

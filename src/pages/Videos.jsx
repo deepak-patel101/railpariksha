@@ -1,7 +1,13 @@
 import React, { useEffect } from "react";
 import VideoLearner from "../components/VideoLearner";
+import { useGlobalContext } from "../Context/GlobalContextOne";
 
 const Videos = () => {
+  const { setActivePage } = useGlobalContext();
+
+  useEffect(() => {
+    setActivePage("video");
+  }, []);
   useEffect(() => {
     window.scrollTo(0, 0); // Scroll to the top of the page
   }, []);

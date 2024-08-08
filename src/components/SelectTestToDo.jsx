@@ -20,7 +20,6 @@ const SelectTestToDo = ({ testType, bgColor }) => {
     SetStartTestData(testDataToStartTest);
     navigate("/TestSeries/Start-Test");
   };
-
   return (
     <div className="row overflow-auto" style={{ maxHeight: "500px" }}>
       {test_loading ? (

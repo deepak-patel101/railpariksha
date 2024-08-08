@@ -2,8 +2,13 @@ import React, { useState, useEffect } from "react";
 import { useTestContext } from "../Context/TestContext";
 import TestControls from "../components/TestControls";
 import QuestionPaper from "../components/QuestionPaper";
+import { useGlobalContext } from "../Context/GlobalContextOne";
 
 const StartTest = () => {
+  const { setActivePage } = useGlobalContext();
+  useEffect(() => {
+    setActivePage("starttest");
+  }, []);
   const [startTest, setStartTest] = useState(false);
   const { start_Test, userResponse } = useTestContext();
   useEffect(() => {

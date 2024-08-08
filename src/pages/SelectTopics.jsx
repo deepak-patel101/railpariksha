@@ -8,7 +8,11 @@ import { PiExamFill } from "react-icons/pi";
 import { IoMdArrowDropright } from "react-icons/io";
 
 const SelectTopics = () => {
-  const { subject, setSubject } = useGlobalContext();
+  const { subject, setSubject, setActivePage } = useGlobalContext();
+
+  useEffect(() => {
+    setActivePage("Admin");
+  }, []);
   const navigate = useNavigate();
 
   useEffect(() => {

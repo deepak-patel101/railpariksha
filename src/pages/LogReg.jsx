@@ -4,7 +4,12 @@ import Login from "../components/LogIn";
 import "../components/css/SignInUp.css";
 import Registration from "../components/registration";
 
+import { useGlobalContext } from "../Context/GlobalContextOne";
 const LogReg = () => {
+  const { setActivePage } = useGlobalContext();
+    useEffect(() => {
+      setActivePage("logIn");
+    }, []);
   const [isSignInActive, setIsSignInActive] = useState(true);
 
   const handleToggleIn = () => {

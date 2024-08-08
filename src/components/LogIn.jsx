@@ -16,7 +16,7 @@ const Login = () => {
   const [eyeOpen, setEyeOpen] = useState(false);
 
   const navigate = useNavigate();
-  const { user, updateUserData } = useContext(UserContext);
+  const { updateUserData } = useContext(UserContext);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -27,33 +27,33 @@ const Login = () => {
         "https://railwaymcq.com/railwaymcq/RailPariksha/user_login_api.php",
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            username: username,
-            password: password,
-          }),
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username, password }),
         }
       );
-      const data = await response.json();
-      if (data.success === true) {
-        updateUserData(data.userData);
-        setLoading(false);
-        if (data.userData.login_type === "admin") {
-          navigate("/Admin");
-        } else {
+
+      const textResponse = await response.text();
+      const data = JSON.parse(textResponse);
+
+      if (data.success) {
+        if (data.user && data.token) {
+          updateUserData(data.user);
+          localStorage.setItem("sessionToken", data.token);
+
+          // Verify the token in localStorage immediately
+
           navigate("/");
+        } else {
+          setMsg("Login successful but token is missing");
         }
       } else {
         setMsg(data.message);
-        setLoading(false);
       }
     } catch (error) {
-      setLoading(false);
-      setMsg(null);
       console.error("Login error:", error);
-      setError("An error occurred during login");
+      setMsg("An unexpected error occurred");
+    } finally {
+      setLoading(false);
     }
   };
 

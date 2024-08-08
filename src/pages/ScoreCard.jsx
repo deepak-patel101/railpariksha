@@ -6,7 +6,12 @@ import UserScoreCard from "../components/UserScoreCard";
 import { IoMdArrowDropright } from "react-icons/io";
 import { IoArrowBackCircleOutline } from "react-icons/io5";
 
+import { useGlobalContext } from "../Context/GlobalContextOne";
 const ScoreCard = () => {
+  const { setActivePage } = useGlobalContext();
+  useEffect(() => {
+    setActivePage("score");
+  }, []);
   const { start_Test, userResponse } = useTestContext();
   const navigate = useNavigate();
   useEffect(() => {

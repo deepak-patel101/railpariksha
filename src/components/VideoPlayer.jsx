@@ -39,13 +39,16 @@ const VideoPlayer = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
   const toggleCollapse = () => {
     setIsCollapsed(!isCollapsed);
   };
+
   const toggleCollapseCom = () => {
     handleshowComment(videoData?.id);
     setIsCollapsedCom(!isCollapsedCom);
   };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -62,6 +65,7 @@ const VideoPlayer = () => {
 
     fetchData();
   }, [videoData]);
+
   const updateViews = async (videoId) => {
     try {
       const updateviewsflag = "1";

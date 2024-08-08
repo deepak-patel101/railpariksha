@@ -7,7 +7,10 @@ import SelectTestType from "../components/SelectTestType";
 import { BiError } from "react-icons/bi";
 
 const SelectTest = () => {
-  const { subject, setSubject } = useGlobalContext();
+  const { setActivePage, subject } = useGlobalContext();
+  useEffect(() => {
+    setActivePage("SelectTest");
+  }, []);
   const { test_loading, test_data, test_error } = useTestContext();
   const navigate = useNavigate();
 

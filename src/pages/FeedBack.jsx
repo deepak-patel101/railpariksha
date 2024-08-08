@@ -1,19 +1,19 @@
-import React, { useEffect, useState, useCallback, useRef } from "react";
-import InspectionNote from "../components/InspectionNote";
+import React, { useEffect } from "react";
+import TrendingCom from "../components/Trendings/TrndingComp";
+import Objection from "../components/Feedback/Objection";
 import { useGlobalContext } from "../Context/GlobalContextOne";
-const Notification = () => {
+const FeedBack = () => {
   const { setActivePage } = useGlobalContext();
   useEffect(() => {
-    setActivePage("Notification");
+    setActivePage("Feedback");
   }, []);
   useEffect(() => {
     window.scrollTo(0, 0); // Scroll to the top of the page
   }, []);
   return (
     <div className="container text-center mt-12" style={{ minHeight: "90vh" }}>
-      <InspectionNote />
+      <Objection />
     </div>
   );
 };
-
-export default Notification;
+export default FeedBack;

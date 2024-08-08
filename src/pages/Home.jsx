@@ -6,9 +6,15 @@ import Slider from "../components/Slider";
 import img from "../img/sv3.png";
 import TrendingVideos from "../components/Trendings/TrendingVideos";
 import { MdOutlineOndemandVideo } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 import TrendingCom from "../components/Trendings/TrndingComp";
-
+import { useGlobalContext } from "../Context/GlobalContextOne";
 const Home = () => {
+  const navigate = useNavigate();
+  const { setActivePage } = useGlobalContext();
+  useEffect(() => {
+    setActivePage("home");
+  }, []);
   useEffect(() => {
     fetch("https://railwaymcq.com/railwaymcq/RailPariksha/Visitors_count.php")
       .then((response) => response.text())
@@ -21,6 +27,10 @@ const Home = () => {
   useEffect(() => {
     window.scrollTo(0, 0); // Scroll to the top of the page
   }, []);
+
+  const handleClick = () => {
+    navigate("/Feedback");
+  };
   return (
     <div className="container text-center mt-12" style={{ minHeight: "90vh" }}>
       {/*  image for home */}
@@ -61,31 +71,29 @@ const Home = () => {
 
       <div className="row mt-3 p-2 m-1 papaDiv">
         {/* <div className="d-flex justify-content-center papaDiv"> */}
-        <div
-          className="col-12 col-md-3 mt-2"
-          style={{
-            overflow: "hidden",
-            borderRadius: "50px",
-            background: `linear-gradient(to bottom, white,#ed8c4d)`,
-          }}
-        >
-          <img
-            src={img}
-            className=""
-            alt="iimg"
-            style={{
-              height: "100px",
-              filter: "drop-shadow(10px 5px 8px rgba(0, 0, 0, 0.5))",
-            }}
-          />
-        </div>
-        <div className="position-relative col-12 col-md-8">
-          <div className="  d-flex align-items-center mt-5 justify-content-center ">
-            <h6>"Arise, awake, and stop not till the goal is reached."</h6>
+
+        <div className="position-relative col-12 ">
+          <div className="  d-flex align-items-center  justify-content-center ">
+            <div style={{ fontSize: "12px" }}>
+              <h6>Disclamer</h6>
+              This website, Rail-Pariksha, is dedicated to learning and teaching
+              purposes. All content is intended solely for educational purposes.
+              If you believe that any content on this website belongs to you and
+              should not be displayed, please raise an objection by contacting
+              us directly. We are committed to addressing any concerns promptly
+              and appropriately. Thank you for your understanding and
+              cooperation.
+            </div>
             <br />{" "}
           </div>
           <div className="text-end">
-            <h6> — Swami Vivekananda</h6>
+            <button
+              className="btn btn-sm btn-outline-danger"
+              onClick={handleClick}
+            >
+              {" "}
+              Raise an objection
+            </button>
           </div>
         </div>
         {/* </div> */}

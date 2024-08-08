@@ -5,7 +5,10 @@ import Department from "../components/Department";
 import TrendingTest from "../components/TrendingTest";
 
 const Exam = () => {
-  const { subject } = useGlobalContext();
+  const { subject, setActivePage } = useGlobalContext();
+  useEffect(() => {
+    setActivePage("Exam");
+  }, []);
   useEffect(() => {
     window.scrollTo(0, 0); // Scroll to the top of the page
   }, []);

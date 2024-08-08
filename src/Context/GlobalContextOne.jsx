@@ -9,6 +9,7 @@ const initialState = {
   notes_error: false,
   departments: null,
   zone_division: null,
+  activePage: null,
   subject: {
     department: null,
     departmentCode: null,
@@ -105,6 +106,9 @@ export const GlobalProvider = ({ children }) => {
   const setThreadData = (data) => {
     dispatch({ type: "SET_THREAD_DATA", payload: data });
   };
+  const setActivePage = (page) => {
+    dispatch({ type: "ACTIVE_PAGE", payload: page });
+  };
   useEffect(() => {
     fetchNote();
   }, []);
@@ -128,6 +132,7 @@ export const GlobalProvider = ({ children }) => {
         setThreadData,
         setVideoData,
         setThreadControlData,
+        setActivePage,
       }}
     >
       {children}

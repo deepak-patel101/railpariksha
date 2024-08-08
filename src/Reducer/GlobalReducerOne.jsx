@@ -20,7 +20,11 @@ const GlobalReducer = (state, action) => {
         department_loading: false,
         department_error: true,
       };
-
+    case "ACTIVE_PAGE":
+      return {
+        ...state,
+        activePage: action.payload,
+      };
     //zone division
     case "GET_ZONE_DIVISION_MASTER_INFO_BEGIN":
       return {
